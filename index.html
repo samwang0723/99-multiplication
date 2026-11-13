@@ -687,6 +687,7 @@
         const u = new SpeechSynthesisUtterance(text);
         u.lang = "zh-TW";
         u.rate = 0.88;
+        if (speechSynthesis.paused) speechSynthesis.resume();
         const voices = speechSynthesis.getVoices();
         const tw = voices.find((v) => /zh-TW/i.test(v.lang)) || voices.find((v) => /^zh/i.test(v.lang));
         if (tw) u.voice = tw;
@@ -698,9 +699,32 @@
       const AC = window.AudioContext || window.webkitAudioContext;
       if (!AC) return null;
       if (!audioCtx) audioCtx = new AC();
-      if (audioCtx.state === "suspended") audioCtx.resume();
+      if (audioCtx.state !== "running") { try { audioCtx.resume(); } catch (e) {} }
       return audioCtx;
     }
+    // Unlock audio on the first touch/click (needed on iPhone/iPad and Chrome autoplay rules)
+    let audioUnlocked = false;
+    function unlockAudio() {
+      try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch (e) {}
+      const ctx = ensureAudio();
+      if (ctx && !audioUnlocked) {
+        try {
+          const buf = ctx.createBuffer(1, 1, 22050);
+          const src = ctx.createBufferSource();
+          src.buffer = buf; src.connect(ctx.destination); src.start(0);
+        } catch (e) {}
+        // A silent <audio> element switches iOS to "playback" so sound works even with the silent switch on
+        try {
+          const a = new Audio("data:audio/wav;base64,UklGRkQDAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YSADAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgA==");
+          a.setAttribute("playsinline", ""); a.volume = 0.01;
+          const p = a.play(); if (p && p.catch) p.catch(() => {});
+        } catch (e) {}
+        try { if ("speechSynthesis" in window) { speechSynthesis.getVoices(); } } catch (e) {}
+        audioUnlocked = true;
+      }
+    }
+    ["pointerdown", "touchend", "click", "keydown"].forEach((ev) =>
+      document.addEventListener(ev, unlockAudio, { capture: true, passive: true }));
     function tone(freq, start, dur, type, gain) {
       if (state.muted) return;
       const ctx = ensureAudio();
@@ -710,7 +734,7 @@
       o.type = type || "sine";
       o.frequency.value = freq;
       const t0 = ctx.currentTime + (start || 0);
-      g.gain.setValueAtTime(gain || 0.07, t0);
+      g.gain.setValueAtTime(Math.min(0.6, (gain || 0.07) * 4), t0);
       g.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
       o.connect(g); g.connect(ctx.destination);
       o.start(t0); o.stop(t0 + dur);
