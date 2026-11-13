@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#5EC8F8" />
-  <meta name="description" content="九九乘法大冒險：選數字、翻卡複習、挑戰考試，適合小朋友的乘法練習遊戲。" />
+  <meta name="description" content="九九乘法大冒險：選數字、翻卡複習、挑戰考試，還有「倍的問題」應用題，適合小朋友的乘法練習遊戲。" />
   <title>九九乘法大冒險</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -196,7 +196,7 @@
     .btn-purple { background: linear-gradient(#c9a0ff, #8a5cff); }
     .btn-big { width: 100%; padding: 16px 20px; font-size: 1.25rem; border-radius: 22px; min-height: 60px; }
 
-    .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .mode-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
     .mode-card {
       border: 0; border-radius: 24px; padding: 18px 12px; color: #fff; text-align: center;
       box-shadow: 0 7px 0 rgba(0,0,0,0.16); font-weight: 900;
@@ -356,6 +356,94 @@
     }
     .toast-unlock .art { font-size: 3rem; }
 
+
+    .mode-grid { grid-template-columns: 1fr; }
+    .mode-story { background: linear-gradient(#c9a0ff, #8a5cff); }
+    @media (min-width: 700px) {
+      .mode-grid { grid-template-columns: 1fr 1fr 1fr; }
+    }
+
+    .type-pill {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: #fff4d6; border-radius: 999px; padding: 4px 12px;
+      font-weight: 900; font-size: 0.92rem; color: #5a3d00;
+      box-shadow: 0 2px 0 #e8c98a;
+    }
+    .story-toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 8px; flex-wrap: wrap; margin-bottom: 10px;
+    }
+    .story-text {
+      font-size: 1.12rem; font-weight: 800; line-height: 1.65;
+      text-align: left; background: #fffaf0; border-radius: 18px;
+      padding: 12px 14px; border: 3px solid #ffe08a;
+    }
+    .story-groups {
+      display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+      margin: 12px 0 4px;
+    }
+    .group-box {
+      background: #fff; border: 3px solid #ffe08a; border-radius: 16px;
+      padding: 6px 8px 8px; text-align: center; min-width: 70px; max-width: 120px;
+      box-shadow: 0 3px 0 #ead9b8; flex: 0 1 auto;
+    }
+    .group-box.compact { min-width: 58px; padding: 4px 6px 6px; }
+    .group-emo { font-size: 1.45rem; line-height: 1.1; }
+    .group-items { font-size: 1.15rem; letter-spacing: 1px; line-height: 1.3; margin: 2px 0; }
+    .group-cap { font-size: 0.72rem; font-weight: 800; color: #7a6244; line-height: 1.2; }
+    .skip-seq, .add-seq, .bei-line, .mul-eq, .ans-row {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+      gap: 6px; margin: 12px 0; font-weight: 900; font-size: 1.35rem;
+    }
+    .hop {
+      color: #ff8a3d; font-size: 1.4rem; padding: 0 2px;
+    }
+    .blank {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 52px; min-height: 52px; padding: 0 8px;
+      border-bottom: 4px solid #ff8a3d; border-radius: 12px;
+      background: #fff4d6; font-size: 1.45rem; font-weight: 900; color: #e85d04;
+      vertical-align: middle;
+    }
+    .blank.on { background: #e8f4ff; border-color: #4da6ff; box-shadow: 0 0 0 4px rgba(77,166,255,0.35); }
+    .blank.ok { background: #e8fff2; border-color: #3dcc7a; color: #1d8a4a; }
+    .blank.bad { background: #ffe8ea; border-color: #ff6b7a; color: #c44b3a; }
+    .add-seq .blank { min-width: 44px; min-height: 44px; font-size: 1.25rem; }
+    .add-eq-end { display: inline-flex; align-items: center; gap: 6px; }
+    .paren-note { text-align: center; }
+    .eq-wrap { text-align: center; margin: 8px 0 4px; }
+    .eq-labels {
+      display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
+      margin-top: 4px;
+    }
+    .eq-lab {
+      min-width: 58px; font-size: 0.78rem; font-weight: 800; color: #7a6244;
+    }
+    .mul-eq { gap: 8px; font-size: 1.7rem; }
+    .paren-note {
+      font-size: 1.05rem; font-weight: 800; line-height: 1.7; margin: 10px 0;
+    }
+    .hint-panel {
+      background: #e8fff2; border: 3px solid #8be86e; border-radius: 18px;
+      padding: 10px 12px; margin-top: 10px; font-weight: 800; text-align: left;
+      line-height: 1.55;
+    }
+    .tap-opts { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 12px 0; }
+    .tap-opt {
+      border: 0; border-radius: 20px; min-width: 76px; min-height: 68px;
+      font-size: 1.8rem; font-weight: 900; background: #fff;
+      box-shadow: 0 5px 0 #d7c4a0; color: var(--ink);
+    }
+    .tap-opt:active { transform: translateY(5px); box-shadow: none; }
+    .tap-opt.ok { background: linear-gradient(#8be86e, #2fb86a); color: #fff; box-shadow: 0 5px 0 #1e8a4c; }
+    .tap-opt.bad { background: #ffe0e4; color: #b33; }
+    .teach-box {
+      background: #fff; border-radius: 22px; padding: 14px 12px; margin: 10px 0;
+      border: 3px solid #ffe08a; text-align: center; font-weight: 800;
+    }
+    .teach-box .eq { font-size: 1.8rem; margin: 8px 0; }
+    .teach-box p { line-height: 1.65; }
+    .question-box.story-q { text-align: center; padding: 14px 10px 12px; min-height: 0; }
     @media (max-width: 520px) {
       .chip { width: 56px; height: 66px; font-size: 1.3rem; }
       .mascot-row .buddy { width: 74px; height: 74px; }
@@ -424,6 +512,11 @@
             <h3>來挑戰</h3>
             <p>答題得分，收集貼紙</p>
           </button>
+          <button type="button" class="mode-card mode-story" id="goStorySetup">
+            <span class="emoji">📝</span>
+            <h3>應用題</h3>
+            <p>倍的問題，連加和乘法算式</p>
+          </button>
         </div>
       </section>
 
@@ -467,6 +560,79 @@
             <button type="button" class="switch" id="swapToggle" aria-pressed="false" aria-label="交換題目"></button>
           </div>
           <button type="button" class="btn btn-orange btn-big" id="startQuizBtn">出發挑戰！🚀</button>
+        </div>
+      </section>
+
+      <section id="screenStorySetup" class="hidden">
+        <div class="panel">
+          <button type="button" class="btn btn-ghost" id="storySetupBack">← 回首頁</button>
+          <h2 style="margin-top:14px">📝 應用題：倍的問題</h2>
+          <p style="font-weight:700;color:#7a6244;line-height:1.6;margin:8px 0 12px">用連加、跳著數和乘法算式，算出「幾倍」的故事題。選好上面的數字，就會出那些被乘數喔！</p>
+          <p class="section-title">要幾題？</p>
+          <div class="setting-row" id="storyCountRow">
+            <button type="button" class="seg on" data-story-count="5">5 題</button>
+            <button type="button" class="seg" data-story-count="10">10 題</button>
+          </div>
+          <div class="row-actions" style="margin-top:16px">
+            <button type="button" class="btn btn-purple" id="storyTeachBtn">📖 先看教學</button>
+          </div>
+          <button type="button" class="btn btn-pink btn-big" id="startStoryBtn" style="margin-top:12px">開始練習！✏️</button>
+        </div>
+      </section>
+
+      <section id="screenStoryTutorial" class="hidden">
+        <div class="panel">
+          <button type="button" class="btn btn-ghost" id="storyTeachBack">← 回上一頁</button>
+          <h2 style="margin-top:14px">📘 認識乘法算式</h2>
+          <div class="teach-box">
+            <p>一雙襪子有 2 隻。4 雙襪子一共有幾隻？</p>
+            <div class="story-groups" aria-hidden="true">
+              <div class="group-box"><div class="group-items">🧦🧦</div><div class="group-cap">1雙</div></div>
+              <div class="group-box"><div class="group-items">🧦🧦</div><div class="group-cap">1雙</div></div>
+              <div class="group-box"><div class="group-items">🧦🧦</div><div class="group-cap">1雙</div></div>
+              <div class="group-box"><div class="group-items">🧦🧦</div><div class="group-cap">1雙</div></div>
+            </div>
+            <p>方法 1：用 2 個一數　2 → 4 → 6 → 8</p>
+            <p>方法 2：用連加來算</p>
+            <div class="eq">2 + 2 + 2 + 2 = 8</div>
+            <p>用乘法算式可以記成：</p>
+            <div class="eq">2 × 4 = 8</div>
+            <div class="eq-labels">
+              <span class="eq-lab">被乘數</span>
+              <span class="eq-lab">乘號</span>
+              <span class="eq-lab">乘數</span>
+              <span class="eq-lab">積</span>
+            </div>
+          </div>
+          <div class="teach-box" style="border-color:#c9a0ff;text-align:left">
+            <p>被乘數 2 表示一雙有 2 隻，</p>
+            <p>乘數 4 表示 4 雙，</p>
+            <p>積 8 表示共有 8 隻。</p>
+            <p style="margin-top:8px;color:#7a6244">連加算式中，2 有 4 個，也可以說是 2 的 4 倍。</p>
+          </div>
+          <button type="button" class="btn btn-pink btn-big" id="storyTeachStart">我學會了，開始練習！✨</button>
+        </div>
+      </section>
+
+      <section id="screenStory" class="hidden">
+        <div class="panel">
+          <div class="progress-wrap">
+            <div class="progress-meta">
+              <span id="storyProgressLabel">第 1 題</span>
+              <span id="storyStepLabel"></span>
+            </div>
+            <div class="bar"><span id="storyBar"></span></div>
+          </div>
+          <div class="quiz-stats">
+            <div class="stat" id="storyScoreStat">⭐ 0</div>
+            <div class="stat" id="storyStreakStat">🔥 連擊 0</div>
+            <div class="stat" id="storyCoinStat">✨ +0</div>
+          </div>
+          <div class="question-box story-q" id="storyBox">
+            <div id="storyInner"></div>
+            <div class="feedback" id="storyFeedback"></div>
+          </div>
+          <div class="keypad" id="storyKeypad"></div>
         </div>
       </section>
 
@@ -607,7 +773,8 @@
       { id:"perfect", name:"全部答對", emoji:"🌟" },
       { id:"stickers3", name:"貼紙收集家", emoji:"📒" },
       { id:"stickers9", name:"九九大王", emoji:"👑" },
-      { id:"quiz30", name:"耐力挑戰者", emoji:"💪" }
+      { id:"quiz30", name:"耐力挑戰者", emoji:"💪" },
+      { id:"beiExpert", name:"倍數小專家", emoji:"🧮" }
     ];
     const PRAISE = ["太厲害了！","答對了，你好棒！","哇，真聰明！","讚讚讚！","完全正確！","你是乘法小英雄！"];
     const COMFORT = ["沒關係，我們一起記住它！","差一點點，下一題會更好！","加油，九九相信你！","看一次答案，下次就會了！"];
@@ -622,6 +789,7 @@
       flashFlipped: false,
       flashList: [],
       quizCount: 10,
+      storyCount: 5,
       quizTimer: 0,
       quizSwap: false,
       muted: false,
@@ -652,6 +820,9 @@
       review: $("screenReview"),
       quizSetup: $("screenQuizSetup"),
       quiz: $("screenQuiz"),
+      storySetup: $("screenStorySetup"),
+      storyTutorial: $("screenStoryTutorial"),
+      story: $("screenStory"),
       results: $("screenResults"),
       album: $("screenAlbum")
     };
@@ -901,6 +1072,880 @@
       return a;
     }
 
+/* STORY_GEN_START */
+const STORY_TYPES = ["skip", "add", "bei", "mul", "names"];
+
+const STORY_TEMPLATES = [
+  // Fixed-size groups: only used when that size is among the selected numbers
+  {
+    id: "rabbit", kind: "fixed", size: 2, emoji: "🐰", itemEmoji: "👂",
+    intro: "一隻兔子有2個耳朵。",
+    ask: (b) => b + "隻兔子有幾個耳朵？",
+    unit: "個耳朵",
+    oneLabel: "1隻兔子",
+    groupWord: "隻兔子",
+    speakIntro: "一隻兔子有兩個耳朵。"
+  },
+  {
+    id: "socks", kind: "fixed", size: 2, emoji: "🧦", itemEmoji: "🧦",
+    intro: "一雙襪子有2隻。",
+    ask: (b) => b + "雙襪子一共有幾隻？",
+    unit: "隻",
+    oneLabel: "1雙襪子",
+    groupWord: "雙襪子",
+    speakIntro: "一雙襪子有兩隻。"
+  },
+  {
+    id: "couples", kind: "fixed", size: 2, emoji: "👫", itemEmoji: "👤", visual: "group",
+    intro: "一對新人有2個人。",
+    ask: (b) => "教堂裡有" + b + "對新人一起舉辦證婚儀式，新人共有幾個人？",
+    unit: "個人",
+    oneLabel: "1對新人",
+    groupWord: "對新人",
+    speakIntro: "一對新人有兩個人。"
+  },
+  {
+    id: "triangle", kind: "fixed", size: 3, emoji: "🔺", itemEmoji: "➖",
+    intro: "一個三角形有3條邊。",
+    ask: (b) => b + "個三角形一共有幾條邊？",
+    unit: "條邊",
+    oneLabel: "1個三角形",
+    groupWord: "個三角形",
+    speakIntro: "一個三角形有三條邊。"
+  },
+  {
+    id: "clover", kind: "fixed", size: 3, emoji: "☘️", itemEmoji: "🍃",
+    intro: "一棵三葉草有3片葉子。",
+    ask: (b) => b + "棵三葉草一共有幾片葉子？",
+    unit: "片葉子",
+    oneLabel: "1棵三葉草",
+    groupWord: "棵三葉草",
+    speakIntro: "一棵三葉草有三片葉子。"
+  },
+  {
+    id: "car", kind: "fixed", size: 4, emoji: "🚗", itemEmoji: "🛞",
+    intro: "一台小車有4個輪子。",
+    ask: (b) => b + "台小車一共有幾個輪子？",
+    unit: "個輪子",
+    oneLabel: "1台小車",
+    groupWord: "台小車",
+    speakIntro: "一台小車有四個輪子。"
+  },
+  {
+    id: "table", kind: "fixed", size: 4, emoji: "🪑", itemEmoji: "🦵",
+    intro: "一張桌子有4隻腳。",
+    ask: (b) => b + "張桌子一共有幾隻腳？",
+    unit: "隻腳",
+    oneLabel: "1張桌子",
+    groupWord: "張桌子",
+    speakIntro: "一張桌子有四隻腳。"
+  },
+  {
+    id: "star", kind: "fixed", size: 5, emoji: "⭐", itemEmoji: "🔶",
+    intro: "一顆星星有5個角。",
+    ask: (b) => b + "顆星星一共有幾個角？",
+    unit: "個角",
+    oneLabel: "1顆星星",
+    groupWord: "顆星星",
+    speakIntro: "一顆星星有五個角。"
+  },
+  {
+    id: "hand", kind: "fixed", size: 5, emoji: "✋", itemEmoji: "👆",
+    intro: "一隻手有5根手指。",
+    ask: (b) => b + "隻手一共有幾根手指？",
+    unit: "根手指",
+    oneLabel: "1隻手",
+    groupWord: "隻手",
+    speakIntro: "一隻手有五根手指。"
+  },
+  {
+    id: "bug", kind: "fixed", size: 6, emoji: "🐞", itemEmoji: "🦵",
+    intro: "一隻昆蟲有6隻腳。",
+    ask: (b) => b + "隻昆蟲一共有幾隻腳？",
+    unit: "隻腳",
+    oneLabel: "1隻昆蟲",
+    groupWord: "隻昆蟲",
+    speakIntro: "一隻昆蟲有六隻腳。"
+  },
+  {
+    id: "spider", kind: "fixed", size: 8, emoji: "🕷️", itemEmoji: "🦵",
+    intro: "一隻蜘蛛有8隻腳。",
+    ask: (b) => b + "隻蜘蛛一共有幾隻腳？",
+    unit: "隻腳",
+    oneLabel: "1隻蜘蛛",
+    groupWord: "隻蜘蛛",
+    speakIntro: "一隻蜘蛛有八隻腳。"
+  },
+  {
+    id: "octopus", kind: "fixed", size: 8, emoji: "🐙", itemEmoji: "🦑",
+    intro: "一隻章魚有8隻腳。",
+    ask: (b) => b + "隻章魚一共有幾隻腳？",
+    unit: "隻腳",
+    oneLabel: "1隻章魚",
+    groupWord: "隻章魚",
+    speakIntro: "一隻章魚有八隻腳。"
+  },
+  {
+    id: "crab", kind: "fixed", size: 8, emoji: "🦀", itemEmoji: "🦵",
+    intro: "一隻螃蟹有8隻腳。",
+    ask: (b) => b + "隻螃蟹一共有幾隻腳？",
+    unit: "隻腳",
+    oneLabel: "1隻螃蟹",
+    groupWord: "隻螃蟹",
+    speakIntro: "一隻螃蟹有八隻腳。"
+  },
+  // Flexible packs: work for any group size 1–9
+  {
+    id: "paper", kind: "flex", emoji: "📄", itemEmoji: "📄",
+    introFn: (n) => "一包色紙有" + n + "張。",
+    ask: (b) => b + "包色紙一共有幾張？",
+    unit: "張",
+    oneLabelFn: (n) => "1包（" + n + "張）",
+    groupWord: "包色紙",
+    speakIntroFn: (n) => "一包色紙有" + n + "張。"
+  },
+  {
+    id: "candy", kind: "flex", emoji: "🍬", itemEmoji: "🍬",
+    introFn: (n) => "一盒糖果有" + n + "顆。",
+    ask: (b) => b + "盒糖果一共有幾顆？",
+    unit: "顆",
+    oneLabelFn: (n) => "1盒（" + n + "顆）",
+    groupWord: "盒糖果",
+    speakIntroFn: (n) => "一盒糖果有" + n + "顆。"
+  },
+  {
+    id: "crayon", kind: "flex", emoji: "🖍️", itemEmoji: "🖍️",
+    introFn: (n) => "一個筆盒有" + n + "枝蠟筆。",
+    ask: (b) => b + "個筆盒一共有幾枝蠟筆？",
+    unit: "枝蠟筆",
+    oneLabelFn: (n) => "1個筆盒（" + n + "枝）",
+    groupWord: "個筆盒",
+    speakIntroFn: (n) => "一個筆盒有" + n + "枝蠟筆。"
+  },
+  {
+    id: "berry", kind: "flex", emoji: "🍓", itemEmoji: "🍓",
+    introFn: (n) => "一盤草莓有" + n + "顆。",
+    ask: (b) => b + "盤草莓一共有幾顆？",
+    unit: "顆",
+    oneLabelFn: (n) => "1盤（" + n + "顆）",
+    groupWord: "盤草莓",
+    speakIntroFn: (n) => "一盤草莓有" + n + "顆。"
+  },
+  {
+    id: "cookie", kind: "flex", emoji: "🍪", itemEmoji: "🍪",
+    introFn: (n) => "一包餅乾有" + n + "片。",
+    ask: (b) => b + "包餅乾一共有幾片？",
+    unit: "片",
+    oneLabelFn: (n) => "1包（" + n + "片）",
+    groupWord: "包餅乾",
+    speakIntroFn: (n) => "一包餅乾有" + n + "片。"
+  },
+  {
+    id: "balloon", kind: "flex", emoji: "🎈", itemEmoji: "🎈",
+    introFn: (n) => "一束氣球有" + n + "顆。",
+    ask: (b) => b + "束氣球一共有幾顆？",
+    unit: "顆",
+    oneLabelFn: (n) => "1束（" + n + "顆）",
+    groupWord: "束氣球",
+    speakIntroFn: (n) => "一束氣球有" + n + "顆。"
+  },
+  {
+    id: "apple", kind: "flex", emoji: "🍎", itemEmoji: "🍎",
+    introFn: (n) => "一籃蘋果有" + n + "顆。",
+    ask: (b) => b + "籃蘋果一共有幾顆？",
+    unit: "顆",
+    oneLabelFn: (n) => "1籃（" + n + "顆）",
+    groupWord: "籃蘋果",
+    speakIntroFn: (n) => "一籃蘋果有" + n + "顆。"
+  },
+  {
+    id: "block", kind: "flex", emoji: "🧱", itemEmoji: "🧱",
+    introFn: (n) => "一盒積木有" + n + "塊。",
+    ask: (b) => b + "盒積木一共有幾塊？",
+    unit: "塊",
+    oneLabelFn: (n) => "1盒（" + n + "塊）",
+    groupWord: "盒積木",
+    speakIntroFn: (n) => "一盒積木有" + n + "塊。"
+  },
+  {
+    id: "flower", kind: "flex", emoji: "🌸", itemEmoji: "🌸",
+    introFn: (n) => "一盆花有" + n + "朵。",
+    ask: (b) => b + "盆花一共有幾朵？",
+    unit: "朵",
+    oneLabelFn: (n) => "1盆（" + n + "朵）",
+    groupWord: "盆花",
+    speakIntroFn: (n) => "一盆花有" + n + "朵。"
+  },
+  {
+    id: "fish", kind: "flex", emoji: "🐟", itemEmoji: "🐟",
+    introFn: (n) => "一個魚缸有" + n + "條魚。",
+    ask: (b) => b + "個魚缸一共有幾條魚？",
+    unit: "條魚",
+    oneLabelFn: (n) => "1個魚缸（" + n + "條）",
+    groupWord: "個魚缸",
+    speakIntroFn: (n) => "一個魚缸有" + n + "條魚。"
+  },
+  {
+    id: "pencil", kind: "flex", emoji: "✏️", itemEmoji: "✏️",
+    introFn: (n) => "一盒鉛筆有" + n + "枝。",
+    ask: (b) => b + "盒鉛筆一共有幾枝？",
+    unit: "枝",
+    oneLabelFn: (n) => "1盒（" + n + "枝）",
+    groupWord: "盒鉛筆",
+    speakIntroFn: (n) => "一盒鉛筆有" + n + "枝。"
+  },
+  {
+    id: "sticker", kind: "flex", emoji: "🌟", itemEmoji: "🌟",
+    introFn: (n) => "一包貼紙有" + n + "張。",
+    ask: (b) => b + "包貼紙一共有幾張？",
+    unit: "張",
+    oneLabelFn: (n) => "1包（" + n + "張）",
+    groupWord: "包貼紙",
+    speakIntroFn: (n) => "一包貼紙有" + n + "張。"
+  }
+];
+
+function storyPick(arr, rand) {
+  return arr[Math.floor((rand || Math.random)() * arr.length)];
+}
+
+function eligibleTemplates(groupSize) {
+  return STORY_TEMPLATES.filter((t) => t.kind === "flex" || t.size === groupSize);
+}
+
+function skipBlankSet(b) {
+  const blank = new Set();
+  if (b <= 0) return blank;
+  blank.add(b - 1);
+  if (b === 2) return blank;
+  for (let i = 2; i < b - 1; i++) blank.add(i);
+  while (blank.size > 4) {
+    const mid = [...blank].filter((i) => i !== b - 1)[0];
+    if (mid === undefined) break;
+    blank.delete(mid);
+  }
+  return blank;
+}
+
+function additionSentence(a, b) {
+  return new Array(b).fill(a).join("+") + "=" + (a * b);
+}
+
+function skipSentence(a, b) {
+  return Array.from({ length: b }, (_, i) => a * (i + 1)).join("、");
+}
+
+function buildStoryItem(tpl, a) {
+  const intro = tpl.kind === "fixed" ? tpl.intro : tpl.introFn(a);
+  const speakIntro = tpl.kind === "fixed" ? (tpl.speakIntro || intro) : tpl.speakIntroFn(a);
+  const oneLabel = tpl.kind === "fixed" ? tpl.oneLabel : tpl.oneLabelFn(a);
+  return {
+    id: tpl.id,
+    kind: tpl.kind,
+    size: a,
+    emoji: tpl.emoji,
+    itemEmoji: tpl.itemEmoji,
+    intro,
+    speakIntro,
+    unit: tpl.unit,
+    oneLabel,
+    groupWord: tpl.groupWord
+  };
+}
+
+function makeStoryProblem(selected, rand, forced) {
+  const rng = rand || Math.random;
+  const nums = (selected || []).filter((n) => n >= 1 && n <= 9);
+  if (!nums.length) return null;
+  const a = (forced && forced.a) || storyPick(nums, rng);
+  const b = (forced && forced.b) || (2 + Math.floor(rng() * 8)); // 2–9
+  const type = (forced && forced.type) || storyPick(STORY_TYPES, rng);
+  const pool = eligibleTemplates(a);
+  if (!pool.length) return null;
+  const tplSrc = (forced && forced.templateId)
+    ? (pool.find((t) => t.id === forced.templateId) || pool[0])
+    : storyPick(pool, rng);
+  const tpl = buildStoryItem(tplSrc, a);
+  const product = a * b;
+  const ask = STORY_TEMPLATES.find((t) => t.id === tpl.id).ask(b);
+  const story = tpl.intro + ask;
+  const speech = tpl.speakIntro + ask;
+  const blanks = [];
+  const steps = [];
+
+  if (type === "skip") {
+    const blankAt = skipBlankSet(b);
+    const seq = [];
+    for (let i = 0; i < b; i++) {
+      const val = a * (i + 1);
+      const isBlank = blankAt.has(i);
+      seq.push({ value: val, blank: isBlank });
+      if (isBlank) {
+        const id = "s" + i;
+        blanks.push({ id, answer: val });
+        steps.push({ kind: "fill", id, answer: val });
+      }
+    }
+    if (!blanks.some((x) => x.answer === product)) {
+      blanks.push({ id: "ans", answer: product });
+      steps.push({ kind: "fill", id: "ans", answer: product });
+    }
+    return {
+      type, a, b, product, tpl, story, speech, ask, unit: tpl.unit,
+      seq, blanks, steps,
+      hintAdd: additionSentence(a, b),
+      hintSkip: skipSentence(a, b),
+      hintMul: a + "×" + b + "=" + product,
+      hintText: "用" + a + "個一數：" + skipSentence(a, b) + "。也可以連加 " + additionSentence(a, b) + "。"
+    };
+  }
+
+  if (type === "add") {
+    const giveAddends = b >= 6;
+    if (!giveAddends) {
+      for (let i = 0; i < b; i++) {
+        const id = "add" + i;
+        blanks.push({ id, answer: a });
+        steps.push({ kind: "fill", id, answer: a });
+      }
+    }
+    blanks.push({ id: "sum", answer: product });
+    steps.push({ kind: "fill", id: "sum", answer: product });
+    if (giveAddends || !blanks.some((x) => x.id === "ans")) {
+      // 答 is the same as sum; only add a separate 答 if we want unit practice
+    }
+    blanks.push({ id: "ans", answer: product });
+    steps.push({ kind: "fill", id: "ans", answer: product });
+    return {
+      type, a, b, product, tpl, story, speech, ask, unit: tpl.unit,
+      giveAddends, blanks, steps,
+      hintAdd: additionSentence(a, b),
+      hintSkip: skipSentence(a, b),
+      hintMul: a + "×" + b + "=" + product,
+      hintText: "每一組都是 " + a + "，一共 " + b + " 組，所以是 " + additionSentence(a, b) + "。"
+    };
+  }
+
+  if (type === "bei") {
+    const giveAddends = true;
+    blanks.push({ id: "sum", answer: product });
+    steps.push({ kind: "fill", id: "sum", answer: product });
+    blanks.push({ id: "beiCount", answer: b });
+    steps.push({ kind: "fill", id: "beiCount", answer: b });
+    blanks.push({ id: "beiTimes", answer: b });
+    steps.push({ kind: "fill", id: "beiTimes", answer: b });
+    blanks.push({ id: "ans", answer: product });
+    steps.push({ kind: "fill", id: "ans", answer: product });
+    return {
+      type, a, b, product, tpl, story, speech, ask, unit: tpl.unit,
+      giveAddends, blanks, steps,
+      hintAdd: additionSentence(a, b),
+      hintSkip: skipSentence(a, b),
+      hintMul: a + "×" + b + "=" + product,
+      hintText: "連加算式裡，" + a + " 有 " + b + " 個，所以是 " + a + " 的 " + b + " 倍。"
+    };
+  }
+
+  if (type === "mul") {
+    blanks.push({ id: "mcand", answer: a });
+    steps.push({ kind: "fill", id: "mcand", answer: a });
+    blanks.push({ id: "mplier", answer: b });
+    steps.push({ kind: "fill", id: "mplier", answer: b });
+    blanks.push({ id: "prod", answer: product });
+    steps.push({ kind: "fill", id: "prod", answer: product });
+    blanks.push({ id: "ans", answer: product });
+    steps.push({ kind: "fill", id: "ans", answer: product });
+    return {
+      type, a, b, product, tpl, story, speech, ask, unit: tpl.unit,
+      blanks, steps,
+      hintAdd: additionSentence(a, b),
+      hintSkip: skipSentence(a, b),
+      hintMul: a + "×" + b + "=" + product,
+      hintText: "被乘數" + a + "表示每一組有" + a + "，乘數" + b + "表示有" + b + "組，積" + product + "表示一共有" + product + tpl.unit + "。"
+    };
+  }
+
+  // names: tap 被乘數 / 乘數 / 積
+  const terms = [
+    { id: "mcand", value: a, role: "被乘數" },
+    { id: "mplier", value: b, role: "乘數" },
+    { id: "prod", value: product, role: "積" }
+  ];
+  terms.forEach((t) => {
+    steps.push({ kind: "tap", id: t.id, answer: t.value, role: t.role, options: [a, b, product] });
+  });
+  return {
+    type: "names", a, b, product, tpl, story, speech, ask, unit: tpl.unit,
+    terms, blanks: [], steps,
+    hintAdd: additionSentence(a, b),
+    hintSkip: skipSentence(a, b),
+    hintMul: a + "×" + b + "=" + product,
+    hintText: "被乘數是每一組有幾個（" + a + "），乘數是有幾組（" + b + "），積是一共有幾個（" + product + "）。"
+  };
+}
+
+function generateStoryQuiz(selected, count, rand, forcedList) {
+  const rng = rand || Math.random;
+  const nums = (selected || []).filter((n) => n >= 1 && n <= 9);
+  const total = Math.max(1, count || 5);
+  if (forcedList && forcedList.length) {
+    return forcedList.map((f) => makeStoryProblem(nums, rng, f)).filter(Boolean);
+  }
+  if (!nums.length) return [];
+  const questions = [];
+  const used = new Set();
+  const typeCycle = [];
+  while (typeCycle.length < total) {
+    const bag = STORY_TYPES.slice();
+    for (let i = bag.length - 1; i > 0; i--) {
+      const j = Math.floor(rng() * (i + 1));
+      const tmp = bag[i]; bag[i] = bag[j]; bag[j] = tmp;
+    }
+    typeCycle.push.apply(typeCycle, bag);
+  }
+  let guard = 0;
+  while (questions.length < total && guard++ < 800) {
+    const type = typeCycle[questions.length];
+    const a = storyPick(nums, rng);
+    const b = 2 + Math.floor(rng() * 8);
+    const pool = eligibleTemplates(a);
+    if (!pool.length) continue;
+    const tpl = storyPick(pool, rng);
+    const key = type + ":" + tpl.id + ":" + a + "x" + b;
+    if (used.has(key) && guard < 400) continue;
+    used.add(key);
+    const p = makeStoryProblem(nums, rng, { a, b, type, templateId: tpl.id });
+    if (p) questions.push(p);
+  }
+  return questions;
+}
+
+function validateStoryProblem(p) {
+  const errors = [];
+  if (!p) return ["missing problem"];
+  if (!(p.a >= 1 && p.a <= 9)) errors.push("bad a");
+  if (!(p.b >= 1 && p.b <= 9)) errors.push("bad b");
+  if (p.product !== p.a * p.b) errors.push("product");
+  if (!p.story || !p.unit || !p.tpl) errors.push("missing text");
+  if (!p.steps || !p.steps.length) errors.push("no steps");
+  p.steps.forEach((s, i) => {
+    if (s.kind === "fill") {
+      if (typeof s.answer !== "number" || !Number.isFinite(s.answer)) errors.push("step " + i + " answer");
+    } else if (s.kind === "tap") {
+      if (!s.options || s.options.indexOf(s.answer) < 0) errors.push("step " + i + " tap");
+      if (s.role === "被乘數" && s.answer !== p.a) errors.push("被乘數");
+      if (s.role === "乘數" && s.answer !== p.b) errors.push("乘數");
+      if (s.role === "積" && s.answer !== p.product) errors.push("積");
+    }
+  });
+  if (p.type === "skip") {
+    const last = p.a * p.b;
+    if (!p.seq || p.seq[p.seq.length - 1].value !== last) errors.push("skip last");
+    p.seq.forEach((t, i) => {
+      if (t.value !== p.a * (i + 1)) errors.push("skip " + i);
+    });
+  }
+  if (p.type === "add" || p.type === "bei") {
+    const sumStep = p.steps.find((s) => s.id === "sum");
+    if (!sumStep || sumStep.answer !== p.product) errors.push("sum");
+  }
+  if (p.type === "bei") {
+    if (p.steps.find((s) => s.id === "beiCount").answer !== p.b) errors.push("beiCount");
+    if (p.steps.find((s) => s.id === "beiTimes").answer !== p.b) errors.push("beiTimes");
+  }
+  if (p.type === "mul") {
+    if (p.steps[0].answer !== p.a) errors.push("mcand first");
+    if (p.steps[1].answer !== p.b) errors.push("mplier second");
+    if (p.steps[2].answer !== p.product) errors.push("prod third");
+  }
+  const tplOk = eligibleTemplates(p.a).some((t) => t.id === p.tpl.id);
+  if (!tplOk) errors.push("impossible template " + p.tpl.id + " for " + p.a);
+  if (p.tpl.kind === "fixed" && p.tpl.size !== p.a && STORY_TEMPLATES.find((t) => t.id === p.tpl.id).size !== p.a) {
+    errors.push("fixed size mismatch");
+  }
+  const raw = STORY_TEMPLATES.find((t) => t.id === p.tpl.id);
+  if (raw.kind === "fixed" && raw.size !== p.a) errors.push("fixed raw size");
+  return errors;
+}
+/* STORY_GEN_END */
+
+
+
+    const STORY_TYPE_LABEL = {
+      skip: "🔢 跳著數",
+      add: "➕ 連加算式",
+      bei: "✨ 認識「倍」",
+      mul: "✖️ 乘法算式",
+      names: "🏷️ 找名稱"
+    };
+
+    function renderGroupPictures(tpl, a, b) {
+      const raw = STORY_TEMPLATES.find((t) => t.id === tpl.id) || {};
+      const visual = raw.visual || (tpl.emoji === tpl.itemEmoji ? "items" : "both");
+      const compact = b >= 7 || a * b > 24 || a > 5;
+      let html = "<div class='story-groups' aria-hidden='true'>";
+      for (let i = 0; i < b; i++) {
+        html += "<div class='group-box" + (compact ? " compact" : "") + "'>";
+        if (visual !== "items") html += "<div class='group-emo'>" + tpl.emoji + "</div>";
+        html += "<div class='group-items'>";
+        if (visual === "group") {
+          /* group emoji already shown */
+        } else if (!compact) {
+          for (let k = 0; k < a; k++) html += "<span>" + tpl.itemEmoji + "</span>";
+        } else {
+          html += tpl.itemEmoji + " × " + a;
+        }
+        html += "</div><div class='group-cap'>" + tpl.oneLabel + "</div></div>";
+      }
+      return html + "</div>";
+    }
+
+    function storyBlankHtml(p, id) {
+      const q = state.quiz;
+      const step = p.steps[q.step];
+      const focused = !q.locked && step && step.kind === "fill" && step.id === id;
+      const val = q.filled[id];
+      let cls = "blank";
+      if (focused) cls += " on";
+      else if (val != null) cls += " ok";
+      let text = "?";
+      if (focused) text = q.input || "?";
+      else if (val != null) text = String(val);
+      return "<span class='" + cls + "' data-blank='" + id + "'>" + text + "</span>";
+    }
+
+    function storyWorkHtml(p) {
+      let html = "";
+      if (p.type === "skip") {
+        html += "<div class='skip-seq'>";
+        p.seq.forEach((t, i) => {
+          if (i) html += "<span class='hop' aria-hidden='true'>→</span>";
+          if (t.blank) html += storyBlankHtml(p, "s" + i);
+          else html += "<span>" + t.value + "</span>";
+        });
+        html += "</div><p class='hint'>用 " + p.a + " 個一數</p>";
+        const ansId = p.blanks.some((b) => b.id === "ans") ? "ans" : ("s" + (p.seq.length - 1));
+        html += "<div class='ans-row'>答：" + storyBlankHtml(p, ansId) + "<span>" + p.unit + "</span></div>";
+      } else if (p.type === "add") {
+        html += "<div class='add-seq'>";
+        for (let i = 0; i < p.b; i++) {
+          if (i) html += "<span>+</span>";
+          if (p.giveAddends) html += "<span>" + p.a + "</span>";
+          else html += storyBlankHtml(p, "add" + i);
+        }
+        html += "<span class='add-eq-end'><span>=</span>" + storyBlankHtml(p, "sum") + "</span>";
+        html += "</div>";
+        html += "<div class='ans-row'>答：" + storyBlankHtml(p, "ans") + "<span>" + p.unit + "</span></div>";
+      } else if (p.type === "bei") {
+        html += "<div class='add-seq'>";
+        for (let i = 0; i < p.b; i++) {
+          if (i) html += "<span>+</span>";
+          html += "<span>" + p.a + "</span>";
+        }
+        html += "<span class='add-eq-end'><span>=</span>" + storyBlankHtml(p, "sum") + "</span>";
+        html += "</div>";
+        html += "<p class='paren-note'>連加算式中，" + p.a + " 有（" + storyBlankHtml(p, "beiCount") + "）個，</p>";
+        html += "<p class='paren-note'>是 " + p.a + " 的（" + storyBlankHtml(p, "beiTimes") + "）倍。</p>";
+        html += "<div class='ans-row'>答：" + storyBlankHtml(p, "ans") + "<span>" + p.unit + "</span></div>";
+      } else if (p.type === "mul") {
+        html += "<div class='eq-wrap'><div class='mul-eq'>";
+        html += storyBlankHtml(p, "mcand") + "<span>×</span>" + storyBlankHtml(p, "mplier") + "<span>=</span>" + storyBlankHtml(p, "prod");
+        html += "</div><div class='eq-labels'><span class='eq-lab'>被乘數</span><span class='eq-lab'>乘號</span><span class='eq-lab'>乘數</span><span class='eq-lab'>積</span></div></div>";
+        html += "<div class='ans-row'>答：" + storyBlankHtml(p, "ans") + "<span>" + p.unit + "</span></div>";
+      } else if (p.type === "names") {
+        html += "<div class='eq-wrap'><div class='mul-eq'>" + p.a + " × " + p.b + " = " + p.product + "</div>";
+        html += "<div class='eq-labels'><span class='eq-lab'>被乘數</span><span class='eq-lab'>乘號</span><span class='eq-lab'>乘數</span><span class='eq-lab'>積</span></div></div>";
+        const step = p.steps[state.quiz.step];
+        if (step && step.kind === "tap") {
+          html += "<p class='paren-note'>哪一個是「" + step.role + "」？</p>";
+          html += "<div class='tap-opts'>";
+          uniqueOptions(step.options).forEach((v) => {
+            let cls = "tap-opt";
+            if (state.quiz.tapMark && state.quiz.tapMark.val === v) cls += state.quiz.tapMark.ok ? " ok" : " bad";
+            html += "<button type='button' class='" + cls + "' data-val='" + v + "'>" + v + "</button>";
+          });
+          html += "</div>";
+        }
+      }
+      return html;
+    }
+
+    function uniqueOptions(opts) {
+      const seen = new Set();
+      return opts.filter((v) => { if (seen.has(v)) return false; seen.add(v); return true; });
+    }
+
+    function startStoryQuiz(customQuestions, opts) {
+      const selected = selectedList();
+      if (!customQuestions && !selected.length) {
+        setMascot("think", "先選至少一個數字，我們才能開始練習喔！");
+        return;
+      }
+      let questions;
+      if (customQuestions && customQuestions.length) {
+        questions = customQuestions.map((p) => JSON.parse(JSON.stringify(p)));
+      } else if (opts && opts.demo) {
+        const first = makeStoryProblem(selected, Math.random, opts.demo);
+        const rest = generateStoryQuiz(selected, Math.max(0, (state.storyCount || 5) - 1));
+        questions = first ? [first].concat(rest) : rest;
+      } else {
+        questions = generateStoryQuiz(selected, state.storyCount || 5);
+      }
+      if (!questions.length) {
+        setMascot("think", "這次沒有出到題目，換一組數字再試試看！");
+        return;
+      }
+      questions.forEach((p) => { p.steps.forEach((s) => { s.done = false; }); });
+      const total = questions.length;
+      state.quiz = {
+        kind: "story",
+        questions,
+        index: 0,
+        step: 0,
+        input: "",
+        filled: {},
+        locked: false,
+        hintOn: false,
+        tapMark: null,
+        missedCurrent: false,
+        correct: 0,
+        streak: 0,
+        maxStreak: 0,
+        coinsEarned: 0,
+        mistakes: [],
+        startedAt: Date.now(),
+        limit: 0,
+        remain: 0,
+        retryMiss: !!(customQuestions && customQuestions.length),
+        key: "story|" + selected.join(",") + "|" + total
+      };
+      showScreen("story");
+      setMascot("wow", "先看故事，再一步一步填空。需要幫忙就按「提示」喔！");
+      renderStory();
+    }
+
+    function updateStoryStats() {
+      const q = state.quiz;
+      if (!q) return;
+      $("storyBar").style.width = ((q.index / q.questions.length) * 100) + "%";
+      $("storyProgressLabel").textContent = "第 " + (q.index + 1) + " / " + q.questions.length + " 題";
+      const cur = q.questions[q.index];
+      $("storyStepLabel").textContent = "第 " + (q.step + 1) + " 步 / " + cur.steps.length + " 步";
+      $("storyScoreStat").textContent = "⭐ " + q.correct;
+      $("storyStreakStat").textContent = "🔥 連擊 " + q.streak;
+      $("storyCoinStat").textContent = "✨ +" + q.coinsEarned;
+    }
+
+    function renderStory() {
+      const q = state.quiz;
+      const p = q.questions[q.index];
+      const step = p.steps[q.step];
+      updateStoryStats();
+      const box = $("storyBox");
+      box.classList.remove("good", "bad");
+      $("storyFeedback").textContent = "";
+      $("storyFeedback").className = "feedback";
+      q.locked = false;
+      q.tapMark = null;
+
+      let html = "<div class='story-toolbar'>";
+      html += "<span class='type-pill'>" + (STORY_TYPE_LABEL[p.type] || "應用題") + "</span>";
+      html += "<div class='row-actions' style='margin:0'>";
+      html += "<button type='button' class='btn btn-ghost' id='storySpeakBtn'>🔊 唸題目</button>";
+      html += "<button type='button' class='btn btn-yellow' id='storyHintBtn'>💡 提示</button>";
+      html += "</div></div>";
+      html += "<p class='story-text'>" + p.tpl.emoji + " " + p.story + "</p>";
+      html += renderGroupPictures(p.tpl, p.a, p.b);
+      html += "<div id='storyWork'>" + storyWorkHtml(p) + "</div>";
+      if (q.hintOn) html += "<div class='hint-panel'>" + p.hintText + "</div>";
+      $("storyInner").innerHTML = html;
+
+      const showPad = step && step.kind === "fill";
+      $("storyKeypad").style.display = showPad ? "" : "none";
+    }
+
+    function buildStoryKeypad() {
+      const box = $("storyKeypad");
+      box.innerHTML = "";
+      const keys = ["1","2","3","4","5","6","7","8","9","⌫","0","送出"];
+      keys.forEach((k) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "key" + (k === "送出" ? " ok" : k === "⌫" ? " del" : "");
+        b.textContent = k;
+        b.addEventListener("click", () => handleStoryKey(k));
+        box.appendChild(b);
+      });
+    }
+
+    function handleStoryKey(k) {
+      const q = state.quiz;
+      if (!q || q.kind !== "story" || q.locked) return;
+      const p = q.questions[q.index];
+      const step = p.steps[q.step];
+      if (!step || step.kind !== "fill") return;
+      if (k === "⌫" || k === "Backspace") {
+        q.input = q.input.slice(0, -1);
+        sfxClick();
+      } else if (k === "送出" || k === "Enter") {
+        if (!q.input) return;
+        submitStoryFill();
+        return;
+      } else if (/^\d$/.test(k)) {
+        if (q.input.length >= 3) return;
+        q.input += k;
+        sfxClick();
+      } else return;
+      document.querySelectorAll("#storyInner .blank[data-blank='" + step.id + "']").forEach((el) => {
+        el.textContent = q.input || "?";
+      });
+      const ans = String(step.answer);
+      if (q.input.length >= ans.length) submitStoryFill();
+    }
+
+    function submitStoryFill() {
+      const q = state.quiz;
+      if (!q || q.locked) return;
+      const p = q.questions[q.index];
+      const step = p.steps[q.step];
+      if (!step || step.kind !== "fill") return;
+      const ok = Number(q.input) === step.answer;
+      finishStoryStep(ok, step.answer, q.input);
+    }
+
+    function handleStoryTap(val) {
+      const q = state.quiz;
+      if (!q || q.kind !== "story" || q.locked) return;
+      const p = q.questions[q.index];
+      const step = p.steps[q.step];
+      if (!step || step.kind !== "tap") return;
+      const ok = Number(val) === step.answer;
+      q.tapMark = { val: Number(val), ok: ok };
+      document.querySelectorAll("#storyInner .tap-opt").forEach((btn) => {
+        if (+btn.dataset.val === Number(val)) btn.classList.add(ok ? "ok" : "bad");
+      });
+      finishStoryStep(ok, step.answer, String(val));
+    }
+
+    function finishStoryStep(ok, answer, given) {
+      const q = state.quiz;
+      const p = q.questions[q.index];
+      const box = $("storyBox");
+      const fb = $("storyFeedback");
+      q.locked = true;
+      if (ok) {
+        if (p.steps[q.step].kind === "fill") q.filled[p.steps[q.step].id] = answer;
+        box.classList.add("good");
+        fb.className = "feedback good";
+        fb.textContent = sayRandom(PRAISE);
+        sfxCorrect();
+        const el = document.querySelector("#storyInner .blank.on");
+        if (el) { el.textContent = String(answer); el.classList.remove("on"); el.classList.add("ok"); }
+        setTimeout(advanceStoryStep, 700);
+      } else {
+        q.missedCurrent = true;
+        if (p.steps[q.step].kind === "fill") q.filled[p.steps[q.step].id] = answer;
+        box.classList.add("bad");
+        fb.className = "feedback bad";
+        fb.textContent = "差一點！正確是 " + answer + "。";
+        setMascot("comfort", sayRandom(COMFORT) + " 答案是 " + answer + "。");
+        sfxWrong();
+        const el = document.querySelector("#storyInner .blank.on");
+        if (el) { el.textContent = String(answer); el.classList.remove("on"); el.classList.add("bad"); }
+        setTimeout(advanceStoryStep, 1400);
+      }
+    }
+
+    function awardStoryProblem() {
+      const q = state.quiz;
+      const p = q.questions[q.index];
+      if (!q.missedCurrent) {
+        q.correct += 1;
+        q.streak += 1;
+        q.maxStreak = Math.max(q.maxStreak, q.streak);
+        let gain = 1;
+        if (q.streak >= 10) gain = 4;
+        else if (q.streak >= 5) gain = 3;
+        else if (q.streak >= 3) gain = 2;
+        q.coinsEarned += gain;
+        profile.coins += gain;
+        profile.facts[p.a + "x" + p.b] = true;
+        setMascot("wow", sayRandom(PRAISE));
+        burstConfetti();
+        if (q.streak === 3 || q.streak === 5 || q.streak === 10 || (q.streak > 10 && q.streak % 5 === 0)) {
+          showCombo("連擊 ×" + q.streak + "！");
+          sfxCombo();
+        }
+        updateCoinHud();
+      } else {
+        q.streak = 0;
+        q.mistakes.push(JSON.parse(JSON.stringify(p)));
+        setMascot("comfort", "沒關係，這題我們記下了，等等可以再練一次！");
+      }
+      updateStoryStats();
+    }
+
+    function advanceStoryStep() {
+      const q = state.quiz;
+      if (!q || q.kind !== "story") return;
+      const p = q.questions[q.index];
+      if (q.step >= p.steps.length - 1) {
+        awardStoryProblem();
+        setTimeout(nextStoryQuestion, q.missedCurrent ? 700 : 850);
+        return;
+      }
+      q.step += 1;
+      q.input = "";
+      q.locked = false;
+      q.tapMark = null;
+      renderStory();
+    }
+
+    function nextStoryQuestion() {
+      const q = state.quiz;
+      if (!q) return;
+      if (q.index >= q.questions.length - 1) {
+        $("storyBar").style.width = "100%";
+        finishQuiz(false);
+        return;
+      }
+      q.index += 1;
+      q.step = 0;
+      q.input = "";
+      q.filled = {};
+      q.hintOn = false;
+      q.missedCurrent = false;
+      q.tapMark = null;
+      renderStory();
+    }
+
+    function applyDemoRoute() {
+      const params = new URLSearchParams(location.search);
+      const demo = params.get("demo") || (location.hash || "").replace(/^#/, "");
+      if (!demo) return;
+      if (demo === "story" || demo === "story-setup") {
+        showScreen("storySetup");
+        setMascot("happy", "這是應用題：我們來練習「倍」的問題和乘法算式！");
+        return;
+      }
+      if (demo === "story-tutorial") {
+        showScreen("storyTutorial");
+        setMascot("think", "先看這個襪子的例子，就會懂被乘數、乘數和積囉！");
+        return;
+      }
+      const demoMap = {
+        "story-skip": { a: 2, b: 3, type: "skip", templateId: "rabbit" },
+        "story-add": { a: 2, b: 4, type: "add", templateId: "socks" },
+        "story-bei": { a: 5, b: 3, type: "bei", templateId: "paper" },
+        "story-mul": { a: 2, b: 4, type: "mul", templateId: "socks" },
+        "story-names": { a: 2, b: 6, type: "names", templateId: "couples" }
+      };
+      if (demoMap[demo]) {
+        if (!state.selected.size) for (let i = 1; i <= 9; i++) state.selected.add(i);
+        startStoryQuiz(null, { demo: demoMap[demo] });
+      }
+    }
+
     function startQuiz(customQuestions) {
       const pool = customQuestions || allFacts(state.selected, state.quizSwap);
       if (!pool.length) {
@@ -1099,6 +2144,7 @@
       if (Object.keys(profile.stickers).length >= 3) profile.badges.stickers3 = true;
       if (Object.keys(profile.stickers).length >= 9) profile.badges.stickers9 = true;
       if (total >= 30) profile.badges.quiz30 = true;
+      if (q.kind === "story" && total > 0 && score >= Math.ceil(total * 0.8)) profile.badges.beiExpert = true;
       profile.bestStreak = Math.max(profile.bestStreak || 0, q.maxStreak);
 
       const rec = {
@@ -1106,7 +2152,8 @@
         score, total, seconds: elapsed,
         numbers: selectedList(),
         coins: q.coinsEarned,
-        timeout: !!timeout
+        timeout: !!timeout,
+        kind: q.kind || "quiz"
       };
       profile.history.unshift(rec);
       profile.history = profile.history.slice(0, 20);
@@ -1149,9 +2196,12 @@
       if (q.mistakes.length) {
         mp.classList.remove("hidden");
         $("retryMissBtn").classList.remove("hidden");
-        ml.innerHTML = q.mistakes.map((m) =>
-          "<li><span>" + m.a + " × " + m.b + " = " + m.ans + "</span><span>你填了 " + (m.given || "空白") + " · " + koujue(m.a, m.b) + "</span></li>"
-        ).join("");
+        ml.innerHTML = q.mistakes.map((m) => {
+          if (q.kind === "story") {
+            return "<li><span>" + (m.story || (m.a + " × " + m.b)) + "</span><span>" + m.a + " × " + m.b + " = " + (m.product != null ? m.product : (m.a * m.b)) + " · " + (STORY_TYPE_LABEL[m.type] || "應用題") + "</span></li>";
+          }
+          return "<li><span>" + m.a + " × " + m.b + " = " + m.ans + "</span><span>你填了 " + (m.given || "空白") + " · " + koujue(m.a, m.b) + "</span></li>";
+        }).join("");
       } else {
         mp.classList.add("hidden");
         $("retryMissBtn").classList.add("hidden");
@@ -1170,7 +2220,8 @@
       ul.innerHTML = profile.history.map((h) => {
         const d = new Date(h.ts);
         const t = d.toLocaleString("zh-TW", { timeZone: "Asia/Taipei", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" });
-        return "<li><span>" + t + " · " + (h.numbers || []).join(",") + "</span><span>" + h.score + "/" + h.total + " · " + h.seconds + "秒 · +" + h.coins + "⭐</span></li>";
+        const kind = h.kind === "story" ? "應用題 · " : "";
+        return "<li><span>" + t + " · " + kind + (h.numbers || []).join(",") + "</span><span>" + h.score + "/" + h.total + " · " + h.seconds + "秒 · +" + h.coins + "⭐</span></li>";
       }).join("");
     }
 
@@ -1291,6 +2342,49 @@
       showScreen("quizSetup");
       setMascot("think", "選題數和時間，準備好就出發挑戰吧！");
     });
+    $("goStorySetup").addEventListener("click", () => {
+      if (!requireSelection()) return;
+      sfxClick();
+      showScreen("storySetup");
+      setMascot("happy", "用故事來練「倍」的問題吧！可以先看教學，再開始練習。");
+    });
+    $("storySetupBack").addEventListener("click", () => { sfxClick(); showScreen("home"); });
+    $("storyCountRow").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-story-count]");
+      if (!b) return;
+      state.storyCount = +b.dataset.storyCount;
+      $("storyCountRow").querySelectorAll(".seg").forEach((x) => x.classList.toggle("on", x === b));
+      sfxClick();
+    });
+    $("storyTeachBtn").addEventListener("click", () => {
+      sfxClick();
+      showScreen("storyTutorial");
+      setMascot("think", "先看這個襪子的例子，就會懂被乘數、乘數和積囉！");
+    });
+    $("storyTeachBack").addEventListener("click", () => { sfxClick(); showScreen("storySetup"); });
+    $("storyTeachStart").addEventListener("click", () => { sfxClick(); startStoryQuiz(); });
+    $("startStoryBtn").addEventListener("click", () => { sfxClick(); startStoryQuiz(); });
+    $("screenStory").addEventListener("click", (e) => {
+      if (e.target.closest("#storySpeakBtn")) {
+        const q = state.quiz;
+        if (q && q.questions[q.index]) speak(q.questions[q.index].speech || q.questions[q.index].story);
+        return;
+      }
+      if (e.target.closest("#storyHintBtn")) {
+        const q = state.quiz;
+        if (!q || q.locked) return;
+        q.hintOn = !q.hintOn;
+        sfxClick();
+        const keepInput = q.input;
+        renderStory();
+        q.input = keepInput;
+        const el = document.querySelector("#storyInner .blank.on");
+        if (el) el.textContent = keepInput || "?";
+        return;
+      }
+      const tap = e.target.closest(".tap-opt");
+      if (tap) handleStoryTap(+tap.dataset.val);
+    });
     $("setupBack").addEventListener("click", () => { sfxClick(); showScreen("home"); });
     $("countRow").addEventListener("click", (e) => {
       const b = e.target.closest("[data-count]");
@@ -1314,9 +2408,18 @@
     });
     $("startQuizBtn").addEventListener("click", () => { sfxClick(); startQuiz(); });
 
-    $("retryBtn").addEventListener("click", () => { sfxClick(); startQuiz(); });
+    $("retryBtn").addEventListener("click", () => {
+      sfxClick();
+      if (state.quiz && state.quiz.kind === "story") startStoryQuiz();
+      else startQuiz();
+    });
     $("retryMissBtn").addEventListener("click", () => {
       sfxClick();
+      if (state.quiz && state.quiz.kind === "story") {
+        if (!state.quiz.mistakes.length) return;
+        startStoryQuiz(state.quiz.mistakes);
+        return;
+      }
       const misses = state.quiz ? state.quiz.mistakes.map((m) => ({ a: m.a, b: m.b })) : [];
       if (!misses.length) return;
       startQuiz(misses);
@@ -1324,6 +2427,12 @@
     $("resultHomeBtn").addEventListener("click", () => { sfxClick(); showScreen("home"); });
 
     document.addEventListener("keydown", (e) => {
+      if (state.screen === "story") {
+        if (e.key === "Enter") { e.preventDefault(); handleStoryKey("Enter"); }
+        else if (e.key === "Backspace") { e.preventDefault(); handleStoryKey("Backspace"); }
+        else if (/^\d$/.test(e.key)) handleStoryKey(e.key);
+        return;
+      }
       if (state.screen !== "quiz") return;
       if (e.key === "Enter") { e.preventDefault(); handleKey("Enter"); }
       else if (e.key === "Backspace") { e.preventDefault(); handleKey("Backspace"); }
@@ -1338,9 +2447,11 @@
 
     loadProfile();
     buildKeypad();
+    buildStoryKeypad();
     updateCoinHud();
     renderChips();
     showScreen("home");
+    applyDemoRoute();
   })();
   </script>
   <script src="https://cdn.jsdelivr.net/npm/@twemoji/api@15.1.0/dist/twemoji.min.js" crossorigin="anonymous"></script>
