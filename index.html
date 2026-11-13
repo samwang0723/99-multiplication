@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#5EC8F8" />
+  <meta name="description" content="九九乘法大冒險：選數字、翻卡複習、挑戰考試，適合小朋友的乘法練習遊戲。" />
+  <title>九九乘法大冒險</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@500;700;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌟</text></svg>" />
+  <style>
+    :root {
+      --sky-top: #7ad7ff;
+      --sky-mid: #b8ecff;
+      --sky-bottom: #fff4c8;
+      --grass: #7ed957;
+      --grass-dark: #4caf50;
+      --ink: #3a2a14;
+      --muted: #7a6244;
+      --card: #fffdf7;
+      --shadow: 0 8px 0 rgba(58, 42, 20, 0.18);
+      --yellow: #ffd84d;
+      --orange: #ff8a3d;
+      --pink: #ff7eb3;
+      --red: #ff6b7a;
+      --blue: #4da6ff;
+      --green: #3dcc7a;
+      --purple: #b388ff;
+      --mint: #5ee0c2;
+      --radius: 24px;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { min-height: 100%; }
+    body {
+      font-family: "Fredoka", "Noto Sans TC", "PingFang TC", "Hiragino Kaku Gothic Hei", "Microsoft JhengHei", "Heiti TC", sans-serif;
+      color: var(--ink);
+      background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 42%, var(--sky-bottom) 70%, #d8f5a2 100%);
+      min-height: 100dvh;
+      overflow-x: hidden;
+    }
+    button, input { font-family: inherit; }
+    button { cursor: pointer; }
+    :focus-visible { outline: 3px solid #fff; outline-offset: 3px; box-shadow: 0 0 0 6px #4da6ff; }
+
+    .sky-deco { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .sun {
+      position: absolute; top: 18px; right: 18px; width: 86px; height: 86px;
+      background: radial-gradient(circle at 35% 35%, #fff7c2, #ffd24a 55%, #ffb300);
+      border-radius: 50%; box-shadow: 0 0 0 10px rgba(255, 210, 74, 0.28), 0 0 40px rgba(255, 200, 40, 0.55);
+      animation: pulse 4s ease-in-out infinite;
+    }
+    .cloud { position: absolute; background: #fff; border-radius: 40px; opacity: 0.9; animation: drift 28s linear infinite; }
+    .cloud::before, .cloud::after {
+      content: ""; position: absolute; background: #fff; border-radius: 50%;
+    }
+    .cloud.c1 { width: 120px; height: 36px; top: 70px; left: -140px; animation-duration: 42s; }
+    .cloud.c1::before { width: 50px; height: 50px; top: -26px; left: 18px; }
+    .cloud.c1::after { width: 40px; height: 40px; top: -18px; left: 56px; }
+    .cloud.c2 { width: 90px; height: 28px; top: 130px; left: -160px; animation-duration: 54s; animation-delay: -20s; opacity: 0.75; }
+    .cloud.c2::before { width: 40px; height: 40px; top: -20px; left: 14px; }
+    .cloud.c2::after { width: 30px; height: 30px; top: -12px; left: 44px; }
+    .cloud.c3 { width: 140px; height: 40px; top: 40px; left: -180px; animation-duration: 60s; animation-delay: -35s; }
+    .cloud.c3::before { width: 58px; height: 58px; top: -30px; left: 24px; }
+    .cloud.c3::after { width: 46px; height: 46px; top: -20px; left: 70px; }
+    .hill {
+      position: absolute; bottom: -40px; width: 140%; height: 160px; left: -20%;
+      background: radial-gradient(120% 100% at 50% 100%, #8be06a 0%, #62c94a 70%);
+      border-radius: 50% 50% 0 0;
+    }
+    .hill.back { bottom: 20px; height: 130px; background: radial-gradient(120% 100% at 50% 100%, #a8ec7a 0%, #7ed957 80%); opacity: 0.85; }
+
+    @keyframes drift { from { transform: translateX(0); } to { transform: translateX(calc(100vw + 320px)); } }
+    @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+    @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    @keyframes pop { 0% { transform: scale(0.6); opacity: 0; } 70% { transform: scale(1.12); } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-5px); }
+      80% { transform: translateX(5px); }
+    }
+    @keyframes comboPulse {
+      0% { transform: scale(0.4) rotate(-8deg); opacity: 0; }
+      40% { transform: scale(1.2) rotate(4deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0); opacity: 1; }
+    }
+    @keyframes starSpin { from { transform: rotate(0) scale(1); } to { transform: rotate(360deg) scale(1); } }
+    @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+    .wrap {
+      position: relative; z-index: 1;
+      max-width: 880px; margin: 0 auto;
+      padding: calc(12px + var(--safe-top)) 16px calc(28px + var(--safe-bottom));
+    }
+
+    header.app-bar {
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(255,253,247,0.86);
+      backdrop-filter: blur(8px);
+      border-radius: 28px;
+      padding: 10px 12px 10px 10px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+    .logo-mascot { width: 58px; height: 58px; flex: none; animation: floaty 3s ease-in-out infinite; }
+    .titles { flex: 1; min-width: 0; }
+    .titles h1 { font-size: clamp(1.15rem, 4.5vw, 1.7rem); font-weight: 900; letter-spacing: 0.02em; line-height: 1.15; }
+    .titles p { font-size: 0.85rem; color: var(--muted); font-weight: 700; }
+    .hud { display: flex; align-items: center; gap: 8px; flex: none; }
+    .coin-pill, .icon-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+      background: #fff; border: 3px solid #ffe08a; border-radius: 999px;
+      font-weight: 800; min-height: 44px;
+    }
+    .coin-pill { padding: 4px 12px 4px 8px; font-size: 1.05rem; color: #b36b00; }
+    .icon-btn {
+      width: 44px; height: 44px; border-color: #cde7ff; font-size: 1.2rem;
+      box-shadow: 0 3px 0 #9ac6ee;
+    }
+    .icon-btn:active { transform: translateY(3px); box-shadow: none; }
+
+    .mascot-row {
+      display: flex; align-items: flex-end; gap: 8px; margin: 4px 0 16px;
+    }
+    .mascot-row .buddy { width: 92px; height: 92px; flex: none; animation: bounce 2.4s ease-in-out infinite; }
+    .bubble {
+      position: relative;
+      background: #fff; border-radius: 22px; padding: 12px 16px;
+      box-shadow: var(--shadow); font-weight: 800; font-size: 1.05rem; line-height: 1.45;
+      flex: 1;
+    }
+    .bubble::before {
+      content: ""; position: absolute; left: -10px; bottom: 22px;
+      border: 10px solid transparent; border-right-color: #fff; border-left: 0;
+    }
+
+    .panel {
+      background: var(--card);
+      border-radius: 28px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+    .panel h2, .section-title {
+      font-size: 1.15rem; font-weight: 900; margin-bottom: 10px;
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .chip {
+      width: 64px; height: 72px; border: 0; border-radius: 20px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 1.45rem; color: #fff;
+      box-shadow: 0 5px 0 rgba(0,0,0,0.18);
+      transition: transform 0.15s ease, filter 0.15s ease, opacity 0.15s ease;
+      position: relative;
+    }
+    .chip .emo { font-size: 1.05rem; line-height: 1; }
+    .chip:active { transform: translateY(4px); box-shadow: 0 1px 0 rgba(0,0,0,0.18); }
+    .chip.off { opacity: 0.38; filter: grayscale(0.5); }
+    .chip .lock-dot {
+      position: absolute; top: -6px; right: -6px; font-size: 1rem;
+      filter: drop-shadow(0 1px 1px rgba(0,0,0,0.2));
+    }
+    .chip.n1 { background: linear-gradient(#ff8a8a, #ff5d6c); }
+    .chip.n2 { background: linear-gradient(#ffb347, #ff8a3d); }
+    .chip.n3 { background: linear-gradient(#ffe36b, #ffc107); color: #5a3d00; }
+    .chip.n4 { background: linear-gradient(#8be86e, #3dcc7a); }
+    .chip.n5 { background: linear-gradient(#7ec8ff, #4da6ff); }
+    .chip.n6 { background: linear-gradient(#c9a0ff, #9b6bff); }
+    .chip.n7 { background: linear-gradient(#ff9ec8, #ff7eb3); }
+    .chip.n8 { background: linear-gradient(#6fe3cf, #2ec4b6); }
+    .chip.n9 { background: linear-gradient(#ffb3a0, #ff7f50); }
+
+    .row-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 12px; }
+    .btn {
+      appearance: none; border: 0; border-radius: 18px;
+      padding: 12px 18px; font-weight: 900; font-size: 1.05rem;
+      color: #fff; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      box-shadow: 0 5px 0 rgba(0,0,0,0.18); min-height: 48px;
+      transition: transform 0.1s ease;
+    }
+    .btn:active:not(:disabled) { transform: translateY(5px); box-shadow: none; }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn-ghost { background: #fff; color: var(--ink); border: 3px solid #ead9b8; box-shadow: 0 4px 0 #e0cda8; }
+    .btn-yellow { background: linear-gradient(#ffe36b, #ffc107); color: #5a3d00; }
+    .btn-orange { background: linear-gradient(#ffb347, #ff8a3d); }
+    .btn-pink { background: linear-gradient(#ff9ec8, #ff5fa2); }
+    .btn-blue { background: linear-gradient(#7ec8ff, #3d8eff); }
+    .btn-green { background: linear-gradient(#8be86e, #2fb86a); }
+    .btn-purple { background: linear-gradient(#c9a0ff, #8a5cff); }
+    .btn-big { width: 100%; padding: 16px 20px; font-size: 1.25rem; border-radius: 22px; min-height: 60px; }
+
+    .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .mode-card {
+      border: 0; border-radius: 24px; padding: 18px 12px; color: #fff; text-align: center;
+      box-shadow: 0 7px 0 rgba(0,0,0,0.16); font-weight: 900;
+    }
+    .mode-card .emoji { font-size: 2.4rem; display: block; margin-bottom: 6px; }
+    .mode-card h3 { font-size: 1.2rem; margin-bottom: 4px; }
+    .mode-card p { font-size: 0.85rem; opacity: 0.95; font-weight: 700; }
+    .mode-review { background: linear-gradient(#7ec8ff, #4da6ff); }
+    .mode-quiz { background: linear-gradient(#ffb347, #ff8a3d); }
+    .mode-card:active { transform: translateY(6px); box-shadow: 0 1px 0 rgba(0,0,0,0.16); }
+
+    .setting-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 12px; }
+    .seg {
+      border: 0; border-radius: 16px; padding: 10px 14px; font-weight: 800;
+      background: #fff4d6; color: var(--ink); box-shadow: 0 3px 0 #e8c98a;
+      min-height: 44px;
+    }
+    .seg.on { background: linear-gradient(#7ec8ff, #4da6ff); color: #fff; box-shadow: 0 3px 0 #2b72c7; }
+    .toggle {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      background: #fff4d6; border-radius: 16px; padding: 10px 14px; font-weight: 800; margin: 8px 0;
+    }
+    .switch {
+      width: 52px; height: 30px; border-radius: 999px; background: #d9c8a3; position: relative; border: 0; flex: none;
+    }
+    .switch::after {
+      content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px;
+      background: #fff; border-radius: 50%; transition: transform 0.18s ease;
+    }
+    .switch.on { background: #3dcc7a; }
+    .switch.on::after { transform: translateX(22px); }
+
+    .table-block { margin-bottom: 16px; }
+    .table-head {
+      display: flex; align-items: center; gap: 8px; font-weight: 900; margin: 4px 0 8px; font-size: 1.1rem;
+    }
+    .fact-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+    .fact-card {
+      background: #fff; border-radius: 18px; padding: 14px 10px; text-align: center;
+      font-weight: 900; font-size: 1.15rem; box-shadow: 0 4px 0 #ead9b8;
+      border: 3px solid #ffe08a; min-height: 72px;
+      display: flex; align-items: center; justify-content: center;
+      user-select: none;
+    }
+    .fact-card .ans { color: #e85d04; min-width: 1.6em; display: inline-block; }
+    .fact-card.hide .ans { color: transparent; background: #ffe08a; border-radius: 8px; }
+    .fact-card.speakable { cursor: pointer; }
+
+    .flash-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .flash {
+      width: min(100%, 340px); height: 240px; perspective: 900px; cursor: pointer;
+    }
+    .flash-inner {
+      position: relative; width: 100%; height: 100%;
+      transform-style: preserve-3d; transition: transform 0.55s ease;
+    }
+    .flash.flipped .flash-inner { transform: rotateY(180deg); }
+    .flash-face {
+      position: absolute; inset: 0; backface-visibility: hidden;
+      border-radius: 28px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 8px;
+      box-shadow: 0 10px 0 rgba(0,0,0,0.15); font-weight: 900;
+    }
+    .flash-front { background: linear-gradient(#fff, #fff4c8); border: 4px solid #ffd84d; }
+    .flash-back { background: linear-gradient(#e8fff2, #c6f5d8); border: 4px solid #3dcc7a; transform: rotateY(180deg); }
+    .q-big { font-size: clamp(2.4rem, 10vw, 3.6rem); letter-spacing: 0.04em; }
+    .a-big { font-size: clamp(3rem, 12vw, 4.4rem); color: #1d8a4a; }
+    .hint { color: var(--muted); font-size: 0.95rem; }
+
+    .progress-wrap { margin: 4px 0 12px; }
+    .progress-meta { display: flex; justify-content: space-between; font-weight: 800; margin-bottom: 6px; font-size: 0.95rem; }
+    .bar { height: 16px; background: #ffe8b0; border-radius: 999px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.08); }
+    .bar > span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #ffd84d, #ff8a3d); border-radius: 999px; transition: width 0.3s ease; }
+    .quiz-stats { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+    .stat {
+      background: #fff; border-radius: 999px; padding: 6px 12px; font-weight: 800;
+      box-shadow: 0 3px 0 #ead9b8; font-size: 0.95rem;
+    }
+    .question-box {
+      background: #fff; border-radius: 28px; padding: 18px 12px 14px;
+      text-align: center; box-shadow: 0 8px 0 #ead9b8; border: 4px solid #ffd84d;
+      margin-bottom: 14px; min-height: 150px;
+    }
+    .question-box.good { border-color: #3dcc7a; animation: pop 0.35s ease; }
+    .question-box.bad { border-color: #ffb4bc; animation: shake 0.4s ease; }
+    .answer-slot {
+      margin-top: 8px; min-height: 64px; font-size: clamp(2.2rem, 9vw, 3.2rem); font-weight: 900;
+      color: #e85d04; letter-spacing: 0.06em;
+    }
+    .answer-slot.empty { color: #e0cda8; }
+    .feedback {
+      min-height: 32px; font-weight: 900; font-size: 1.15rem; margin-top: 4px;
+    }
+    .feedback.good { color: #1d8a4a; }
+    .feedback.bad { color: #c44b3a; }
+    .combo-banner {
+      position: fixed; top: 20%; left: 50%; transform: translateX(-50%);
+      z-index: 20; pointer-events: none;
+      font-size: clamp(1.6rem, 6vw, 2.4rem); font-weight: 900; color: #ff8a3d;
+      text-shadow: 0 3px 0 #fff, 0 6px 0 rgba(0,0,0,0.12);
+      animation: comboPulse 0.7s ease both;
+    }
+
+    .keypad {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+      max-width: 360px; margin: 0 auto;
+    }
+    .key {
+      border: 0; border-radius: 18px; min-height: 58px; font-size: 1.6rem; font-weight: 900;
+      background: #fff; color: var(--ink); box-shadow: 0 5px 0 #d7c4a0;
+    }
+    .key:active { transform: translateY(5px); box-shadow: none; }
+    .key.wide { grid-column: span 1; }
+    .key.ok { background: linear-gradient(#8be86e, #2fb86a); color: #fff; box-shadow: 0 5px 0 #1e8a4c; }
+    .key.del { background: #ffe0e4; color: #b33; box-shadow: 0 5px 0 #e8b0b6; }
+
+    .results-hero { text-align: center; padding: 8px 0 4px; }
+    .results-hero .big-score { font-size: clamp(2.4rem, 9vw, 3.6rem); font-weight: 900; }
+    .stars-row { font-size: 2rem; letter-spacing: 4px; margin: 6px 0 10px; }
+    .mistake-list { list-style: none; display: grid; gap: 8px; }
+    .mistake-list li {
+      background: #fff4f4; border-radius: 16px; padding: 10px 14px; font-weight: 800;
+      display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap;
+    }
+    .history { margin-top: 12px; }
+    .history li {
+      display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap;
+      padding: 8px 0; border-bottom: 2px dashed #f0e0c0; font-weight: 700; font-size: 0.92rem;
+    }
+
+    .album-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .sticker {
+      background: #fff; border-radius: 22px; padding: 14px 8px; text-align: center;
+      box-shadow: 0 5px 0 #ead9b8; border: 3px dashed #ead9b8; min-height: 110px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+      font-weight: 800;
+    }
+    .sticker.on { border-style: solid; border-color: #ffd84d; background: linear-gradient(#fff, #fff6d0); animation: pop 0.4s ease; }
+    .sticker .art { font-size: 2.2rem; filter: grayscale(1) opacity(0.35); }
+    .sticker.on .art { filter: none; }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .badge {
+      background: #fff; border-radius: 999px; padding: 6px 12px; font-weight: 800; font-size: 0.88rem;
+      box-shadow: 0 3px 0 #ead9b8; opacity: 0.4;
+    }
+    .badge.on { opacity: 1; background: linear-gradient(#fff6d0, #ffe08a); }
+
+    .hidden { display: none !important; }
+    #confetti { position: fixed; inset: 0; z-index: 30; pointer-events: none; }
+    .toast-unlock {
+      position: fixed; left: 50%; top: 16%; transform: translateX(-50%);
+      z-index: 25; background: #fff; border-radius: 24px; padding: 16px 20px;
+      box-shadow: 0 10px 0 rgba(0,0,0,0.15); text-align: center; font-weight: 900;
+      animation: pop 0.4s ease; max-width: 90vw;
+    }
+    .toast-unlock .art { font-size: 3rem; }
+
+    @media (max-width: 520px) {
+      .chip { width: 56px; height: 66px; font-size: 1.3rem; }
+      .mascot-row .buddy { width: 74px; height: 74px; }
+      .mode-grid { grid-template-columns: 1fr; }
+      .key { min-height: 54px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="sky-deco" aria-hidden="true">
+    <div class="sun"></div>
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
+    <div class="cloud c3"></div>
+    <div class="hill back"></div>
+    <div class="hill"></div>
+  </div>
+  <canvas id="confetti"></canvas>
+  <div id="comboBanner" class="combo-banner hidden" role="status"></div>
+  <div id="unlockToast" class="toast-unlock hidden" role="status"></div>
+
+  <div class="wrap">
+    <header class="app-bar">
+      <svg class="logo-mascot" viewBox="0 0 120 120" aria-hidden="true">
+        <use href="#mascotHappy"></use>
+      </svg>
+      <div class="titles">
+        <h1>九九乘法大冒險</h1>
+        <p>和九九一起玩乘法！</p>
+      </div>
+      <div class="hud">
+        <div class="coin-pill" id="coinPill" title="星星幣">⭐ 0</div>
+        <button type="button" class="icon-btn" id="albumBtn" title="我的貼紙" aria-label="打開貼紙本">📒</button>
+        <button type="button" class="icon-btn" id="muteBtn" title="聲音" aria-label="開關音效">🔊</button>
+      </div>
+    </header>
+
+    <div class="mascot-row">
+      <svg class="buddy" id="mascotSvg" viewBox="0 0 120 120" role="img" aria-label="吉祥物九九">
+        <use id="mascotUse" href="#mascotHappy"></use>
+      </svg>
+      <div class="bubble" id="speechBubble">嗨！我是九九，一起來玩乘法遊戲吧！先選要練習的數字～</div>
+    </div>
+
+    <main>
+      <section id="screenHome">
+        <div class="panel" id="numberPanel">
+          <h2>🧸 選一選，要練習哪些數字？</h2>
+          <div class="chips" id="chips"></div>
+          <div class="row-actions">
+            <button type="button" class="btn btn-yellow" id="selectAllBtn">全選</button>
+            <button type="button" class="btn btn-ghost" id="clearBtn">清除</button>
+          </div>
+        </div>
+        <div class="mode-grid">
+          <button type="button" class="mode-card mode-review" id="goReview">
+            <span class="emoji">📖</span>
+            <h3>看一看</h3>
+            <p>翻卡片，把乘法記起來</p>
+          </button>
+          <button type="button" class="mode-card mode-quiz" id="goQuizSetup">
+            <span class="emoji">🎮</span>
+            <h3>來挑戰</h3>
+            <p>答題得分，收集貼紙</p>
+          </button>
+        </div>
+      </section>
+
+      <section id="screenReview" class="hidden">
+        <div class="panel">
+          <div class="row-actions" style="margin-top:0;justify-content:space-between">
+            <button type="button" class="btn btn-ghost" id="reviewBack">← 回首頁</button>
+            <button type="button" class="btn btn-purple" id="reviewSpeakToggle">🔈 唸口訣</button>
+          </div>
+          <div class="setting-row" style="margin-top:12px">
+            <button type="button" class="seg on" data-review="cards" id="styleCards">🃏 全部卡片</button>
+            <button type="button" class="seg" data-review="flash" id="styleFlash">🔄 翻翻卡</button>
+          </div>
+          <div class="row-actions">
+            <button type="button" class="btn btn-ghost" id="hideAllBtn">把答案藏起來</button>
+            <button type="button" class="btn btn-ghost" id="showAllBtn">把答案打開</button>
+          </div>
+        </div>
+        <div class="panel" id="reviewContent"></div>
+      </section>
+
+      <section id="screenQuizSetup" class="hidden">
+        <div class="panel">
+          <button type="button" class="btn btn-ghost" id="setupBack">← 回首頁</button>
+          <h2 style="margin-top:14px">🎮 挑戰怎麼玩？</h2>
+          <p class="section-title">要幾題？</p>
+          <div class="setting-row" id="countRow">
+            <button type="button" class="seg on" data-count="10">10 題</button>
+            <button type="button" class="seg" data-count="20">20 題</button>
+            <button type="button" class="seg" data-count="30">30 題</button>
+          </div>
+          <p class="section-title">要計時嗎？</p>
+          <div class="setting-row" id="timerRow">
+            <button type="button" class="seg on" data-timer="0">不限時</button>
+            <button type="button" class="seg" data-timer="60">1 分鐘</button>
+            <button type="button" class="seg" data-timer="120">2 分鐘</button>
+            <button type="button" class="seg" data-timer="180">3 分鐘</button>
+          </div>
+          <div class="toggle">
+            <span>也出相反的題目（3×7 和 7×3）</span>
+            <button type="button" class="switch" id="swapToggle" aria-pressed="false" aria-label="交換題目"></button>
+          </div>
+          <button type="button" class="btn btn-orange btn-big" id="startQuizBtn">出發挑戰！🚀</button>
+        </div>
+      </section>
+
+      <section id="screenQuiz" class="hidden">
+        <div class="panel">
+          <div class="progress-wrap">
+            <div class="progress-meta">
+              <span id="quizProgressLabel">第 1 題</span>
+              <span id="quizTimerLabel"></span>
+            </div>
+            <div class="bar"><span id="quizBar"></span></div>
+          </div>
+          <div class="quiz-stats">
+            <div class="stat" id="scoreStat">⭐ 0</div>
+            <div class="stat" id="streakStat">🔥 連擊 0</div>
+            <div class="stat" id="coinStat">✨ +0</div>
+          </div>
+          <div class="question-box" id="questionBox">
+            <div class="q-big" id="questionText">7 × 8 = ?</div>
+            <div class="answer-slot empty" id="answerSlot">?</div>
+            <div class="feedback" id="quizFeedback"></div>
+          </div>
+          <div class="keypad" id="keypad"></div>
+        </div>
+      </section>
+
+      <section id="screenResults" class="hidden">
+        <div class="panel results-hero">
+          <div id="resultMascotNote" class="hint" style="margin-bottom:6px"></div>
+          <div class="big-score" id="resultScore">10 / 10</div>
+          <div class="stars-row" id="resultStars">⭐⭐⭐</div>
+          <p id="resultSummary" style="font-weight:800;margin-bottom:8px"></p>
+          <p id="resultBest" style="font-weight:700;color:#7a6244"></p>
+          <div class="row-actions" style="margin-top:14px">
+            <button type="button" class="btn btn-orange" id="retryBtn">再玩一次</button>
+            <button type="button" class="btn btn-pink hidden" id="retryMissBtn">重練錯題</button>
+            <button type="button" class="btn btn-blue" id="resultHomeBtn">回首頁</button>
+            <button type="button" class="btn btn-yellow" id="resultAlbumBtn">看貼紙</button>
+          </div>
+        </div>
+        <div class="panel hidden" id="mistakePanel">
+          <h2>🌱 再看一看錯過的題目</h2>
+          <ul class="mistake-list" id="mistakeList"></ul>
+        </div>
+        <div class="panel">
+          <h2>📜 最近的挑戰</h2>
+          <ul class="history" id="historyList"></ul>
+        </div>
+      </section>
+
+      <section id="screenAlbum" class="hidden">
+        <div class="panel">
+          <button type="button" class="btn btn-ghost" id="albumBack">← 回上一頁</button>
+          <h2 style="margin-top:14px">📒 我的貼紙本</h2>
+          <p style="font-weight:700;color:#7a6244;margin-bottom:12px">每個數字的乘法都答對過，就會解鎖一張貼紙！</p>
+          <div class="album-grid" id="albumGrid"></div>
+          <h2 style="margin-top:18px">🏅 徽章</h2>
+          <div class="badge-row" id="badgeRow"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="mascotHappy" viewBox="0 0 120 120">
+      <ellipse cx="60" cy="108" rx="28" ry="7" fill="rgba(0,0,0,0.12)"/>
+      <circle cx="60" cy="64" r="38" fill="#FFB347"/>
+      <path d="M28 48c-8-22 10-34 22-22 4 4 6 10 7 16" fill="#FF9E2C"/>
+      <path d="M92 48c8-22-10-34-22-22-4 4-6 10-7 16" fill="#FF9E2C"/>
+      <path d="M32 46c-6-16 8-26 18-16" fill="#FFD6A5"/>
+      <path d="M88 46c6-16-8-26-18-16" fill="#FFD6A5"/>
+      <circle cx="46" cy="60" r="7" fill="#3a2a14"/>
+      <circle cx="74" cy="60" r="7" fill="#3a2a14"/>
+      <circle cx="48.5" cy="57.5" r="2.2" fill="#fff"/>
+      <circle cx="76.5" cy="57.5" r="2.2" fill="#fff"/>
+      <ellipse cx="48" cy="72" rx="7" ry="4" fill="#FF8AA8" opacity="0.85"/>
+      <ellipse cx="72" cy="72" rx="7" ry="4" fill="#FF8AA8" opacity="0.85"/>
+      <path d="M54 76c4 6 12 6 16 0" fill="none" stroke="#3a2a14" stroke-width="3.2" stroke-linecap="round"/>
+      <circle cx="60" cy="68" r="4" fill="#FF8A3D"/>
+      <text x="60" y="100" text-anchor="middle" font-size="14" font-weight="800" fill="#fff">九九</text>
+    </symbol>
+    <symbol id="mascotWow" viewBox="0 0 120 120">
+      <ellipse cx="60" cy="108" rx="28" ry="7" fill="rgba(0,0,0,0.12)"/>
+      <circle cx="60" cy="64" r="38" fill="#FFB347"/>
+      <path d="M28 48c-8-22 10-34 22-22 4 4 6 10 7 16" fill="#FF9E2C"/>
+      <path d="M92 48c8-22-10-34-22-22-4 4-6 10-7 16" fill="#FF9E2C"/>
+      <path d="M32 46c-6-16 8-26 18-16" fill="#FFD6A5"/>
+      <path d="M88 46c6-16-8-26-18-16" fill="#FFD6A5"/>
+      <circle cx="46" cy="58" r="8" fill="#3a2a14"/>
+      <circle cx="74" cy="58" r="8" fill="#3a2a14"/>
+      <circle cx="49" cy="55" r="2.4" fill="#fff"/>
+      <circle cx="77" cy="55" r="2.4" fill="#fff"/>
+      <ellipse cx="48" cy="72" rx="7" ry="4" fill="#FF8AA8"/>
+      <ellipse cx="72" cy="72" rx="7" ry="4" fill="#FF8AA8"/>
+      <ellipse cx="60" cy="80" rx="7" ry="8" fill="#3a2a14"/>
+      <circle cx="60" cy="68" r="4" fill="#FF8A3D"/>
+    </symbol>
+    <symbol id="mascotThink" viewBox="0 0 120 120">
+      <ellipse cx="60" cy="108" rx="28" ry="7" fill="rgba(0,0,0,0.12)"/>
+      <circle cx="60" cy="64" r="38" fill="#FFB347"/>
+      <path d="M28 48c-8-22 10-34 22-22 4 4 6 10 7 16" fill="#FF9E2C"/>
+      <path d="M92 48c8-22-10-34-22-22-4 4-6 10-7 16" fill="#FF9E2C"/>
+      <path d="M32 46c-6-16 8-26 18-16" fill="#FFD6A5"/>
+      <path d="M88 46c6-16-8-26-18-16" fill="#FFD6A5"/>
+      <path d="M40 60c4-6 10-6 14 0" fill="none" stroke="#3a2a14" stroke-width="3.4" stroke-linecap="round"/>
+      <path d="M66 60c4-6 10-6 14 0" fill="none" stroke="#3a2a14" stroke-width="3.4" stroke-linecap="round"/>
+      <ellipse cx="48" cy="72" rx="6" ry="3.5" fill="#FF8AA8" opacity="0.8"/>
+      <ellipse cx="72" cy="72" rx="6" ry="3.5" fill="#FF8AA8" opacity="0.8"/>
+      <path d="M55 78c5 3 10 3 14-1" fill="none" stroke="#3a2a14" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="60" cy="68" r="4" fill="#FF8A3D"/>
+    </symbol>
+    <symbol id="mascotComfort" viewBox="0 0 120 120">
+      <ellipse cx="60" cy="108" rx="28" ry="7" fill="rgba(0,0,0,0.12)"/>
+      <circle cx="60" cy="64" r="38" fill="#FFB347"/>
+      <path d="M28 48c-8-22 10-34 22-22 4 4 6 10 7 16" fill="#FF9E2C"/>
+      <path d="M92 48c8-22-10-34-22-22-4 4-6 10-7 16" fill="#FF9E2C"/>
+      <path d="M32 46c-6-16 8-26 18-16" fill="#FFD6A5"/>
+      <path d="M88 46c6-16-8-26-18-16" fill="#FFD6A5"/>
+      <path d="M40 62c4-4 10-4 14 1" fill="none" stroke="#3a2a14" stroke-width="3.4" stroke-linecap="round"/>
+      <path d="M66 62c4-4 10-4 14 1" fill="none" stroke="#3a2a14" stroke-width="3.4" stroke-linecap="round"/>
+      <ellipse cx="48" cy="73" rx="6" ry="3.5" fill="#FF8AA8" opacity="0.8"/>
+      <ellipse cx="72" cy="73" rx="6" ry="3.5" fill="#FF8AA8" opacity="0.8"/>
+      <path d="M54 82c6-5 12-5 16 0" fill="none" stroke="#3a2a14" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="60" cy="69" r="4" fill="#FF8A3D"/>
+    </symbol>
+  </svg>
+
+  <script>
+  (() => {
+    const CN = ["零","一","二","三","四","五","六","七","八","九"];
+    const ANIMALS = {1:"🐶",2:"🐱",3:"🐰",4:"🦊",5:"🐼",6:"🐵",7:"🐸",8:"🐯",9:"🦄"};
+    const STICKER_ART = {1:"🎈",2:"🌈",3:"🍀",4:"🌸",5:"⭐",6:"🎵",7:"👑",8:"🚀",9:"🏆"};
+    const STICKER_NAME = {1:"氣球狗狗",2:"彩虹貓貓",3:"幸運兔兔",4:"櫻花小狐",5:"閃亮熊貓",6:"唱歌猴子",7:"王冠青蛙",8:"火箭小虎",9:"冠軍獨角獸"};
+    const BADGES = [
+      { id:"first", name:"第一次挑戰", emoji:"🌱" },
+      { id:"streak5", name:"連擊小高手", emoji:"🔥" },
+      { id:"streak10", name:"連擊大明星", emoji:"💥" },
+      { id:"perfect", name:"全部答對", emoji:"🌟" },
+      { id:"stickers3", name:"貼紙收集家", emoji:"📒" },
+      { id:"stickers9", name:"九九大王", emoji:"👑" },
+      { id:"quiz30", name:"耐力挑戰者", emoji:"💪" }
+    ];
+    const PRAISE = ["太厲害了！","答對了，你好棒！","哇，真聰明！","讚讚讚！","完全正確！","你是乘法小英雄！"];
+    const COMFORT = ["沒關係，我們一起記住它！","差一點點，下一題會更好！","加油，九九相信你！","看一次答案，下次就會了！"];
+    const STORAGE_KEY = "times99-adventure-v1";
+
+    const state = {
+      selected: new Set([1,2,3,4,5,6,7,8,9]),
+      reviewStyle: "cards",
+      reviewSpeak: false,
+      hideAnswers: false,
+      flashIndex: 0,
+      flashFlipped: false,
+      flashList: [],
+      quizCount: 10,
+      quizTimer: 0,
+      quizSwap: false,
+      muted: false,
+      screen: "home",
+      albumFrom: "home",
+      quiz: null
+    };
+
+    let profile = {
+      coins: 0,
+      muted: false,
+      stickers: {},
+      facts: {},
+      badges: {},
+      history: [],
+      best: {},
+      bestStreak: 0
+    };
+
+    let audioCtx = null;
+    let timerId = null;
+    let confettiParts = [];
+    let confettiRaf = 0;
+
+    const $ = (id) => document.getElementById(id);
+    const screens = {
+      home: $("screenHome"),
+      review: $("screenReview"),
+      quizSetup: $("screenQuizSetup"),
+      quiz: $("screenQuiz"),
+      results: $("screenResults"),
+      album: $("screenAlbum")
+    };
+
+    function loadProfile() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) profile = { ...profile, ...JSON.parse(raw) };
+      } catch (e) {}
+      state.muted = !!profile.muted;
+    }
+    function saveProfile() {
+      profile.muted = state.muted;
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(profile)); } catch (e) {}
+    }
+
+    function koujue(a, b) {
+      const p = a * b;
+      if (p < 10) return CN[a] + CN[b] + "得" + CN[p];
+      if (p === 10) return CN[a] + CN[b] + "一十";
+      const tens = Math.floor(p / 10);
+      const ones = p % 10;
+      let body;
+      if (tens === 1) body = "十" + (ones ? CN[ones] : "");
+      else body = ["","十","二十","三十","四十","五十","六十","七十","八十","九十"][tens] + (ones ? CN[ones] : "");
+      return CN[a] + CN[b] + body;
+    }
+
+    function speak(text) {
+      if (!("speechSynthesis" in window)) return;
+      try {
+        speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = "zh-TW";
+        u.rate = 0.88;
+        const voices = speechSynthesis.getVoices();
+        const tw = voices.find((v) => /zh-TW/i.test(v.lang)) || voices.find((v) => /^zh/i.test(v.lang));
+        if (tw) u.voice = tw;
+        speechSynthesis.speak(u);
+      } catch (e) {}
+    }
+
+    function ensureAudio() {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      if (!audioCtx) audioCtx = new AC();
+      if (audioCtx.state === "suspended") audioCtx.resume();
+      return audioCtx;
+    }
+    function tone(freq, start, dur, type, gain) {
+      if (state.muted) return;
+      const ctx = ensureAudio();
+      if (!ctx) return;
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = type || "sine";
+      o.frequency.value = freq;
+      const t0 = ctx.currentTime + (start || 0);
+      g.gain.setValueAtTime(gain || 0.07, t0);
+      g.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(t0); o.stop(t0 + dur);
+    }
+    function sfxClick() { tone(620, 0, 0.05, "triangle", 0.03); }
+    function sfxCorrect() { tone(523, 0, 0.1); tone(659, 0.09, 0.1); tone(784, 0.18, 0.22); }
+    function sfxWrong() { tone(330, 0, 0.16, "triangle", 0.045); tone(247, 0.14, 0.22, "triangle", 0.035); }
+    function sfxCombo() { tone(587, 0, 0.08); tone(740, 0.08, 0.08); tone(880, 0.16, 0.08); tone(1174, 0.24, 0.25); }
+    function sfxUnlock() { tone(392, 0, 0.12); tone(523, 0.12, 0.12); tone(659, 0.24, 0.12); tone(784, 0.36, 0.28); }
+
+    function setMascot(kind, text) {
+      const map = { happy: "#mascotHappy", wow: "#mascotWow", think: "#mascotThink", comfort: "#mascotComfort" };
+      $("mascotUse").setAttribute("href", map[kind] || map.happy);
+      if (text) $("speechBubble").textContent = text;
+    }
+    function sayRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    function showScreen(name) {
+      state.screen = name;
+      Object.keys(screens).forEach((k) => screens[k].classList.toggle("hidden", k !== name));
+      if (name === "home") {
+        setMascot("happy", "嗨！我是九九，一起來玩乘法遊戲吧！先選要練習的數字～");
+        renderChips();
+      }
+    }
+
+    function selectedList() { return [...state.selected].sort((a,b) => a-b); }
+
+    function renderChips() {
+      const box = $("chips");
+      box.innerHTML = "";
+      for (let n = 1; n <= 9; n++) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "chip n" + n + (state.selected.has(n) ? "" : " off");
+        btn.setAttribute("aria-pressed", state.selected.has(n) ? "true" : "false");
+        btn.setAttribute("aria-label", n + " 的乘法" + (state.selected.has(n) ? "已選" : "未選"));
+        btn.innerHTML = "<span class='emo'>" + ANIMALS[n] + "</span><span>" + n + "</span>" +
+          (profile.stickers[n] ? "<span class='lock-dot'>✨</span>" : "");
+        btn.addEventListener("click", () => {
+          sfxClick();
+          if (state.selected.has(n)) state.selected.delete(n);
+          else state.selected.add(n);
+          renderChips();
+        });
+        box.appendChild(btn);
+      }
+      updateCoinHud();
+    }
+
+    function updateCoinHud() {
+      $("coinPill").textContent = "⭐ " + (profile.coins || 0);
+      $("muteBtn").textContent = state.muted ? "🔇" : "🔊";
+      $("muteBtn").setAttribute("aria-label", state.muted ? "打開音效" : "關閉音效");
+    }
+
+    function requireSelection() {
+      if (state.selected.size === 0) {
+        setMascot("think", "先選至少一個數字，我們才能開始玩喔！");
+        return false;
+      }
+      return true;
+    }
+
+    function allFacts(selected, swap) {
+      const facts = [];
+      selected.forEach((n) => {
+        for (let i = 1; i <= 9; i++) facts.push({ a: n, b: i });
+      });
+      if (swap) {
+        selected.forEach((n) => {
+          for (let i = 1; i <= 9; i++) {
+            if (!selected.has(i) || i !== n) facts.push({ a: i, b: n });
+          }
+        });
+      }
+      const seen = new Set();
+      return facts.filter((f) => {
+        const k = f.a + "x" + f.b;
+        if (seen.has(k)) return false;
+        seen.add(k);
+        return true;
+      });
+    }
+
+    function renderReview() {
+      const content = $("reviewContent");
+      const nums = selectedList();
+      $("styleCards").classList.toggle("on", state.reviewStyle === "cards");
+      $("styleFlash").classList.toggle("on", state.reviewStyle === "flash");
+      $("reviewSpeakToggle").textContent = state.reviewSpeak ? "🔊 正在唸口訣" : "🔈 唸口訣";
+      $("hideAllBtn").classList.toggle("hidden", state.reviewStyle !== "cards");
+      $("showAllBtn").classList.toggle("hidden", state.reviewStyle !== "cards");
+
+      if (state.reviewStyle === "flash") {
+        state.flashList = allFacts(state.selected, false);
+        if (state.flashIndex >= state.flashList.length) state.flashIndex = 0;
+        const cur = state.flashList[state.flashIndex];
+        if (!cur) { content.innerHTML = "<p>請先選數字喔！</p>"; return; }
+        content.innerHTML =
+          "<div class='flash-wrap'>" +
+            "<div class='hint'>第 " + (state.flashIndex + 1) + " / " + state.flashList.length + " 張 · 點卡片就可以翻面</div>" +
+            "<div class='flash" + (state.flashFlipped ? " flipped" : "") + "' id='flashCard' role='button' tabindex='0' aria-label='翻卡片'>" +
+              "<div class='flash-inner'>" +
+                "<div class='flash-face flash-front'><div class='hint'>多少呢？</div><div class='q-big'>" + cur.a + " × " + cur.b + "</div></div>" +
+                "<div class='flash-face flash-back'><div class='hint'>" + koujue(cur.a, cur.b) + "</div><div class='a-big'>" + (cur.a * cur.b) + "</div></div>" +
+              "</div>" +
+            "</div>" +
+            "<div class='row-actions'>" +
+              "<button type='button' class='btn btn-ghost' id='flashPrev'>← 上一張</button>" +
+              "<button type='button' class='btn btn-purple' id='flashSpeak'>📣 唸一次</button>" +
+              "<button type='button' class='btn btn-blue' id='flashNext'>下一張 →</button>" +
+            "</div>" +
+          "</div>";
+        const flip = () => {
+          state.flashFlipped = !state.flashFlipped;
+          $("flashCard").classList.toggle("flipped", state.flashFlipped);
+          sfxClick();
+          if (state.flashFlipped && state.reviewSpeak) speak(koujue(cur.a, cur.b));
+        };
+        $("flashCard").addEventListener("click", flip);
+        $("flashCard").addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flip(); } });
+        $("flashPrev").addEventListener("click", () => {
+          state.flashIndex = (state.flashIndex - 1 + state.flashList.length) % state.flashList.length;
+          state.flashFlipped = false; sfxClick(); renderReview();
+        });
+        $("flashNext").addEventListener("click", () => {
+          state.flashIndex = (state.flashIndex + 1) % state.flashList.length;
+          state.flashFlipped = false; sfxClick(); renderReview();
+        });
+        $("flashSpeak").addEventListener("click", () => speak(koujue(cur.a, cur.b)));
+        return;
+      }
+
+      let html = "";
+      nums.forEach((n) => {
+        html += "<div class='table-block'><div class='table-head'>" + ANIMALS[n] + " " + n + " 的乘法" +
+          (profile.stickers[n] ? " ✨已解鎖" : "") + "</div><div class='fact-grid'>";
+        for (let i = 1; i <= 9; i++) {
+          const hide = state.hideAnswers ? " hide" : "";
+          html += "<button type='button' class='fact-card" + hide + "' data-a='" + n + "' data-b='" + i + "'>" +
+            n + " × " + i + " = <span class='ans'>" + (n * i) + "</span></button>";
+        }
+        html += "</div></div>";
+      });
+      content.innerHTML = html || "<p>請先選數字喔！</p>";
+      content.querySelectorAll(".fact-card").forEach((card) => {
+        card.addEventListener("click", () => {
+          card.classList.toggle("hide");
+          sfxClick();
+          if (state.reviewSpeak && !card.classList.contains("hide")) {
+            speak(koujue(+card.dataset.a, +card.dataset.b));
+          }
+        });
+      });
+    }
+
+    function shuffle(arr) {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const t = a[i]; a[i] = a[j]; a[j] = t;
+      }
+      return a;
+    }
+
+    function startQuiz(customQuestions) {
+      const pool = customQuestions || allFacts(state.selected, state.quizSwap);
+      if (!pool.length) {
+        setMascot("think", "先選至少一個數字，我們才能開始挑戰喔！");
+        return;
+      }
+      const questions = [];
+      const src = shuffle(pool);
+      const total = customQuestions ? customQuestions.length : state.quizCount;
+      for (let i = 0; i < total; i++) questions.push(src[i % src.length]);
+      if (!customQuestions && total > src.length) {
+        for (let i = src.length; i < total; i++) questions[i] = shuffle(src)[i % src.length];
+      }
+      state.quiz = {
+        questions,
+        index: 0,
+        input: "",
+        locked: false,
+        correct: 0,
+        streak: 0,
+        maxStreak: 0,
+        coinsEarned: 0,
+        mistakes: [],
+        startedAt: Date.now(),
+        limit: state.quizTimer,
+        remain: state.quizTimer,
+        retryMiss: !!customQuestions,
+        key: selectedList().join(",") + "|" + total + (state.quizSwap ? "|s" : "")
+      };
+      showScreen("quiz");
+      setMascot("wow", "加油，你可以的！慢慢想，答案就會跑出來～");
+      renderQuiz();
+      startTimer();
+    }
+
+    function startTimer() {
+      if (timerId) { clearInterval(timerId); timerId = null; }
+      const q = state.quiz;
+      if (!q.limit) {
+        $("quizTimerLabel").textContent = "⏱️ 不限時";
+        return;
+      }
+      $("quizTimerLabel").textContent = "⏱️ " + q.remain + " 秒";
+      timerId = setInterval(() => {
+        if (!state.quiz) return;
+        state.quiz.remain -= 1;
+        $("quizTimerLabel").textContent = "⏱️ " + Math.max(0, state.quiz.remain) + " 秒";
+        if (state.quiz.remain <= 0) {
+          clearInterval(timerId); timerId = null;
+          finishQuiz(true);
+        }
+      }, 1000);
+    }
+
+    function renderQuiz() {
+      const q = state.quiz;
+      const cur = q.questions[q.index];
+      const pct = (q.index / q.questions.length) * 100;
+      $("quizBar").style.width = pct + "%";
+      $("quizProgressLabel").textContent = "第 " + (q.index + 1) + " / " + q.questions.length + " 題";
+      $("scoreStat").textContent = "⭐ " + q.correct;
+      $("streakStat").textContent = "🔥 連擊 " + q.streak;
+      $("coinStat").textContent = "✨ +" + q.coinsEarned;
+      $("questionText").textContent = cur.a + " × " + cur.b + " = ?";
+      $("answerSlot").textContent = q.input || "?";
+      $("answerSlot").classList.toggle("empty", !q.input);
+      $("quizFeedback").textContent = "";
+      $("quizFeedback").className = "feedback";
+      $("questionBox").classList.remove("good", "bad");
+      q.locked = false;
+    }
+
+    function buildKeypad() {
+      const box = $("keypad");
+      box.innerHTML = "";
+      const keys = ["1","2","3","4","5","6","7","8","9","⌫","0","送出"];
+      keys.forEach((k) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "key" + (k === "送出" ? " ok" : k === "⌫" ? " del" : "");
+        b.textContent = k;
+        b.addEventListener("click", () => handleKey(k));
+        box.appendChild(b);
+      });
+    }
+
+    function handleKey(k) {
+      const q = state.quiz;
+      if (!q || q.locked) {
+        if (q && q.locked && (k === "送出" || k === "Enter")) return;
+        return;
+      }
+      if (k === "⌫" || k === "Backspace") {
+        q.input = q.input.slice(0, -1);
+        sfxClick();
+      } else if (k === "送出" || k === "Enter") {
+        if (!q.input) return;
+        submitAnswer();
+        return;
+      } else if (/^\d$/.test(k)) {
+        if (q.input.length >= 3) return;
+        q.input += k;
+        sfxClick();
+      } else return;
+      $("answerSlot").textContent = q.input || "?";
+      $("answerSlot").classList.toggle("empty", !q.input);
+      const cur = q.questions[q.index];
+      const ans = String(cur.a * cur.b);
+      if (q.input.length >= ans.length) submitAnswer();
+    }
+
+    function submitAnswer() {
+      const q = state.quiz;
+      if (!q || q.locked) return;
+      const cur = q.questions[q.index];
+      const ans = cur.a * cur.b;
+      const ok = Number(q.input) === ans;
+      q.locked = true;
+      const box = $("questionBox");
+      const fb = $("quizFeedback");
+      if (ok) {
+        q.correct += 1;
+        q.streak += 1;
+        q.maxStreak = Math.max(q.maxStreak, q.streak);
+        let gain = 1;
+        if (q.streak >= 10) gain = 4;
+        else if (q.streak >= 5) gain = 3;
+        else if (q.streak >= 3) gain = 2;
+        q.coinsEarned += gain;
+        profile.coins += gain;
+        profile.facts[cur.a + "x" + cur.b] = true;
+        box.classList.add("good");
+        fb.className = "feedback good";
+        fb.textContent = sayRandom(PRAISE) + "  +" + gain + "⭐";
+        setMascot("wow", sayRandom(PRAISE));
+        sfxCorrect();
+        burstConfetti();
+        if (q.streak === 3 || q.streak === 5 || q.streak === 10 || (q.streak > 10 && q.streak % 5 === 0)) {
+          showCombo("連擊 ×" + q.streak + "！");
+          sfxCombo();
+        }
+        updateCoinHud();
+        setTimeout(nextQuestion, 850);
+      } else {
+        q.streak = 0;
+        q.mistakes.push({ a: cur.a, b: cur.b, given: q.input, ans: ans });
+        box.classList.add("bad");
+        fb.className = "feedback bad";
+        fb.textContent = "差一點！正確是 " + ans + "，" + koujue(cur.a, cur.b);
+        setMascot("comfort", sayRandom(COMFORT) + " 答案是 " + ans + "。");
+        sfxWrong();
+        setTimeout(nextQuestion, 1600);
+      }
+      $("scoreStat").textContent = "⭐ " + q.correct;
+      $("streakStat").textContent = "🔥 連擊 " + q.streak;
+      $("coinStat").textContent = "✨ +" + q.coinsEarned;
+    }
+
+    function nextQuestion() {
+      if (!state.quiz) return;
+      if (state.quiz.index >= state.quiz.questions.length - 1) {
+        finishQuiz(false);
+        return;
+      }
+      state.quiz.index += 1;
+      state.quiz.input = "";
+      renderQuiz();
+    }
+
+    function factKeyDone(n) {
+      for (let i = 1; i <= 9; i++) {
+        if (!profile.facts[n + "x" + i]) return false;
+      }
+      return true;
+    }
+
+    function finishQuiz(timeout) {
+      if (timerId) { clearInterval(timerId); timerId = null; }
+      const q = state.quiz;
+      if (!q) return;
+      $("quizBar").style.width = "100%";
+      const elapsed = Math.max(1, Math.round((Date.now() - q.startedAt) / 1000));
+      const total = q.questions.length;
+      const score = q.correct;
+      const newStickers = [];
+      for (let n = 1; n <= 9; n++) {
+        if (!profile.stickers[n] && factKeyDone(n)) {
+          profile.stickers[n] = true;
+          newStickers.push(n);
+        }
+      }
+      if (profile.history.length || true) profile.badges.first = true;
+      if (q.maxStreak >= 5) profile.badges.streak5 = true;
+      if (q.maxStreak >= 10) profile.badges.streak10 = true;
+      if (score === total && total > 0) profile.badges.perfect = true;
+      if (Object.keys(profile.stickers).length >= 3) profile.badges.stickers3 = true;
+      if (Object.keys(profile.stickers).length >= 9) profile.badges.stickers9 = true;
+      if (total >= 30) profile.badges.quiz30 = true;
+      profile.bestStreak = Math.max(profile.bestStreak || 0, q.maxStreak);
+
+      const rec = {
+        ts: Date.now(),
+        score, total, seconds: elapsed,
+        numbers: selectedList(),
+        coins: q.coinsEarned,
+        timeout: !!timeout
+      };
+      profile.history.unshift(rec);
+      profile.history = profile.history.slice(0, 20);
+      const prevBest = profile.best[q.key];
+      let bestNote = "";
+      if (!prevBest || score > prevBest.score || (score === prevBest.score && elapsed < prevBest.seconds)) {
+        profile.best[q.key] = { score, seconds: elapsed, total };
+        bestNote = prevBest ? "這次破紀錄了，好棒！" : "這是這個組合的最佳紀錄！";
+      } else {
+        bestNote = "目前最佳：" + prevBest.score + " / " + prevBest.total + "（" + prevBest.seconds + " 秒）";
+      }
+      saveProfile();
+      updateCoinHud();
+
+      if (newStickers.length) {
+        sfxUnlock();
+        const n = newStickers[0];
+        showUnlock("解鎖貼紙！" + STICKER_ART[n] + " " + STICKER_NAME[n] + (newStickers.length > 1 ? " 還有更多喔" : ""));
+        burstConfetti(80);
+      } else if (score === total) {
+        burstConfetti(90);
+        sfxCombo();
+      }
+
+      const stars = score === total ? "⭐⭐⭐" : score >= total * 0.8 ? "⭐⭐✨" : score >= total * 0.5 ? "⭐✨" : "🌙";
+      $("resultScore").textContent = score + " / " + total;
+      $("resultStars").textContent = stars;
+      let summary = "得到 " + q.coinsEarned + " 顆星星幣，最高連擊 " + q.maxStreak + "。";
+      if (timeout) summary = "時間到了！" + summary;
+      $("resultSummary").textContent = summary;
+      $("resultBest").textContent = bestNote;
+      const ratio = total ? score / total : 0;
+      if (ratio === 1) setMascot("wow", "太厲害了！全部答對，九九為你鼓掌～");
+      else if (ratio >= 0.8) setMascot("happy", "好棒喔！只差一點就全對了，要不要再玩一次？");
+      else setMascot("comfort", "很努力喔！我們可以再練練錯過的題目，下次一定更好！");
+      $("resultMascotNote").textContent = timeout ? "時間到囉！" : "挑戰結束！";
+
+      const mp = $("mistakePanel");
+      const ml = $("mistakeList");
+      if (q.mistakes.length) {
+        mp.classList.remove("hidden");
+        $("retryMissBtn").classList.remove("hidden");
+        ml.innerHTML = q.mistakes.map((m) =>
+          "<li><span>" + m.a + " × " + m.b + " = " + m.ans + "</span><span>你填了 " + (m.given || "空白") + " · " + koujue(m.a, m.b) + "</span></li>"
+        ).join("");
+      } else {
+        mp.classList.add("hidden");
+        $("retryMissBtn").classList.add("hidden");
+        ml.innerHTML = "";
+      }
+      renderHistory();
+      showScreen("results");
+    }
+
+    function renderHistory() {
+      const ul = $("historyList");
+      if (!profile.history.length) {
+        ul.innerHTML = "<li>還沒有挑戰紀錄，去玩一次吧！</li>";
+        return;
+      }
+      ul.innerHTML = profile.history.map((h) => {
+        const d = new Date(h.ts);
+        const t = d.toLocaleString("zh-TW", { timeZone: "Asia/Taipei", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" });
+        return "<li><span>" + t + " · " + (h.numbers || []).join(",") + "</span><span>" + h.score + "/" + h.total + " · " + h.seconds + "秒 · +" + h.coins + "⭐</span></li>";
+      }).join("");
+    }
+
+    function renderAlbum() {
+      const grid = $("albumGrid");
+      grid.innerHTML = "";
+      for (let n = 1; n <= 9; n++) {
+        const on = !!profile.stickers[n];
+        const div = document.createElement("div");
+        div.className = "sticker" + (on ? " on" : "");
+        div.innerHTML = "<div class='art'>" + (on ? STICKER_ART[n] : "❓") + "</div>" +
+          "<div>" + n + " 的乘法</div><div style='font-size:0.8rem;color:#7a6244'>" + (on ? STICKER_NAME[n] : "還沒解鎖") + "</div>";
+        grid.appendChild(div);
+      }
+      const row = $("badgeRow");
+      row.innerHTML = BADGES.map((b) =>
+        "<div class='badge" + (profile.badges[b.id] ? " on" : "") + "'>" + b.emoji + " " + b.name + "</div>"
+      ).join("");
+    }
+
+    function showCombo(text) {
+      const el = $("comboBanner");
+      el.textContent = text;
+      el.classList.remove("hidden");
+      setTimeout(() => el.classList.add("hidden"), 900);
+    }
+    function showUnlock(text) {
+      const el = $("unlockToast");
+      el.innerHTML = "<div class='art'>🎉</div><div>" + text + "</div>";
+      el.classList.remove("hidden");
+      setTimeout(() => el.classList.add("hidden"), 2400);
+    }
+
+    function burstConfetti(n) {
+      const c = $("confetti");
+      const ctx = c.getContext("2d");
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce) return;
+      c.width = innerWidth; c.height = innerHeight;
+      const colors = ["#ffd84d","#ff8a3d","#ff7eb3","#4da6ff","#3dcc7a","#b388ff","#fff"];
+      const count = n || 48;
+      for (let i = 0; i < count; i++) {
+        confettiParts.push({
+          x: c.width / 2 + (Math.random() - 0.5) * 80,
+          y: c.height * 0.32,
+          vx: (Math.random() - 0.5) * 11,
+          vy: Math.random() * -10 - 4,
+          g: 0.22 + Math.random() * 0.1,
+          s: 6 + Math.random() * 8,
+          col: colors[i % colors.length],
+          rot: Math.random() * 6,
+          vr: (Math.random() - 0.5) * 0.3,
+          life: 70 + Math.random() * 20
+        });
+      }
+      if (!confettiRaf) tickConfetti(ctx, c);
+    }
+    function tickConfetti(ctx, c) {
+      ctx.clearRect(0, 0, c.width, c.height);
+      confettiParts = confettiParts.filter((p) => p.life > 0);
+      confettiParts.forEach((p) => {
+        p.vy += p.g; p.x += p.vx; p.y += p.vy; p.rot += p.vr; p.life -= 1;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = p.col;
+        ctx.globalAlpha = Math.max(0, p.life / 40);
+        ctx.fillRect(-p.s / 2, -p.s / 4, p.s, p.s * 0.6);
+        ctx.restore();
+      });
+      if (confettiParts.length) confettiRaf = requestAnimationFrame(() => tickConfetti(ctx, c));
+      else { ctx.clearRect(0, 0, c.width, c.height); confettiRaf = 0; }
+    }
+
+    function openAlbum() {
+      state.albumFrom = state.screen === "album" ? "home" : state.screen;
+      renderAlbum();
+      showScreen("album");
+      setMascot("happy", "這是你的貼紙本！把每個數字都練會，就能收集全部喔！");
+    }
+
+    $("selectAllBtn").addEventListener("click", () => { for (let i = 1; i <= 9; i++) state.selected.add(i); sfxClick(); renderChips(); });
+    $("clearBtn").addEventListener("click", () => { state.selected.clear(); sfxClick(); renderChips(); });
+    $("muteBtn").addEventListener("click", () => {
+      state.muted = !state.muted;
+      if (!state.muted) { ensureAudio(); sfxClick(); }
+      saveProfile(); updateCoinHud();
+    });
+    $("albumBtn").addEventListener("click", () => { sfxClick(); openAlbum(); });
+    $("resultAlbumBtn").addEventListener("click", () => { sfxClick(); openAlbum(); });
+    $("albumBack").addEventListener("click", () => { sfxClick(); showScreen(state.albumFrom === "results" ? "results" : "home"); if (state.albumFrom === "results") renderHistory(); });
+
+    $("goReview").addEventListener("click", () => {
+      if (!requireSelection()) return;
+      sfxClick();
+      state.hideAnswers = false;
+      state.flashIndex = 0;
+      state.flashFlipped = false;
+      showScreen("review");
+      setMascot("happy", "先看一遍，點卡片就可以把答案藏起來或打開喔！");
+      renderReview();
+    });
+    $("reviewBack").addEventListener("click", () => { sfxClick(); showScreen("home"); });
+    $("styleCards").addEventListener("click", () => { state.reviewStyle = "cards"; sfxClick(); renderReview(); });
+    $("styleFlash").addEventListener("click", () => { state.reviewStyle = "flash"; sfxClick(); renderReview(); });
+    $("reviewSpeakToggle").addEventListener("click", () => {
+      state.reviewSpeak = !state.reviewSpeak;
+      sfxClick();
+      renderReview();
+      if (state.reviewSpeak) setMascot("happy", "我會用中文口訣唸給你聽，例如「七七四十九」！");
+    });
+    $("hideAllBtn").addEventListener("click", () => { state.hideAnswers = true; sfxClick(); renderReview(); });
+    $("showAllBtn").addEventListener("click", () => { state.hideAnswers = false; sfxClick(); renderReview(); });
+
+    $("goQuizSetup").addEventListener("click", () => {
+      if (!requireSelection()) return;
+      sfxClick();
+      showScreen("quizSetup");
+      setMascot("think", "選題數和時間，準備好就出發挑戰吧！");
+    });
+    $("setupBack").addEventListener("click", () => { sfxClick(); showScreen("home"); });
+    $("countRow").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-count]");
+      if (!b) return;
+      state.quizCount = +b.dataset.count;
+      $("countRow").querySelectorAll(".seg").forEach((x) => x.classList.toggle("on", x === b));
+      sfxClick();
+    });
+    $("timerRow").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-timer]");
+      if (!b) return;
+      state.quizTimer = +b.dataset.timer;
+      $("timerRow").querySelectorAll(".seg").forEach((x) => x.classList.toggle("on", x === b));
+      sfxClick();
+    });
+    $("swapToggle").addEventListener("click", () => {
+      state.quizSwap = !state.quizSwap;
+      $("swapToggle").classList.toggle("on", state.quizSwap);
+      $("swapToggle").setAttribute("aria-pressed", state.quizSwap ? "true" : "false");
+      sfxClick();
+    });
+    $("startQuizBtn").addEventListener("click", () => { sfxClick(); startQuiz(); });
+
+    $("retryBtn").addEventListener("click", () => { sfxClick(); startQuiz(); });
+    $("retryMissBtn").addEventListener("click", () => {
+      sfxClick();
+      const misses = state.quiz ? state.quiz.mistakes.map((m) => ({ a: m.a, b: m.b })) : [];
+      if (!misses.length) return;
+      startQuiz(misses);
+    });
+    $("resultHomeBtn").addEventListener("click", () => { sfxClick(); showScreen("home"); });
+
+    document.addEventListener("keydown", (e) => {
+      if (state.screen !== "quiz") return;
+      if (e.key === "Enter") { e.preventDefault(); handleKey("Enter"); }
+      else if (e.key === "Backspace") { e.preventDefault(); handleKey("Backspace"); }
+      else if (/^\d$/.test(e.key)) handleKey(e.key);
+    });
+
+    window.addEventListener("resize", () => {
+      const c = $("confetti");
+      c.width = innerWidth; c.height = innerHeight;
+    });
+    if ("speechSynthesis" in window) speechSynthesis.onvoiceschanged = () => {};
+
+    loadProfile();
+    buildKeypad();
+    updateCoinHud();
+    renderChips();
+    showScreen("home");
+  })();
+  </script>
+</body>
+</html>
