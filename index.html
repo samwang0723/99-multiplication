@@ -36,7 +36,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { min-height: 100%; }
     body {
-      font-family: "Fredoka", "Noto Sans TC", "PingFang TC", "Hiragino Kaku Gothic Hei", "Microsoft JhengHei", "Heiti TC", sans-serif;
+      font-family: "Fredoka", "Noto Sans TC", "PingFang TC", "Hiragino Kaku Gothic Hei", "Microsoft JhengHei", "Heiti TC", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji";
       color: var(--ink);
       background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 42%, var(--sky-bottom) 70%, #d8f5a2 100%);
       min-height: 100dvh;
@@ -201,6 +201,8 @@
       border: 0; border-radius: 24px; padding: 18px 12px; color: #fff; text-align: center;
       box-shadow: 0 7px 0 rgba(0,0,0,0.16); font-weight: 900;
     }
+    img.emoji-img { height: 1em; width: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em; display: inline-block; }
+    .mode-card .emoji img.emoji-img, .sticker .art img.emoji-img { vertical-align: middle; }
     .mode-card .emoji { font-size: 2.4rem; display: block; margin-bottom: 6px; }
     .mode-card h3 { font-size: 1.2rem; margin-bottom: 4px; }
     .mode-card p { font-size: 0.85rem; opacity: 0.95; font-weight: 700; }
@@ -1315,6 +1317,19 @@
     updateCoinHud();
     renderChips();
     showScreen("home");
+  })();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@twemoji/api@15.1.0/dist/twemoji.min.js" crossorigin="anonymous"></script>
+  <script>
+  (() => {
+    if (!window.twemoji) return;
+    const opts = { base: "https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/", folder: "svg", ext: ".svg", className: "emoji-img" };
+    let busy = false;
+    const run = () => { if (busy) return; busy = true; try { twemoji.parse(document.body, opts); } finally { busy = false; } };
+    run();
+    let t = null;
+    new MutationObserver(() => { clearTimeout(t); t = setTimeout(run, 30); })
+      .observe(document.body, { childList: true, subtree: true, characterData: true });
   })();
   </script>
 </body>
