@@ -493,8 +493,9 @@
     const type = kind === "more" ? "compare-more" : kind === "cheaper" ? "cheaper" : "compare-less";
     const q = baseQuestion(type, "word");
     const nameA = (fixed && fixed.nameA) || pick(NAMES, rand);
-    let nameB = (fixed && fixed.nameB) || pick(NAMES.filter((n) => n !== nameA).concat(["阿偉", "小妍"]), rand);
-    if (nameB === nameA) nameB = "阿偉";
+    let nameB = (fixed && fixed.nameB) || pick(NAMES.filter((n) => n !== nameA), rand);
+    if (nameB === nameA) nameB = NAMES.find((n) => n !== nameA);
+    q.nameA = nameA; q.nameB = nameB;
 
     if (kind === "cheaper") {
       const item = (fixed && fixed.item) || pick(BUY_ITEMS, rand);
@@ -563,6 +564,7 @@
           q.formula = { a: base, op: "＋", b: more, result: ans };
           q.vertical = verticalOp(base, more, "+");
           q.picture = { item: item.name, emoji: item.emoji };
+          q.picture = { item: "零用錢", emoji: "💰" };
           q.story = nameA + "有 " + base + " 元，" + nameB + "比" + nameA + "多 " + more + " 元。";
           q.prompt = nameB + "有多少元？";
           q.speech = nameA + "有" + yuanSpeech(base) + "，" + nameB + "比" + nameA + "多" + yuanSpeech(more) + "，" + nameB + "有多少元？";
@@ -604,6 +606,7 @@
       q.prompt = nameB + "花了多少元？";
       q.speech = nameA + "買早餐花了" + yuanSpeech(base) + "，" + nameB + "比" + nameA + "少花" + yuanSpeech(less) + "，" + nameB + "花了多少元？";
     } else {
+      q.picture = { item: "零用錢", emoji: "💰" };
       q.story = nameA + "有 " + base + " 元，" + nameB + "比" + nameA + "少 " + less + " 元。";
       q.prompt = nameB + "有多少元？";
       q.speech = nameA + "有" + yuanSpeech(base) + "，" + nameB + "比" + nameA + "少" + yuanSpeech(less) + "，" + nameB + "有多少元？";
