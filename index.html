@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#5EC8F8" />
-  <meta name="description" content="九九乘法大冒險：選數字、翻卡複習、挑戰考試，還有「倍的問題」應用題，適合小朋友的乘法練習遊戲。" />
+  <meta name="description" content="九九乘法大冒險：選數字、翻卡複習、挑戰考試，「倍的問題」應用題，還有時鐘教學，適合小朋友的數學練習遊戲。" />
   <title>九九乘法大冒險</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -109,7 +109,7 @@
     }
     .logo-mascot { width: 58px; height: 58px; flex: none; animation: floaty 3s ease-in-out infinite; }
     .titles { flex: 1; min-width: 0; }
-    .titles h1 { font-size: clamp(1.15rem, 4.5vw, 1.7rem); font-weight: 900; letter-spacing: 0.02em; line-height: 1.15; }
+    .titles h1 { font-size: clamp(1.02rem, 4.2vw, 1.7rem); font-weight: 900; letter-spacing: 0.02em; line-height: 1.15; white-space: nowrap; }
     .titles p { font-size: 0.85rem; color: var(--muted); font-weight: 700; }
     .hud { display: flex; align-items: center; gap: 8px; flex: none; }
     .coin-pill, .icon-btn {
@@ -196,7 +196,7 @@
     .btn-purple { background: linear-gradient(#c9a0ff, #8a5cff); }
     .btn-big { width: 100%; padding: 16px 20px; font-size: 1.25rem; border-radius: 22px; min-height: 60px; }
 
-    .mode-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .mode-card {
       border: 0; border-radius: 24px; padding: 18px 12px; color: #fff; text-align: center;
       box-shadow: 0 7px 0 rgba(0,0,0,0.16); font-weight: 900;
@@ -357,10 +357,10 @@
     .toast-unlock .art { font-size: 3rem; }
 
 
-    .mode-grid { grid-template-columns: 1fr; }
+    .mode-grid { grid-template-columns: 1fr 1fr; }
     .mode-story { background: linear-gradient(#c9a0ff, #8a5cff); }
     @media (min-width: 700px) {
-      .mode-grid { grid-template-columns: 1fr 1fr 1fr; }
+      .mode-grid { grid-template-columns: 1fr 1fr 1fr 1fr; }
     }
 
     .type-pill {
@@ -447,12 +447,110 @@
     @media (max-width: 520px) {
       .chip { width: 56px; height: 66px; font-size: 1.3rem; }
       .mascot-row .buddy { width: 74px; height: 74px; }
-      .mode-grid { grid-template-columns: 1fr; }
+      .mode-grid { grid-template-columns: 1fr 1fr; }
+      .mode-card { padding: 14px 8px; }
+      .mode-card .emoji { font-size: 2rem; margin-bottom: 4px; }
+      .mode-card h3 { font-size: 1.05rem; }
+      .mode-card p { font-size: 0.78rem; }
       .key { min-height: 54px; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition: none !important; }
     }
+
+    /* —— 時鐘教學 —— */
+    .mode-clock { background: linear-gradient(#6ee7d8, #22b8a8); }
+    .clock-wrap {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      margin: 8px auto 4px;
+    }
+    .clock-svg {
+      width: min(100%, 320px); height: auto;
+      touch-action: none; user-select: none; -webkit-user-select: none;
+      filter: drop-shadow(0 8px 0 rgba(58, 42, 20, 0.12));
+    }
+    .clock-wrap.compact .clock-svg { width: min(100%, 220px); }
+    .clock-wrap.compact { margin: 2px auto 0; gap: 4px; }
+    .question-box .clock-wrap { margin: 4px auto 0; }
+    .clock-svg .hand-hit { cursor: pointer; }
+    .clock-svg.dragable { cursor: grab; }
+    .clock-svg.dragging { cursor: grabbing; }
+    .clock-legend {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+      font-weight: 800; font-size: 0.92rem;
+    }
+    .leg {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #fff; border-radius: 999px; padding: 4px 10px;
+      box-shadow: 0 2px 0 #ead9b8;
+    }
+    .leg i {
+      display: inline-block; border-radius: 99px;
+    }
+    .leg.hour i { background: #e23d3d; height: 10px; width: 16px; }
+    .leg.min i { background: #1e6ee6; height: 5px; width: 22px; }
+    .leg.hour.on { box-shadow: 0 0 0 3px rgba(226,61,61,0.4), 0 2px 0 #ead9b8; }
+    .leg.min.on { box-shadow: 0 0 0 3px rgba(30,110,230,0.4), 0 2px 0 #ead9b8; }
+    .clock-readout { text-align: center; font-weight: 900; }
+    .clock-digital {
+      font-size: clamp(1.8rem, 7vw, 2.6rem); letter-spacing: 0.04em; color: #e85d04;
+    }
+    .clock-zh { font-size: 1.15rem; color: #5a3d00; margin-top: 2px; }
+    .clock-nudge .btn { min-height: 44px; padding: 8px 12px; font-size: 0.95rem; }
+    .clock-nudge {
+      display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 8px 0 4px;
+    }
+    .lesson-dots {
+      display: flex; justify-content: center; gap: 6px; margin: 10px 0 4px;
+    }
+    .lesson-dots span {
+      width: 10px; height: 10px; border-radius: 50%; background: #ead9b8;
+    }
+    .lesson-dots span.on { background: #22b8a8; box-shadow: 0 0 0 3px rgba(34,184,168,0.28); }
+    .lesson-nav {
+      display: flex; justify-content: space-between; gap: 8px; margin-top: 12px;
+    }
+    .hour-hand.glow .hand-vis { filter: drop-shadow(0 0 5px #e23d3d); }
+    .minute-hand.glow .hand-vis { filter: drop-shadow(0 0 5px #1e6ee6); }
+    .clock-time-entry {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin: 10px 0; font-weight: 900; font-size: 1.35rem;
+    }
+    .time-field {
+      min-width: 64px; min-height: 56px; padding: 0 10px;
+      border-radius: 14px; background: #fff4d6; border: 3px solid #ff8a3d;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #e85d04; font-size: 1.8rem; cursor: pointer;
+    }
+    .time-field.on { background: #e8f4ff; border-color: #4da6ff; box-shadow: 0 0 0 4px rgba(77,166,255,0.35); }
+    .time-field.empty { color: #e0cda8; }
+    .choice-opts { display: grid; gap: 10px; margin: 12px 0 4px; }
+    .choice-opt {
+      border: 0; border-radius: 18px; min-height: 56px; font-size: 1.15rem; font-weight: 900;
+      background: #fff; color: var(--ink); box-shadow: 0 5px 0 #d7c4a0;
+    }
+    .choice-opt:active { transform: translateY(5px); box-shadow: none; }
+    .choice-opt.ok { background: linear-gradient(#8be86e, #2fb86a); color: #fff; box-shadow: 0 5px 0 #1e8a4c; }
+    .choice-opt.bad { background: #ffe0e4; color: #b33; }
+    .mul5-row {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 8px;
+    }
+    .mul5-chip {
+      background: #fff4d6; border-radius: 12px; padding: 4px 8px; font-weight: 800; font-size: 0.88rem;
+    }
+    .mul5-chip.on { background: linear-gradient(#7ec8ff, #4da6ff); color: #fff; }
+    .clock-explain {
+      text-align: left; font-weight: 800; line-height: 1.65; margin-top: 8px;
+    }
+    .hour-word { color: #e23d3d; font-weight: 900; }
+    .min-word { color: #1e6ee6; font-weight: 900; }
+    .lesson-card {
+      background: #fffaf0; border: 3px solid #ffe08a; border-radius: 18px;
+      padding: 12px 14px; font-weight: 800; line-height: 1.65; text-align: left; margin-top: 8px;
+    }
+    .clock-prompt { font-size: 1.08rem; font-weight: 900; line-height: 1.5; margin: 4px 0 4px; }
+    #clockBox { padding: 10px 10px 8px; min-height: 0; }
+    #clockKeypadWrap { margin-top: 8px; }
   </style>
 </head>
 <body>
@@ -516,6 +614,11 @@
             <span class="emoji">📝</span>
             <h3>應用題</h3>
             <p>倍的問題，連加和乘法算式</p>
+          </button>
+          <button type="button" class="mode-card mode-clock" id="goClockSetup">
+            <span class="emoji">🕰️</span>
+            <h3>時鐘教學</h3>
+            <p>學看時鐘，分清時針分針</p>
           </button>
         </div>
       </section>
@@ -693,6 +796,69 @@
           <div class="badge-row" id="badgeRow"></div>
         </div>
       </section>
+
+      <section id="screenClockSetup" class="hidden">
+        <div class="panel">
+          <button type="button" class="btn btn-ghost" id="clockSetupBack">← 回首頁</button>
+          <h2 style="margin-top:14px">🕰️ 時鐘教學</h2>
+          <p style="font-weight:700;color:#7a6244;line-height:1.6;margin:8px 0 12px">短短胖胖的<span class="hour-word">紅指針是時針</span>，長長瘦瘦的<span class="min-word">藍指針是分針</span>。先看圖形教學，再來測驗吧！</p>
+          <div class="row-actions" style="margin-top:8px">
+            <button type="button" class="btn btn-green" id="clockTeachBtn">📖 先看教學</button>
+          </div>
+          <p class="section-title" style="margin-top:16px">測驗難度</p>
+          <div class="setting-row" id="clockLevelRow">
+            <button type="button" class="seg on" data-clock-level="hour-half">整點／半點</button>
+            <button type="button" class="seg" data-clock-level="five">5 分鐘</button>
+            <button type="button" class="seg" data-clock-level="one">1 分鐘</button>
+          </div>
+          <p class="section-title">要幾題？</p>
+          <div class="setting-row" id="clockCountRow">
+            <button type="button" class="seg on" data-clock-count="5">5 題</button>
+            <button type="button" class="seg" data-clock-count="10">10 題</button>
+          </div>
+          <button type="button" class="btn btn-blue btn-big" id="startClockBtn" style="margin-top:12px">開始測驗！⏰</button>
+        </div>
+      </section>
+
+      <section id="screenClockLesson" class="hidden">
+        <div class="panel">
+          <div class="story-toolbar">
+            <button type="button" class="btn btn-ghost" id="clockLessonBack">← 回上一頁</button>
+            <button type="button" class="btn btn-purple" id="clockLessonSpeak">🔊 唸給我聽</button>
+          </div>
+          <h2 id="clockLessonTitle" style="margin-top:10px">認識時針和分針</h2>
+          <div id="clockLessonBody"></div>
+          <div class="lesson-dots" id="clockLessonDots" aria-hidden="true"></div>
+          <div class="lesson-nav">
+            <button type="button" class="btn btn-ghost" id="clockLessonPrev">← 上一頁</button>
+            <button type="button" class="btn btn-green" id="clockLessonNext">下一頁 →</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="screenClockQuiz" class="hidden">
+        <div class="panel">
+          <div class="progress-wrap">
+            <div class="progress-meta">
+              <span id="clockProgressLabel">第 1 題</span>
+              <span id="clockLevelLabel"></span>
+            </div>
+            <div class="bar"><span id="clockBar"></span></div>
+          </div>
+          <div class="quiz-stats">
+            <div class="stat" id="clockScoreStat">⭐ 0</div>
+            <div class="stat" id="clockStreakStat">🔥 連擊 0</div>
+            <div class="stat" id="clockCoinStat">✨ +0</div>
+          </div>
+          <div class="question-box" id="clockBox">
+            <div id="clockInner"></div>
+            <div class="feedback" id="clockFeedback"></div>
+          </div>
+          <div id="clockKeypadWrap">
+            <div class="keypad" id="clockKeypad"></div>
+          </div>
+        </div>
+      </section>
     </main>
   </div>
 
@@ -760,6 +926,7 @@
     </symbol>
   </svg>
 
+  <script src="clock-math.js"></script>
   <script>
   (() => {
     const CN = ["零","一","二","三","四","五","六","七","八","九"];
@@ -774,7 +941,8 @@
       { id:"stickers3", name:"貼紙收集家", emoji:"📒" },
       { id:"stickers9", name:"九九大王", emoji:"👑" },
       { id:"quiz30", name:"耐力挑戰者", emoji:"💪" },
-      { id:"beiExpert", name:"倍數小專家", emoji:"🧮" }
+      { id:"beiExpert", name:"倍數小專家", emoji:"🧮" },
+      { id:"clockMaster", name:"看時鐘小達人", emoji:"⏰" }
     ];
     const PRAISE = ["太厲害了！","答對了，你好棒！","哇，真聰明！","讚讚讚！","完全正確！","你是乘法小英雄！"];
     const COMFORT = ["沒關係，我們一起記住它！","差一點點，下一題會更好！","加油，九九相信你！","看一次答案，下次就會了！"];
@@ -792,6 +960,10 @@
       storyCount: 5,
       quizTimer: 0,
       quizSwap: false,
+      clockCount: 5,
+      clockLevel: "hour-half",
+      clockLessonPage: 0,
+      clockShowMinuteLabels: true,
       muted: false,
       screen: "home",
       albumFrom: "home",
@@ -823,6 +995,9 @@
       storySetup: $("screenStorySetup"),
       storyTutorial: $("screenStoryTutorial"),
       story: $("screenStory"),
+      clockSetup: $("screenClockSetup"),
+      clockLesson: $("screenClockLesson"),
+      clockQuiz: $("screenClockQuiz"),
       results: $("screenResults"),
       album: $("screenAlbum")
     };
@@ -924,6 +1099,7 @@
     function sayRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
     function showScreen(name) {
+      if (name !== "clockLesson" && typeof clearClockAnims === "function") clearClockAnims();
       state.screen = name;
       Object.keys(screens).forEach((k) => screens[k].classList.toggle("hidden", k !== name));
       if (name === "home") {
@@ -1919,10 +2095,1011 @@ function validateStoryProblem(p) {
       renderStory();
     }
 
+    const CM = window.ClockMath;
+    const CLOCK_HOUR_COLOR = "#e23d3d";
+    const CLOCK_MIN_COLOR = "#1e6ee6";
+    const CLOCK_LEVEL_LABEL = { "hour-half": "整點／半點", "five": "5 分鐘", "one": "1 分鐘" };
+    const CLOCK_LESSON_SPEECH = [
+      "短短胖胖的紅指針是時針，長長瘦瘦的藍指針是分針。點一點指針，看看哪一根是誰！",
+      "分針指在十二的時候，就是整點。時針指著幾，就是幾點。例如三點整。",
+      "分針指在六的時候，就是幾點半。時針會在兩個數字中間，要看它剛剛走過的那個數字。三點半，不是四點。",
+      "分針每走一大格，也就是一個數字，就是五分鐘。五、十、十五，跟五的乘法一樣！",
+      "每一大格中間還有四條小線，每一小格是一分鐘。例如三點十七分，分針過了三，再走兩小格。",
+      "時針過了哪個數字，就是幾點。兩點五十分的時候，時針很靠近三，但還是兩點，不是三點五十分。",
+      "現在你可以自己撥分針玩一玩。時針會跟著走。試試看撥到你想看的時間！"
+    ];
+
+    let clockUid = 0;
+    let clockLessonTimer = 0;
+    let clockLessonInterval = 0;
+    let clockWidgets = [];
+
+    function clearClockAnims() {
+      if (clockLessonTimer) { clearTimeout(clockLessonTimer); clockLessonTimer = 0; }
+      if (clockLessonInterval) { clearInterval(clockLessonInterval); clockLessonInterval = 0; }
+      clockWidgets.forEach((w) => { if (w && w.stop) w.stop(); });
+    }
+
+    function prefersReduceMotion() {
+      return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    }
+
+    function clockTotal(h, m) {
+      return (CM.normalizeHour(h) % 12) * 60 + CM.normalizeMinute(m);
+    }
+    function clockFromTotal(t) {
+      t = ((t % 720) + 720) % 720;
+      let h = Math.floor(t / 60);
+      if (h === 0) h = 12;
+      return { hour: h, minute: t % 60 };
+    }
+
+    function mountClock(el, opts) {
+      opts = opts || {};
+      const id = "ck" + (++clockUid);
+      let totalMin = clockTotal(opts.hour == null ? 3 : opts.hour, opts.minute == null ? 0 : opts.minute);
+      let showMinuteLabels = opts.showMinuteLabels !== false;
+      let showHandLabels = !!opts.showHandLabels;
+      let highlight = opts.highlight || null;
+      let interactive = opts.interactive || "none";
+      let anim = 0;
+      let dragging = false;
+      const cx = 130, cy = 130;
+
+      function buildTicks() {
+        let ticks = "";
+        for (let i = 0; i < 60; i++) {
+          const a = (i * 6) * Math.PI / 180;
+          const major = i % 5 === 0;
+          const r1 = 108, r0 = major ? 90 : 100;
+          const x1 = cx + r1 * Math.sin(a), y1 = cy - r1 * Math.cos(a);
+          const x0 = cx + r0 * Math.sin(a), y0 = cy - r0 * Math.cos(a);
+          ticks += '<line x1="' + x0.toFixed(2) + '" y1="' + y0.toFixed(2) + '" x2="' + x1.toFixed(2) + '" y2="' + y1.toFixed(2) +
+            '" stroke="' + (major ? "#3a2a14" : "#b89a70") + '" stroke-width="' + (major ? 3.2 : 1.15) + '" stroke-linecap="round"/>';
+        }
+        return ticks;
+      }
+      function buildHourNums() {
+        let s = "";
+        for (let n = 1; n <= 12; n++) {
+          const a = (n * 30) * Math.PI / 180;
+          const r = 70;
+          const x = cx + r * Math.sin(a);
+          const y = cy - r * Math.cos(a) + 1.5;
+          s += '<text x="' + x.toFixed(2) + '" y="' + y.toFixed(2) + '" text-anchor="middle" dominant-baseline="middle" font-size="22" font-weight="800" fill="#3a2a14" font-family="Fredoka, Noto Sans TC, sans-serif">' + n + "</text>";
+        }
+        return s;
+      }
+      function buildMinNums() {
+        let s = "";
+        for (let n = 1; n <= 11; n++) {
+          const m = n * 5;
+          const a = (m * 6) * Math.PI / 180;
+          const r = 122;
+          const x = cx + r * Math.sin(a);
+          const y = cy - r * Math.cos(a) + 1;
+          s += '<text class="min-lab" x="' + x.toFixed(2) + '" y="' + y.toFixed(2) + '" text-anchor="middle" dominant-baseline="middle" font-size="10" font-weight="800" fill="#1e6ee6" font-family="Fredoka, Noto Sans TC, sans-serif">' + m + "</text>";
+        }
+        return s;
+      }
+
+      el.innerHTML = '<svg class="clock-svg' + (interactive === "drag" ? " dragable" : "") + '" viewBox="0 0 260 260" role="img" aria-label="時鐘">' +
+        '<defs><filter id="' + id + 'sh" x="0" y="0" width="260" height="260" filterUnits="userSpaceOnUse"><feDropShadow dx="0" dy="1.5" stdDeviation="1.2" flood-color="rgba(0,0,0,0.25)"/></filter></defs>' +
+        '<circle cx="130" cy="130" r="128" fill="#f3d27a"/>' +
+        '<circle cx="130" cy="130" r="118" fill="#fffdf7" stroke="#e8c98a" stroke-width="3"/>' +
+        buildTicks() + buildHourNums() +
+        '<g class="minute-labels">' + buildMinNums() + "</g>" +
+        '<g class="hand minute-hand" filter="url(#' + id + 'sh)">' +
+          '<line class="hand-vis" x1="130" y1="148" x2="130" y2="40" stroke="#1e6ee6" stroke-width="5" stroke-linecap="round"/>' +
+          '<line class="hand-hit" data-hand="minute" x1="130" y1="155" x2="130" y2="28" stroke="transparent" stroke-width="24" stroke-linecap="round"/>' +
+          '<g class="hand-lab min-lab-g"><rect x="142" y="54" width="36" height="20" rx="10" fill="#fffdf7" stroke="#1e6ee6" stroke-width="1.6"/><text x="160" y="68" text-anchor="middle" font-size="11" font-weight="800" fill="#1e6ee6">分針</text></g>' +
+        "</g>" +
+        '<g class="hand hour-hand" filter="url(#' + id + 'sh)">' +
+          '<line class="hand-vis" x1="130" y1="142" x2="130" y2="74" stroke="#e23d3d" stroke-width="11" stroke-linecap="round"/>' +
+          '<line class="hand-hit" data-hand="hour" x1="130" y1="150" x2="130" y2="64" stroke="transparent" stroke-width="28" stroke-linecap="round"/>' +
+          '<g class="hand-lab hour-lab-g"><rect x="82" y="96" width="36" height="20" rx="10" fill="#fffdf7" stroke="#e23d3d" stroke-width="1.6"/><text x="100" y="110" text-anchor="middle" font-size="11" font-weight="800" fill="#e23d3d">時針</text></g>' +
+        "</g>" +
+        '<circle cx="130" cy="130" r="9" fill="#3a2a14"/>' +
+        '<circle cx="130" cy="130" r="4.5" fill="#fffdf7"/>' +
+        "</svg>";
+      const svg = el.querySelector("svg");
+
+      function getTime() { return clockFromTotal(totalMin); }
+
+      function applyAngles() {
+        const ha = totalMin * 0.5;
+        const ma = totalMin * 6;
+        const hourG = svg.querySelector(".hour-hand");
+        const minG = svg.querySelector(".minute-hand");
+        hourG.style.transformOrigin = "130px 130px";
+        minG.style.transformOrigin = "130px 130px";
+        hourG.style.transform = "rotate(" + ha + "deg)";
+        minG.style.transform = "rotate(" + ma + "deg)";
+        const ht = hourG.querySelector(".hand-lab");
+        const mt = minG.querySelector(".hand-lab");
+        if (ht) {
+          ht.style.transformOrigin = "100px 106px";
+          ht.style.transform = "rotate(" + (-ha) + "deg)";
+          ht.style.display = showHandLabels ? "block" : "none";
+        }
+        if (mt) {
+          mt.style.transformOrigin = "160px 64px";
+          mt.style.transform = "rotate(" + (-ma) + "deg)";
+          mt.style.display = showHandLabels ? "block" : "none";
+        }
+        const labs = svg.querySelector(".minute-labels");
+        if (labs) labs.style.display = showMinuteLabels ? "block" : "none";
+        hourG.classList.toggle("glow", highlight === "hour");
+        minG.classList.toggle("glow", highlight === "minute");
+        const t = getTime();
+        svg.setAttribute("aria-label", "時鐘顯示 " + CM.readTime(t.hour, t.minute) + "（" + CM.digitalTime(t.hour, t.minute) + "）");
+      }
+
+      function setTime(h, m, animate) {
+        const target = clockTotal(h, m);
+        if (anim) { cancelAnimationFrame(anim); anim = 0; }
+        if (!animate || prefersReduceMotion()) {
+          totalMin = target;
+          applyAngles();
+          return;
+        }
+        let dest = target;
+        while (dest - totalMin > 360) dest -= 720;
+        while (totalMin - dest > 360) dest += 720;
+        const from = totalMin;
+        const delta = dest - from;
+        if (Math.abs(delta) < 0.01) { totalMin = dest; applyAngles(); return; }
+        const start = performance.now();
+        const dur = Math.min(900, 240 + Math.abs(delta) * 8);
+        const ease = (p) => p < 0.5 ? 2 * p * p : -1 + (4 - 2 * p) * p;
+        const step = (now) => {
+          const p = Math.min(1, (now - start) / dur);
+          totalMin = from + delta * ease(p);
+          applyAngles();
+          if (p < 1) anim = requestAnimationFrame(step);
+          else { totalMin = dest; applyAngles(); anim = 0; }
+        };
+        anim = requestAnimationFrame(step);
+      }
+
+      function setOptions(next) {
+        if (!next) return;
+        if (next.showMinuteLabels != null) showMinuteLabels = !!next.showMinuteLabels;
+        if (next.showHandLabels != null) showHandLabels = !!next.showHandLabels;
+        if (next.highlight !== undefined) highlight = next.highlight;
+        if (next.interactive) {
+          interactive = next.interactive;
+          svg.classList.toggle("dragable", interactive === "drag");
+        }
+        applyAngles();
+      }
+
+      function pointerMinutes(ev) {
+        const rect = svg.getBoundingClientRect();
+        const x = ev.clientX - (rect.left + rect.width / 2);
+        const y = ev.clientY - (rect.top + rect.height / 2);
+        let deg = Math.atan2(x, -y) * 180 / Math.PI;
+        if (deg < 0) deg += 360;
+        return Math.round(deg / 6) % 60;
+      }
+
+      function applyDragMinute(newMin) {
+        const cur = ((totalMin % 720) + 720) % 720;
+        const curM = Math.round(cur % 60) % 60;
+        let hourBlock = Math.floor(cur / 60);
+        if (curM >= 45 && newMin <= 15) hourBlock += 1;
+        else if (curM <= 15 && newMin >= 45) hourBlock -= 1;
+        totalMin = hourBlock * 60 + newMin;
+        applyAngles();
+        if (opts.onChange) opts.onChange(getTime().hour, getTime().minute);
+      }
+
+      function onPointerDown(ev) {
+        const hit = ev.target.closest && ev.target.closest(".hand-hit");
+        if (interactive === "tap") {
+          if (!hit) return;
+          ev.preventDefault();
+          const which = hit.getAttribute("data-hand");
+          highlight = which;
+          applyAngles();
+          if (opts.onTapHand) opts.onTapHand(which);
+          return;
+        }
+        if (interactive !== "drag") return;
+        ev.preventDefault();
+        dragging = true;
+        svg.classList.add("dragging");
+        try { svg.setPointerCapture(ev.pointerId); } catch (e) {}
+        applyDragMinute(pointerMinutes(ev));
+      }
+      function onPointerMove(ev) {
+        if (!dragging) return;
+        ev.preventDefault();
+        applyDragMinute(pointerMinutes(ev));
+      }
+      function onPointerUp(ev) {
+        if (!dragging) return;
+        dragging = false;
+        svg.classList.remove("dragging");
+        try { svg.releasePointerCapture(ev.pointerId); } catch (e) {}
+      }
+      svg.addEventListener("pointerdown", onPointerDown);
+      svg.addEventListener("pointermove", onPointerMove);
+      svg.addEventListener("pointerup", onPointerUp);
+      svg.addEventListener("pointercancel", onPointerUp);
+
+      applyAngles();
+      const api = {
+        setTime, getTime, setOptions,
+        addMinutes(delta, animate) {
+          const t = CM.addMinutes(getTime().hour, getTime().minute, delta);
+          setTime(t.hour, t.minute, animate);
+          if (opts.onChange) opts.onChange(t.hour, t.minute);
+        },
+        stop() { if (anim) { cancelAnimationFrame(anim); anim = 0; } dragging = false; },
+        el: svg
+      };
+      clockWidgets.push(api);
+      return api;
+    }
+
+    function clockLegendHtml(active) {
+      return '<div class="clock-legend">' +
+        '<span class="leg hour' + (active === "hour" ? " on" : "") + '"><i></i>短短胖胖＝<span class="hour-word">時針</span></span>' +
+        '<span class="leg min' + (active === "minute" ? " on" : "") + '"><i></i>長長瘦瘦＝<span class="min-word">分針</span></span>' +
+        "</div>";
+    }
+
+    function renderClockReadout(h, m) {
+      return '<div class="clock-readout"><div class="clock-digital">' + CM.digitalTime(h, m) +
+        '</div><div class="clock-zh">' + CM.readTime(h, m) + "</div></div>";
+    }
+
+    let lessonClock = null;
+    let playClock = null;
+    let playHour = 3, playMinute = 15;
+
+    function renderClockLesson() {
+      clearClockAnims();
+      lessonClock = null;
+      playClock = null;
+      const page = state.clockLessonPage;
+      const titles = ["認識時針和分針", "整點：分針指著 12", "半點：分針指著 6", "一大格是 5 分鐘", "一小格是 1 分鐘", "時針在兩個數字中間", "自己撥撥看"];
+      $("clockLessonTitle").textContent = (page + 1) + ". " + titles[page];
+      $("clockLessonDots").innerHTML = titles.map((_, i) => "<span class='" + (i === page ? "on" : "") + "'></span>").join("");
+      $("clockLessonPrev").disabled = false;
+      $("clockLessonNext").textContent = page === 6 ? "去測驗！⏰" : "下一頁 →";
+      const body = $("clockLessonBody");
+      body.innerHTML = "";
+      const speech = CLOCK_LESSON_SPEECH[page];
+
+      function addCard(html) {
+        const d = document.createElement("div");
+        d.className = "lesson-card";
+        d.innerHTML = html;
+        body.appendChild(d);
+      }
+      function addClockBox(first) {
+        const wrap = document.createElement("div");
+        wrap.className = "clock-wrap";
+        const holder = document.createElement("div");
+        holder.className = "clockFace";
+        wrap.appendChild(holder);
+        if (first) body.insertBefore(wrap, body.firstChild);
+        else body.appendChild(wrap);
+        return { wrap, holder };
+      }
+
+      if (page === 0) {
+        addCard("短短胖胖的<span class='hour-word'>紅指針是時針</span>，長長瘦瘦的<span class='min-word'>藍指針是分針</span>。<br>點一點指針，九九會告訴你它是誰！");
+        const box = addClockBox(false);
+        const leg = document.createElement("div");
+        box.wrap.appendChild(leg);
+        const widget = mountClock(box.holder, {
+          hour: 3, minute: 0, showMinuteLabels: true, showHandLabels: true, interactive: "tap",
+          onTapHand(which) {
+            sfxClick();
+            widget.setOptions({ highlight: which });
+            leg.innerHTML = clockLegendHtml(which);
+            if (which === "hour") setMascot("wow", "對！這根短短胖胖的紅指針，叫做時針，它告訴我們現在是幾點。");
+            else setMascot("wow", "對！這根長長瘦瘦的藍指針，叫做分針，它告訴我們現在是幾分。");
+          }
+        });
+        lessonClock = widget;
+        leg.innerHTML = clockLegendHtml(null);
+        setMascot("happy", speech);
+      } else if (page === 1) {
+        addCard("當<span class='min-word'>分針</span>指在 <strong>12</strong> 的時候，就是整點。<span class='hour-word'>時針</span>指著幾，就是幾點。例如時針指著 3，就是 <strong>3 點</strong>（3:00）。");
+        const box = addClockBox(false);
+        const read = document.createElement("div");
+        box.wrap.appendChild(read);
+        box.wrap.insertAdjacentHTML("beforeend", clockLegendHtml(null));
+        const widget = mountClock(box.holder, { hour: 3, minute: 0, showMinuteLabels: true, showHandLabels: true });
+        lessonClock = widget;
+        let h = 3;
+        const show = () => {
+          read.innerHTML = renderClockReadout(h, 0);
+        };
+        show();
+        const playBtn = document.createElement("button");
+        playBtn.type = "button";
+        playBtn.className = "btn btn-yellow";
+        playBtn.textContent = "▶ 看整點走過一圈";
+        playBtn.addEventListener("click", () => {
+          sfxClick();
+          h = 1;
+          widget.setTime(1, 0, false);
+          show();
+          setMascot("wow", "一點！分針在 12，時針指著 1。");
+          clearClockAnims();
+          clockLessonInterval = setInterval(() => {
+            h += 1;
+            if (h > 12) { clearInterval(clockLessonInterval); clockLessonInterval = 0; setMascot("happy", "看完一圈了！分針一直指著 12，就是整點。"); return; }
+            widget.setTime(h, 0, true);
+            show();
+            setMascot("wow", CM.readTime(h, 0) + "！");
+          }, 900);
+        });
+        body.appendChild(playBtn);
+        setMascot("think", speech);
+      } else if (page === 2) {
+        addCard("當<span class='min-word'>分針</span>指在 <strong>6</strong> 的時候，就是「幾點半」（30 分）。這時候<span class='hour-word'>時針</span>會在兩個數字<strong>中間</strong>，要看它剛剛走過的那個數字。");
+        const box = addClockBox(false);
+        const read = document.createElement("div");
+        box.wrap.appendChild(read);
+        box.wrap.insertAdjacentHTML("beforeend", clockLegendHtml(null));
+        const widget = mountClock(box.holder, { hour: 3, minute: 0, showMinuteLabels: true, showHandLabels: true, highlight: "hour" });
+        lessonClock = widget;
+        read.innerHTML = renderClockReadout(3, 0);
+        const playBtn = document.createElement("button");
+        playBtn.type = "button";
+        playBtn.className = "btn btn-yellow";
+        playBtn.textContent = "▶ 看 3 點走到 3 點半";
+        playBtn.addEventListener("click", () => {
+          sfxClick();
+          widget.setTime(3, 0, false);
+          read.innerHTML = renderClockReadout(3, 0);
+          setMascot("think", "現在是 3 點整。分針開始走向 6……");
+          clockLessonTimer = setTimeout(() => {
+            widget.setTime(3, 30, true);
+            read.innerHTML = renderClockReadout(3, 30);
+            widget.setOptions({ highlight: "hour" });
+            setMascot("wow", "分針到 6 了，是 3 點半！時針在 3 和 4 中間，因為它過了 3，所以還是 3 點，不是 4 點。");
+          }, 700);
+        });
+        body.appendChild(playBtn);
+        addCard("記住：時針過了 3，就是 3 點半，<strong>不是 4 點</strong>喔！");
+        setMascot("think", speech);
+      } else if (page === 3) {
+        addCard("分針每走<strong>一大格</strong>（一個數字），就是 <strong>5 分鐘</strong>。5、10、15、20……跟 <strong>5 的乘法</strong>一樣！5 × 1 = 5，5 × 2 = 10，5 × 3 = 15。");
+        const box = addClockBox(false);
+        const read = document.createElement("div");
+        box.wrap.appendChild(read);
+        const chips = document.createElement("div");
+        chips.className = "mul5-row";
+        box.wrap.appendChild(chips);
+        box.wrap.insertAdjacentHTML("beforeend", clockLegendHtml("minute"));
+        const widget = mountClock(box.holder, { hour: 12, minute: 0, showMinuteLabels: true, showHandLabels: true, highlight: "minute" });
+        lessonClock = widget;
+        const renderChips = (m) => {
+          chips.innerHTML = "";
+          for (let i = 1; i <= 11; i++) {
+            const sp = document.createElement("span");
+            sp.className = "mul5-chip" + (i * 5 === m ? " on" : "");
+            sp.textContent = "5×" + i + "=" + (i * 5);
+            chips.appendChild(sp);
+          }
+          read.innerHTML = m === 0 ? renderClockReadout(12, 0) : renderClockReadout(12, m);
+        };
+        renderChips(0);
+        const playBtn = document.createElement("button");
+        playBtn.type = "button";
+        playBtn.className = "btn btn-yellow";
+        playBtn.textContent = "▶ 用 5 個一數走一圈";
+        playBtn.addEventListener("click", () => {
+          sfxClick();
+          let step = 0;
+          widget.setTime(12, 0, false);
+          renderChips(0);
+          clearClockAnims();
+          clockLessonInterval = setInterval(() => {
+            step += 1;
+            const m = (step * 5) % 60;
+            widget.setTime(12, m, true);
+            renderChips(m);
+            if (m === 0) {
+              clearInterval(clockLessonInterval); clockLessonInterval = 0;
+              setMascot("happy", "走完一圈 60 分，又回到整點啦！");
+            } else {
+              setMascot("wow", m + " 分！5 × " + step + " = " + m);
+            }
+          }, 700);
+        });
+        body.appendChild(playBtn);
+        setMascot("happy", speech);
+      } else if (page === 4) {
+        addCard("每一大格中間還有 4 條小線，一共 5 小格。每一小格就是 <strong>1 分鐘</strong>。<br>例如 <strong>3 點 17 分</strong>：分針先走到 3（15 分），再走 2 小格。");
+        const box = addClockBox(false);
+        const read = document.createElement("div");
+        box.wrap.appendChild(read);
+        box.wrap.insertAdjacentHTML("beforeend", clockLegendHtml("minute"));
+        const widget = mountClock(box.holder, { hour: 3, minute: 17, showMinuteLabels: true, showHandLabels: true, highlight: "minute" });
+        lessonClock = widget;
+        read.innerHTML = renderClockReadout(3, 17);
+        const playBtn = document.createElement("button");
+        playBtn.type = "button";
+        playBtn.className = "btn btn-yellow";
+        playBtn.textContent = "▶ 看 3 點走到 3 點 17 分";
+        playBtn.addEventListener("click", () => {
+          sfxClick();
+          widget.setTime(3, 0, false);
+          read.innerHTML = renderClockReadout(3, 0);
+          setMascot("think", "先從 3 點整開始。");
+          clearClockAnims();
+          clockLessonTimer = setTimeout(() => {
+            widget.setTime(3, 15, true);
+            read.innerHTML = renderClockReadout(3, 15);
+            setMascot("wow", "分針走到 3，是 15 分。");
+            clockLessonTimer = setTimeout(() => {
+              widget.setTime(3, 17, true);
+              read.innerHTML = renderClockReadout(3, 17);
+              setMascot("wow", "再走 2 小格，就是 3 點 17 分！");
+            }, 1100);
+          }, 800);
+        });
+        body.appendChild(playBtn);
+        setMascot("think", speech);
+      } else if (page === 5) {
+        addCard("時針在兩個數字中間的時候，要看它<strong>剛剛走過</strong>的數字，那才是幾點。<br>常常會搞錯的例子：<strong>2 點 50 分</strong>時，時針已經很靠近 3，但還是 <strong>2 點 50 分</strong>，不是 3 點 50 分！");
+        const box = addClockBox(false);
+        const read = document.createElement("div");
+        box.wrap.appendChild(read);
+        box.wrap.insertAdjacentHTML("beforeend", clockLegendHtml("hour"));
+        const widget = mountClock(box.holder, { hour: 2, minute: 50, showMinuteLabels: true, showHandLabels: true, highlight: "hour" });
+        lessonClock = widget;
+        read.innerHTML = renderClockReadout(2, 50);
+        const row = document.createElement("div");
+        row.className = "clock-nudge";
+        [["2 點", 2, 0], ["2 點 50 分", 2, 50], ["11 點 55 分", 11, 55]].forEach((item) => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "btn btn-ghost";
+          b.textContent = item[0];
+          b.addEventListener("click", () => {
+            sfxClick();
+            widget.setTime(item[1], item[2], true);
+            widget.setOptions({ highlight: "hour" });
+            read.innerHTML = renderClockReadout(item[1], item[2]);
+            const d = CM.describeHands(item[1], item[2]);
+            setMascot("think", d.text);
+          });
+          row.appendChild(b);
+        });
+        body.appendChild(row);
+        addCard("<span class='hour-word'>時針過了 2</span>，即使它很靠近 3，也還是 2 點。要等到分針走到 12，才變成 3 點整。");
+        setMascot("think", speech);
+      } else {
+        const box = addClockBox(false);
+        box.wrap.classList.add("compact");
+        const read = document.createElement("div");
+        read.id = "playReadout";
+        box.wrap.appendChild(read);
+        box.wrap.insertAdjacentHTML("beforeend", clockLegendHtml(null));
+        playHour = 3; playMinute = 15;
+        const updatePlay = (h, m) => {
+          playHour = h; playMinute = m;
+          read.innerHTML = renderClockReadout(h, m);
+        };
+        playClock = mountClock(box.holder, {
+          hour: playHour, minute: playMinute,
+          showMinuteLabels: state.clockShowMinuteLabels,
+          showHandLabels: true,
+          interactive: "drag",
+          onChange: updatePlay
+        });
+        lessonClock = playClock;
+        updatePlay(playHour, playMinute);
+        const nudge = document.createElement("div");
+        nudge.className = "clock-nudge";
+        [["−5 分", -5], ["−1 分", -1], ["＋1 分", 1], ["＋5 分", 5]].forEach((item) => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "btn " + (item[1] < 0 ? "btn-ghost" : "btn-yellow");
+          b.textContent = item[0];
+          b.addEventListener("click", () => {
+            sfxClick();
+            playClock.addMinutes(item[1], true);
+            const t = playClock.getTime();
+            updatePlay(t.hour, t.minute);
+          });
+          nudge.appendChild(b);
+        });
+        body.appendChild(nudge);
+        const tools = document.createElement("div");
+        tools.className = "row-actions";
+        const tog = document.createElement("button");
+        tog.type = "button";
+        tog.className = "btn btn-ghost";
+        tog.textContent = state.clockShowMinuteLabels ? "隱藏分鐘數字" : "顯示分鐘數字";
+        tog.addEventListener("click", () => {
+          sfxClick();
+          state.clockShowMinuteLabels = !state.clockShowMinuteLabels;
+          playClock.setOptions({ showMinuteLabels: state.clockShowMinuteLabels });
+          tog.textContent = state.clockShowMinuteLabels ? "隱藏分鐘數字" : "顯示分鐘數字";
+        });
+        const speakBtn = document.createElement("button");
+        speakBtn.type = "button";
+        speakBtn.className = "btn btn-purple";
+        speakBtn.textContent = "🔊 現在幾點？";
+        speakBtn.addEventListener("click", () => speak("現在是" + CM.readTime(playHour, playMinute)));
+        tools.appendChild(tog);
+        tools.appendChild(speakBtn);
+        body.appendChild(tools);
+        setMascot("happy", speech);
+      }
+    }
+
+    function clockChoiceLabels(t) {
+      return CM.readTime(t.hour, t.minute) + "（" + CM.digitalTime(t.hour, t.minute) + "）";
+    }
+
+    function makeClockQuestion(type, hour, minute, rand) {
+      const q = { type, hour, minute, answerHour: hour, answerMinute: minute };
+      if (type === "read-key") {
+        q.prompt = "現在是幾點幾分？請填時鐘上的時間。";
+        q.speech = "看看這個時鐘，現在是幾點幾分？";
+      } else if (type === "read-choice") {
+        q.prompt = "現在是幾點幾分？請選正確的答案。";
+        q.speech = "看看這個時鐘，選出正確的時間。";
+        const opts = [{ hour, minute }].concat(CM.distractors(hour, minute).slice(0, 6));
+        q.options = shuffle(CM.uniqueTimes(opts)).slice(0, 4);
+        if (!q.options.some((o) => o.hour === hour && o.minute === minute)) {
+          q.options[q.options.length - 1] = { hour, minute };
+          q.options = shuffle(q.options);
+        }
+        if (q.options.length < 3) {
+          q.options = shuffle(q.options.concat(CM.distractors(hour, minute))).slice(0, 4);
+        }
+      } else if (type === "set") {
+        q.prompt = "請把時鐘撥到 " + CM.readTime(hour, minute) + "（" + CM.digitalTime(hour, minute) + "）";
+        q.speech = "請把時鐘撥到" + CM.readTime(hour, minute) + "，再按確定。";
+        let sh = 12, sm = 0;
+        if (hour === 12 && minute === 0) { sh = 3; sm = 0; }
+        q.startHour = sh;
+        q.startMinute = sm;
+      } else if (type === "hand") {
+        q.hand = rand() < 0.5 ? "hour" : "minute";
+        q.prompt = q.hand === "hour" ? "請點選【時針】（短短胖胖的紅指針）" : "請點選【分針】（長長瘦瘦的藍指針）";
+        q.speech = q.prompt;
+      } else if (type === "elapsed") {
+        q.add = 30;
+        const ans = CM.addMinutes(hour, minute, 30);
+        q.answerHour = ans.hour;
+        q.answerMinute = ans.minute;
+        q.prompt = "現在是 " + CM.readTime(hour, minute) + "。過了 30 分鐘是幾點？";
+        q.speech = "現在是" + CM.readTime(hour, minute) + "，過了三十分鐘是幾點？";
+        const opts = [{ hour: ans.hour, minute: ans.minute }, { hour, minute }, CM.addMinutes(hour, minute, 60), CM.addMinutes(ans.hour, ans.minute, 60), CM.swappedHandsTime(ans.hour, ans.minute)];
+        q.options = shuffle(CM.uniqueTimes(opts)).slice(0, 4);
+        if (!q.options.some((o) => o.hour === ans.hour && o.minute === ans.minute)) {
+          q.options[0] = { hour: ans.hour, minute: ans.minute };
+          q.options = shuffle(q.options);
+        }
+      }
+      return q;
+    }
+
+    function generateClockQuiz(level, count, rand) {
+      rand = rand || Math.random;
+      const hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+      const pool = [];
+      if (level === "hour-half") {
+        hours.forEach((h) => { pool.push({ hour: h, minute: 0 }); pool.push({ hour: h, minute: 30 }); });
+      } else if (level === "five") {
+        hours.forEach((h) => { for (let m = 0; m < 60; m += 5) pool.push({ hour: h, minute: m }); });
+      } else {
+        hours.forEach((h) => {
+          [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 17, 23, 37, 48, 52, 3, 8, 12, 28, 42].forEach((m) => {
+            pool.push({ hour: h, minute: m });
+          });
+        });
+      }
+      const times = shuffle(pool);
+      // unique first `count` times
+      const picked = [];
+      const seen = new Set();
+      for (let i = 0; i < times.length && picked.length < count; i++) {
+        const k = times[i].hour + ":" + times[i].minute;
+        if (seen.has(k)) continue;
+        seen.add(k);
+        picked.push(times[i]);
+      }
+      const types = ["read-key", "read-choice", "set", "hand"];
+      if (level !== "hour-half") types.push("elapsed");
+      else if (count >= 5) types.push("elapsed");
+      const assigned = [];
+      for (let i = 0; i < count; i++) assigned.push(types[i % types.length]);
+      const mixed = shuffle(assigned);
+      return picked.map((t, i) => makeClockQuestion(mixed[i], t.hour, t.minute, rand || Math.random));
+    }
+
+    function startClockQuiz(customQuestions) {
+      clearClockAnims();
+      const questions = customQuestions && customQuestions.length ? customQuestions.map((q) => Object.assign({}, q)) : generateClockQuiz(state.clockLevel, state.clockCount);
+      if (!questions.length) {
+        setMascot("think", "題目還沒準備好，再按一次開始吧！");
+        return;
+      }
+      state.quiz = {
+        kind: "clock",
+        questions,
+        index: 0,
+        input: "",
+        hourInput: "",
+        minuteInput: "",
+        clockField: "hour",
+        locked: false,
+        correct: 0,
+        streak: 0,
+        maxStreak: 0,
+        coinsEarned: 0,
+        mistakes: [],
+        startedAt: Date.now(),
+        limit: 0,
+        remain: 0,
+        retryMiss: !!(customQuestions && customQuestions.length),
+        key: "clock|" + state.clockLevel + "|" + questions.length,
+        level: state.clockLevel,
+        levelLabel: CLOCK_LEVEL_LABEL[state.clockLevel] || "看時鐘",
+        setHour: null,
+        setMinute: null,
+        givenLabel: ""
+      };
+      showScreen("clockQuiz");
+      setMascot("wow", "加油！慢慢看時針和分針，你一定可以的！");
+      buildClockKeypad();
+      renderClockQuiz();
+    }
+
+    function updateClockStats() {
+      const q = state.quiz;
+      if (!q) return;
+      const pct = (q.index / q.questions.length) * 100;
+      $("clockBar").style.width = pct + "%";
+      $("clockProgressLabel").textContent = "第 " + (q.index + 1) + " / " + q.questions.length + " 題";
+      $("clockLevelLabel").textContent = q.levelLabel || "";
+      $("clockScoreStat").textContent = "⭐ " + q.correct;
+      $("clockStreakStat").textContent = "🔥 連擊 " + q.streak;
+      $("clockCoinStat").textContent = "✨ +" + q.coinsEarned;
+    }
+
+    let quizClock = null;
+
+    function renderClockQuiz() {
+      const q = state.quiz;
+      if (!q || q.kind !== "clock") return;
+      const cur = q.questions[q.index];
+      q.locked = false;
+      q.input = "";
+      q.hourInput = "";
+      q.minuteInput = "";
+      q.clockField = "hour";
+      q.givenLabel = "";
+      $("clockFeedback").textContent = "";
+      $("clockFeedback").className = "feedback";
+      $("clockBox").classList.remove("good", "bad");
+      updateClockStats();
+      const inner = $("clockInner");
+      inner.innerHTML = "";
+      const toolbar = document.createElement("div");
+      toolbar.className = "story-toolbar";
+      toolbar.innerHTML = '<span class="type-pill">' + (
+        cur.type === "set" ? "撥時鐘" :
+        cur.type === "hand" ? "認指針" :
+        cur.type === "elapsed" ? "過了多久" : "看時鐘"
+      ) + '</span><button type="button" class="btn btn-purple" id="clockQuizSpeak">🔊</button>';
+      inner.appendChild(toolbar);
+      const prompt = document.createElement("div");
+      prompt.className = "clock-prompt";
+      prompt.textContent = cur.prompt;
+      inner.appendChild(prompt);
+
+      const needClock = cur.type !== "set" || true;
+      const wrap = document.createElement("div");
+      wrap.className = "clock-wrap compact";
+      const holder = document.createElement("div");
+      wrap.appendChild(holder);
+      inner.appendChild(wrap);
+
+      const showLabels = false;
+      const quizHandLabels = false;
+      if (cur.type === "set") {
+        q.setHour = cur.startHour;
+        q.setMinute = cur.startMinute;
+        quizClock = mountClock(holder, {
+          hour: cur.startHour, minute: cur.startMinute,
+          showMinuteLabels: false, showHandLabels: quizHandLabels, interactive: "drag",
+          onChange(h, m) { q.setHour = h; q.setMinute = m; }
+        });
+        wrap.insertAdjacentHTML("beforeend", clockLegendHtml(null));
+        const ok = document.createElement("button");
+        ok.type = "button";
+        ok.className = "btn btn-green btn-big";
+        ok.id = "clockSetOk";
+        ok.textContent = "確定";
+        ok.addEventListener("click", () => submitClockSet());
+        inner.appendChild(ok);
+        $("clockKeypadWrap").classList.add("hidden");
+      } else if (cur.type === "hand") {
+        quizClock = mountClock(holder, {
+          hour: cur.hour, minute: cur.minute,
+          showMinuteLabels: showLabels, showHandLabels: quizHandLabels, interactive: "tap",
+          onTapHand(which) { if (!q.locked) submitClockHand(which); }
+        });
+        wrap.insertAdjacentHTML("beforeend", clockLegendHtml(null));
+        $("clockKeypadWrap").classList.add("hidden");
+      } else if (cur.type === "read-choice" || cur.type === "elapsed") {
+        quizClock = mountClock(holder, {
+          hour: cur.hour, minute: cur.minute,
+          showMinuteLabels: false, showHandLabels: quizHandLabels, interactive: "none"
+        });
+        wrap.insertAdjacentHTML("beforeend", clockLegendHtml(null));
+        const opts = document.createElement("div");
+        opts.className = "choice-opts";
+        (cur.options || []).forEach((o) => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "choice-opt";
+          b.textContent = clockChoiceLabels(o);
+          b.addEventListener("click", () => submitClockChoice(o, b, opts));
+          opts.appendChild(b);
+        });
+        inner.appendChild(opts);
+        $("clockKeypadWrap").classList.add("hidden");
+      } else {
+        quizClock = mountClock(holder, {
+          hour: cur.hour, minute: cur.minute,
+          showMinuteLabels: false, showHandLabels: quizHandLabels, interactive: "none"
+        });
+        wrap.insertAdjacentHTML("beforeend", clockLegendHtml(null));
+        const entry = document.createElement("div");
+        entry.className = "clock-time-entry";
+        entry.innerHTML = '<button type="button" class="time-field on empty" data-field="hour" id="clockHourField">?</button><span>點</span>' +
+          '<button type="button" class="time-field empty" data-field="minute" id="clockMinField">?</button><span>分</span>';
+        inner.appendChild(entry);
+        entry.addEventListener("click", (e) => {
+          const f = e.target.closest(".time-field");
+          if (!f || q.locked) return;
+          q.clockField = f.dataset.field;
+          sfxClick();
+          syncClockFields();
+        });
+        $("clockKeypadWrap").classList.remove("hidden");
+      }
+      const speakBtn = $("clockQuizSpeak");
+      if (speakBtn) speakBtn.addEventListener("click", () => speak(cur.speech || cur.prompt));
+    }
+
+    function syncClockFields() {
+      const q = state.quiz;
+      if (!q) return;
+      const hf = $("clockHourField");
+      const mf = $("clockMinField");
+      if (!hf || !mf) return;
+      hf.textContent = q.hourInput || "?";
+      mf.textContent = q.minuteInput || "?";
+      hf.classList.toggle("empty", !q.hourInput);
+      mf.classList.toggle("empty", !q.minuteInput);
+      hf.classList.toggle("on", q.clockField === "hour");
+      mf.classList.toggle("on", q.clockField === "minute");
+    }
+
+    function buildClockKeypad() {
+      const box = $("clockKeypad");
+      if (!box || box.childElementCount) return;
+      box.innerHTML = "";
+      const keys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "⌫", "0", "送出"];
+      keys.forEach((k) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "key" + (k === "送出" ? " ok" : k === "⌫" ? " del" : "");
+        b.textContent = k;
+        b.addEventListener("click", () => handleClockKey(k));
+        box.appendChild(b);
+      });
+    }
+
+    function handleClockKey(k) {
+      const q = state.quiz;
+      if (!q || q.kind !== "clock" || q.locked) return;
+      const cur = q.questions[q.index];
+      if (cur.type !== "read-key") return;
+      if (k === "⌫" || k === "Backspace") {
+        if (q.clockField === "minute") {
+          if (q.minuteInput) q.minuteInput = q.minuteInput.slice(0, -1);
+          else q.clockField = "hour";
+        } else if (q.hourInput) q.hourInput = q.hourInput.slice(0, -1);
+        sfxClick();
+      } else if (k === "送出" || k === "Enter") {
+        if (!q.hourInput) return;
+        submitClockKey();
+        return;
+      } else if (/^\d$/.test(k)) {
+        if (q.clockField === "hour") {
+          if (q.hourInput.length >= 2) return;
+          const next = q.hourInput + k;
+          if (Number(next) > 12) return;
+          q.hourInput = next;
+          if (q.hourInput.length === 2 || (q.hourInput.length === 1 && Number(q.hourInput) !== 1)) {
+            q.clockField = "minute";
+          }
+        } else {
+          if (q.minuteInput.length >= 2) return;
+          const next = q.minuteInput + k;
+          if (Number(next) > 59) return;
+          q.minuteInput = next;
+        }
+        sfxClick();
+      } else return;
+      syncClockFields();
+    }
+
+    function clockAward(ok, givenLabel, explain) {
+      const q = state.quiz;
+      if (!q || q.kind !== "clock") return;
+      if (q.awardedIndex === q.index) return;
+      const cur = q.questions[q.index];
+      q.awardedIndex = q.index;
+      q.locked = true;
+      const box = $("clockBox");
+      const fb = $("clockFeedback");
+      const ansH = cur.answerHour;
+      const ansM = cur.answerMinute;
+      if (ok) {
+        q.correct += 1;
+        q.streak += 1;
+        q.maxStreak = Math.max(q.maxStreak, q.streak);
+        let gain = 1;
+        if (q.streak >= 10) gain = 4;
+        else if (q.streak >= 5) gain = 3;
+        else if (q.streak >= 3) gain = 2;
+        q.coinsEarned += gain;
+        profile.coins += gain;
+        box.classList.add("good");
+        fb.className = "feedback good";
+        fb.textContent = sayRandom(PRAISE) + "  +" + gain + "⭐";
+        setMascot("wow", sayRandom(PRAISE));
+        sfxCorrect();
+        burstConfetti();
+        if (q.streak === 3 || q.streak === 5 || q.streak === 10 || (q.streak > 10 && q.streak % 5 === 0)) {
+          showCombo("連擊 ×" + q.streak + "！");
+          sfxCombo();
+        }
+        updateCoinHud();
+        updateClockStats();
+        setTimeout(nextClockQuestion, 900);
+      } else {
+        q.streak = 0;
+        q.mistakes.push(Object.assign({}, cur, { given: givenLabel, ansLabel: cur.type === "hand" ? (cur.hand === "hour" ? "時針" : "分針") : CM.readTime(ansH, ansM) }));
+        box.classList.add("bad");
+        fb.className = "feedback bad";
+        const desc = CM.describeHands(ansH, ansM);
+        const msg = explain || (cur.type === "hand" ? "短短紅的是時針，長長藍的是分針。" : desc.text);
+        if (cur.type === "hand") {
+          fb.innerHTML = "差一點！正確是 <strong>" + (cur.hand === "hour" ? "時針" : "分針") + "</strong>。" + msg;
+        } else {
+          fb.innerHTML = "差一點！正確是 <strong>" + CM.readTime(ansH, ansM) + "</strong>。" + msg;
+        }
+        setMascot("comfort", sayRandom(COMFORT) + msg);
+        sfxWrong();
+        updateClockStats();
+        setTimeout(nextClockQuestion, 2800);
+      }
+    }
+
+    function submitClockKey() {
+      const q = state.quiz;
+      if (!q || q.locked) return;
+      const cur = q.questions[q.index];
+      const h = Number(q.hourInput);
+      const m = Number(q.minuteInput || "0");
+      if (!h || h < 1 || h > 12 || m < 0 || m > 59) {
+        setMascot("think", "小時要填 1 到 12，分鐘要填 0 到 59 喔！");
+        return;
+      }
+      const ok = CM.timesEqual(h, m, cur.answerHour, cur.answerMinute);
+      clockAward(ok, CM.readTime(h, m), ok ? "" : CM.describeHands(cur.answerHour, cur.answerMinute).text);
+    }
+    function submitClockChoice(opt, btn, optsBox) {
+      const q = state.quiz;
+      if (!q || q.locked) return;
+      const cur = q.questions[q.index];
+      const ok = CM.timesEqual(opt.hour, opt.minute, cur.answerHour, cur.answerMinute);
+      q.locked = true;
+      if (btn) btn.classList.add(ok ? "ok" : "bad");
+      if (optsBox && !ok) {
+        [...optsBox.querySelectorAll(".choice-opt")].forEach((b, i) => {
+          const o = cur.options[i];
+          if (o && CM.timesEqual(o.hour, o.minute, cur.answerHour, cur.answerMinute)) b.classList.add("ok");
+        });
+      }
+      q.locked = false;
+      clockAward(ok, clockChoiceLabels(opt));
+    }
+    function submitClockSet() {
+      const q = state.quiz;
+      if (!q || q.locked) return;
+      const cur = q.questions[q.index];
+      const h = q.setHour, m = q.setMinute;
+      const ok = CM.timesEqual(h, m, cur.answerHour, cur.answerMinute);
+      if (!ok && quizClock) quizClock.setTime(cur.answerHour, cur.answerMinute, true);
+      clockAward(ok, CM.readTime(h, m), ok ? "" : "你撥到了 " + CM.readTime(h, m) + "。正確是 " + CM.readTime(cur.answerHour, cur.answerMinute) + "。" + CM.describeHands(cur.answerHour, cur.answerMinute).text);
+    }
+    function submitClockHand(which) {
+      const q = state.quiz;
+      if (!q || q.locked) return;
+      const cur = q.questions[q.index];
+      const ok = which === cur.hand;
+      if (quizClock) quizClock.setOptions({ highlight: cur.hand, showHandLabels: true });
+      const given = which === "hour" ? "時針" : "分針";
+      const right = cur.hand === "hour" ? "時針（短短胖胖的紅指針）" : "分針（長長瘦瘦的藍指針）";
+      clockAward(ok, given, ok ? "" : "正確是" + right + "。短短紅的是時針，長長藍的是分針。");
+    }
+
+    function nextClockQuestion() {
+      const q = state.quiz;
+      if (!q || q.kind !== "clock") return;
+      if (q.index >= q.questions.length - 1) {
+        $("clockBar").style.width = "100%";
+        finishQuiz(false);
+        return;
+      }
+      q.index += 1;
+      renderClockQuiz();
+    }
+
+    function openClockLesson(page) {
+      state.clockLessonPage = page == null ? 0 : page;
+      showScreen("clockLesson");
+      renderClockLesson();
+    }
+
     function applyDemoRoute() {
       const params = new URLSearchParams(location.search);
       const demo = params.get("demo") || (location.hash || "").replace(/^#/, "");
       if (!demo) return;
+      if (demo === "clock" || demo === "clock-setup") {
+        showScreen("clockSetup");
+        setMascot("happy", "這是時鐘教學：先分清時針和分針，再來看現在是幾點！");
+        return;
+      }
+      if (demo === "clock-lesson" || demo === "clock-lesson-1") { openClockLesson(0); return; }
+      if (demo === "clock-lesson-2") { openClockLesson(1); return; }
+      if (demo === "clock-lesson-3") { openClockLesson(2); return; }
+      if (demo === "clock-lesson-4") { openClockLesson(3); return; }
+      if (demo === "clock-lesson-5") { openClockLesson(4); return; }
+      if (demo === "clock-lesson-6") { openClockLesson(5); return; }
+      if (demo === "clock-play" || demo === "clock-lesson-7") { openClockLesson(6); return; }
+      if (demo === "clock-quiz" || demo === "clock-quiz-read") {
+        state.clockLevel = "one";
+        startClockQuiz([makeClockQuestion("read-key", 8, 15, Math.random)]);
+        return;
+      }
+      if (demo === "clock-quiz-set") {
+        startClockQuiz([makeClockQuestion("set", 4, 25, Math.random)]);
+        return;
+      }
+      if (demo === "clock-quiz-hand") {
+        const qn = makeClockQuestion("hand", 3, 0, Math.random);
+        qn.hand = "hour";
+        qn.prompt = "請點選【時針】（短短胖胖的紅指針）";
+        qn.speech = qn.prompt;
+        startClockQuiz([qn]);
+        return;
+      }
+      if (demo === "clock-quiz-elapsed") {
+        startClockQuiz([makeClockQuestion("elapsed", 2, 30, Math.random)]);
+        return;
+      }
       if (demo === "story" || demo === "story-setup") {
         showScreen("storySetup");
         setMascot("happy", "這是應用題：我們來練習「倍」的問題和乘法算式！");
@@ -2145,15 +3322,18 @@ function validateStoryProblem(p) {
       if (Object.keys(profile.stickers).length >= 9) profile.badges.stickers9 = true;
       if (total >= 30) profile.badges.quiz30 = true;
       if (q.kind === "story" && total > 0 && score >= Math.ceil(total * 0.8)) profile.badges.beiExpert = true;
+      const hadClockMaster = !!profile.badges.clockMaster;
+      if (q.kind === "clock" && total > 0 && score >= Math.ceil(total * 0.8)) profile.badges.clockMaster = true;
       profile.bestStreak = Math.max(profile.bestStreak || 0, q.maxStreak);
 
       const rec = {
         ts: Date.now(),
         score, total, seconds: elapsed,
-        numbers: selectedList(),
+        numbers: q.kind === "clock" ? [] : selectedList(),
         coins: q.coinsEarned,
         timeout: !!timeout,
-        kind: q.kind || "quiz"
+        kind: q.kind || "quiz",
+        levelLabel: q.levelLabel || ""
       };
       profile.history.unshift(rec);
       profile.history = profile.history.slice(0, 20);
@@ -2172,6 +3352,10 @@ function validateStoryProblem(p) {
         sfxUnlock();
         const n = newStickers[0];
         showUnlock("解鎖貼紙！" + STICKER_ART[n] + " " + STICKER_NAME[n] + (newStickers.length > 1 ? " 還有更多喔" : ""));
+        burstConfetti(80);
+      } else if (q.kind === "clock" && profile.badges.clockMaster && !hadClockMaster) {
+        sfxUnlock();
+        showUnlock("解鎖徽章！⏰ 看時鐘小達人");
         burstConfetti(80);
       } else if (score === total) {
         burstConfetti(90);
@@ -2200,6 +3384,9 @@ function validateStoryProblem(p) {
           if (q.kind === "story") {
             return "<li><span>" + (m.story || (m.a + " × " + m.b)) + "</span><span>" + m.a + " × " + m.b + " = " + (m.product != null ? m.product : (m.a * m.b)) + " · " + (STORY_TYPE_LABEL[m.type] || "應用題") + "</span></li>";
           }
+          if (q.kind === "clock") {
+            return "<li><span>" + (m.prompt || "時鐘題") + "</span><span>正確：" + (m.ansLabel || "") + " · 你答了 " + (m.given || "空白") + "</span></li>";
+          }
           return "<li><span>" + m.a + " × " + m.b + " = " + m.ans + "</span><span>你填了 " + (m.given || "空白") + " · " + koujue(m.a, m.b) + "</span></li>";
         }).join("");
       } else {
@@ -2220,8 +3407,9 @@ function validateStoryProblem(p) {
       ul.innerHTML = profile.history.map((h) => {
         const d = new Date(h.ts);
         const t = d.toLocaleString("zh-TW", { timeZone: "Asia/Taipei", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" });
-        const kind = h.kind === "story" ? "應用題 · " : "";
-        return "<li><span>" + t + " · " + kind + (h.numbers || []).join(",") + "</span><span>" + h.score + "/" + h.total + " · " + h.seconds + "秒 · +" + h.coins + "⭐</span></li>";
+        const kind = h.kind === "story" ? "應用題 · " : h.kind === "clock" ? "時鐘教學 · " : "";
+        const nums = h.kind === "clock" ? (h.levelLabel || "看時鐘") : (h.numbers || []).join(",");
+        return "<li><span>" + t + " · " + kind + nums + "</span><span>" + h.score + "/" + h.total + " · " + h.seconds + "秒 · +" + h.coins + "⭐</span></li>";
       }).join("");
     }
 
@@ -2411,6 +3599,7 @@ function validateStoryProblem(p) {
     $("retryBtn").addEventListener("click", () => {
       sfxClick();
       if (state.quiz && state.quiz.kind === "story") startStoryQuiz();
+      else if (state.quiz && state.quiz.kind === "clock") startClockQuiz();
       else startQuiz();
     });
     $("retryMissBtn").addEventListener("click", () => {
@@ -2420,6 +3609,11 @@ function validateStoryProblem(p) {
         startStoryQuiz(state.quiz.mistakes);
         return;
       }
+      if (state.quiz && state.quiz.kind === "clock") {
+        if (!state.quiz.mistakes.length) return;
+        startClockQuiz(state.quiz.mistakes);
+        return;
+      }
       const misses = state.quiz ? state.quiz.mistakes.map((m) => ({ a: m.a, b: m.b })) : [];
       if (!misses.length) return;
       startQuiz(misses);
@@ -2427,6 +3621,12 @@ function validateStoryProblem(p) {
     $("resultHomeBtn").addEventListener("click", () => { sfxClick(); showScreen("home"); });
 
     document.addEventListener("keydown", (e) => {
+      if (state.screen === "clockQuiz") {
+        if (e.key === "Enter") { e.preventDefault(); handleClockKey("Enter"); }
+        else if (e.key === "Backspace") { e.preventDefault(); handleClockKey("Backspace"); }
+        else if (/^\d$/.test(e.key)) handleClockKey(e.key);
+        return;
+      }
       if (state.screen === "story") {
         if (e.key === "Enter") { e.preventDefault(); handleStoryKey("Enter"); }
         else if (e.key === "Backspace") { e.preventDefault(); handleStoryKey("Backspace"); }
@@ -2445,9 +3645,47 @@ function validateStoryProblem(p) {
     });
     if ("speechSynthesis" in window) speechSynthesis.onvoiceschanged = () => {};
 
+    $("goClockSetup").addEventListener("click", () => {
+      sfxClick();
+      showScreen("clockSetup");
+      setMascot("happy", "我們來學看時鐘吧！短短紅的是時針，長長藍的是分針。");
+    });
+    $("clockSetupBack").addEventListener("click", () => { sfxClick(); showScreen("home"); });
+    $("clockTeachBtn").addEventListener("click", () => { sfxClick(); openClockLesson(0); });
+    $("startClockBtn").addEventListener("click", () => { sfxClick(); startClockQuiz(); });
+    $("clockLevelRow").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-clock-level]");
+      if (!b) return;
+      state.clockLevel = b.dataset.clockLevel;
+      $("clockLevelRow").querySelectorAll(".seg").forEach((x) => x.classList.toggle("on", x === b));
+      sfxClick();
+    });
+    $("clockCountRow").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-clock-count]");
+      if (!b) return;
+      state.clockCount = +b.dataset.clockCount;
+      $("clockCountRow").querySelectorAll(".seg").forEach((x) => x.classList.toggle("on", x === b));
+      sfxClick();
+    });
+    $("clockLessonBack").addEventListener("click", () => { sfxClick(); showScreen("clockSetup"); setMascot("happy", "看完教學就可以開始測驗囉！"); });
+    $("clockLessonSpeak").addEventListener("click", () => speak(CLOCK_LESSON_SPEECH[state.clockLessonPage] || ""));
+    $("clockLessonPrev").addEventListener("click", () => {
+      sfxClick();
+      if (state.clockLessonPage <= 0) { showScreen("clockSetup"); return; }
+      state.clockLessonPage -= 1;
+      renderClockLesson();
+    });
+    $("clockLessonNext").addEventListener("click", () => {
+      sfxClick();
+      if (state.clockLessonPage >= 6) { showScreen("clockSetup"); setMascot("wow", "準備好就選難度，開始測驗吧！"); return; }
+      state.clockLessonPage += 1;
+      renderClockLesson();
+    });
+
     loadProfile();
     buildKeypad();
     buildStoryKeypad();
+    buildClockKeypad();
     updateCoinHud();
     renderChips();
     showScreen("home");
