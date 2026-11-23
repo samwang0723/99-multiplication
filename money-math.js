@@ -534,8 +534,8 @@
           q.formula = { a: base, op: "＋", b: more, result: ans };
           q.vertical = verticalOp(base, more, "+");
           q.picture = { items: [
-            { name: item.name, emoji: item.emoji, price: base },
-            { name: other.name, emoji: other.emoji, price: ans }
+            { name: item.name, emoji: item.emoji, value: base, unit: "杯" },
+            { name: other.name, emoji: other.emoji, value: "?", unit: "杯" }
           ]};
           q.story = "果汁店賣出 " + base + " 杯" + item.name + "，" + other.name + "比" + item.name + "多賣出 " + more + " 杯。";
           q.prompt = other.name + "賣出幾杯？";

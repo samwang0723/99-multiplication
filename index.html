@@ -4373,7 +4373,8 @@ function validateStoryProblem(p) {
       if (pic.items) {
         return '<div class="money-pic">' + pic.items.map((it) =>
           '<div class="item-chip"><span class="emo">' + (it.emoji || "") + "</span>" + it.name +
-          (it.price != null ? '<div class="price">' + it.price + " 元</div>" : "") + "</div>"
+          (it.value != null ? '<div class="price">' + it.value + " " + (it.unit || "") + "</div>"
+            : it.price != null ? '<div class="price">' + it.price + " 元</div>" : "") + "</div>"
         ).join("") + "</div>";
       }
       if (pic.emoji || pic.item) {
