@@ -9,7 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@500;700;900&display=swap" rel="stylesheet" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌟</text></svg>" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <style>
     :root {
       --sky-top: #7ad7ff;
@@ -696,7 +697,7 @@
       </svg>
       <div class="titles">
         <h1>國小數學大挑戰</h1>
-        <p>和九九一起玩數學！</p>
+        <p>和拉拉一起玩數學！</p>
       </div>
       <div class="hud">
         <div class="coin-pill" id="coinPill" title="星星幣">⭐ 0</div>
@@ -706,10 +707,10 @@
     </header>
 
     <div class="mascot-row">
-      <svg class="buddy" id="mascotSvg" viewBox="0 0 120 120" role="img" aria-label="吉祥物九九">
+      <svg class="buddy" id="mascotSvg" viewBox="0 0 120 120" role="img" aria-label="吉祥物拉拉">
         <use id="mascotUse" href="#mascotHappy"></use>
       </svg>
-      <div class="bubble" id="speechBubble">嗨！我是九九，一起來玩乘法遊戲吧！先選要練習的數字～</div>
+      <div class="bubble" id="speechBubble">嗨！我是拉拉，一起來玩乘法遊戲吧！先選要練習的數字～</div>
     </div>
 
     <main>
@@ -1121,66 +1122,156 @@
   </div>
 
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="lalaBodyGrad" x1="30%" y1="10%" x2="70%" y2="90%">
+        <stop offset="0%" stop-color="#9BE85C"/>
+        <stop offset="55%" stop-color="#6FCB4A"/>
+        <stop offset="100%" stop-color="#57B33A"/>
+      </linearGradient>
+      <linearGradient id="lalaSpikeGrad" x1="30%" y1="0%" x2="70%" y2="100%">
+        <stop offset="0%" stop-color="#FFF6B8"/>
+        <stop offset="100%" stop-color="#FFD24A"/>
+      </linearGradient>
+      <linearGradient id="lalaBellyGrad" x1="50%" y1="0%" x2="50%" y2="100%">
+        <stop offset="0%" stop-color="#FFFBE8"/>
+        <stop offset="100%" stop-color="#FFE7A0"/>
+      </linearGradient>
+      <linearGradient id="lalaTailGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#7ED957"/>
+        <stop offset="100%" stop-color="#4FA832"/>
+      </linearGradient>
+    </defs>
     <symbol id="mascotHappy" viewBox="0 0 120 120">
-      <ellipse cx="60" cy="108" rx="28" ry="7" fill="rgba(0,0,0,0.12)"/>
-      <circle cx="60" cy="64" r="38" fill="#FFB347"/>
-      <path d="M28 48c-8-22 10-34 22-22 4 4 6 10 7 16" fill="#FF9E2C"/>
-      <path d="M92 48c8-22-10-34-22-22-4 4-6 10-7 16" fill="#FF9E2C"/>
-      <path d="M32 46c-6-16 8-26 18-16" fill="#FFD6A5"/>
-      <path d="M88 46c6-16-8-26-18-16" fill="#FFD6A5"/>
-      <circle cx="46" cy="60" r="7" fill="#3a2a14"/>
-      <circle cx="74" cy="60" r="7" fill="#3a2a14"/>
-      <circle cx="48.5" cy="57.5" r="2.2" fill="#fff"/>
-      <circle cx="76.5" cy="57.5" r="2.2" fill="#fff"/>
-      <ellipse cx="48" cy="72" rx="7" ry="4" fill="#FF8AA8" opacity="0.85"/>
-      <ellipse cx="72" cy="72" rx="7" ry="4" fill="#FF8AA8" opacity="0.85"/>
-      <path d="M54 76c4 6 12 6 16 0" fill="none" stroke="#3a2a14" stroke-width="3.2" stroke-linecap="round"/>
-      <circle cx="60" cy="68" r="4" fill="#FF8A3D"/>
-      <text x="60" y="100" text-anchor="middle" font-size="14" font-weight="800" fill="#fff">九九</text>
+      <ellipse cx="60" cy="111" rx="30" ry="5.5" fill="rgba(58,42,20,0.18)"/>
+      <path d="M86 80 C104 74 114 82 110 93 C107 101 94 102 84 92 C82 89 82 84 86 80Z" fill="url(#lalaTailGrad)" stroke="#3D8A28" stroke-width="2.2" stroke-linejoin="round"/>
+      <ellipse cx="41" cy="102.5" rx="12" ry="7.5" fill="#57B33A" stroke="#3D8A28" stroke-width="2.2"/>
+      <ellipse cx="79" cy="102.5" rx="12" ry="7.5" fill="#57B33A" stroke="#3D8A28" stroke-width="2.2"/>
+      <ellipse cx="38" cy="101.5" rx="4" ry="2.4" fill="#8ED85F" opacity="0.8"/>
+      <ellipse cx="76" cy="101.5" rx="4" ry="2.4" fill="#8ED85F" opacity="0.8"/>
+      <path d="M34 48 C30 30 38 14 48 20 C55 24 54 40 50 50 Z" fill="url(#lalaSpikeGrad)" stroke="#E8B63A" stroke-width="2.1" stroke-linejoin="round"/>
+      <path d="M48 36 C50 10 70 8 74 36 C75 44 70 48 60 48 C52 48 48 44 48 36Z" fill="url(#lalaSpikeGrad)" stroke="#E8B63A" stroke-width="2.1" stroke-linejoin="round"/>
+      <path d="M72 48 C70 30 78 16 88 22 C96 28 92 44 84 52 Z" fill="url(#lalaSpikeGrad)" stroke="#E8B63A" stroke-width="2.1" stroke-linejoin="round"/>
+      <path d="M44 28 C46 20 52 20 52 30" fill="none" stroke="#fff6c8" stroke-width="2.4" stroke-linecap="round" opacity="0.85"/>
+      <path d="M56 20 C58 12 66 12 66 22" fill="none" stroke="#fff6c8" stroke-width="2.8" stroke-linecap="round" opacity="0.9"/>
+      <path d="M80 30 C82 22 88 24 86 34" fill="none" stroke="#fff6c8" stroke-width="2.4" stroke-linecap="round" opacity="0.85"/>
+      <ellipse cx="60" cy="68" rx="37" ry="38" fill="url(#lalaBodyGrad)" stroke="#3D8A28" stroke-width="2.6"/>
+      <ellipse cx="48" cy="52" rx="16" ry="12" fill="#C4F58A" opacity="0.55"/>
+      <ellipse cx="60" cy="82" rx="22" ry="18.5" fill="url(#lalaBellyGrad)"/>
+      <g stroke="#3D8A28" stroke-width="2.1" stroke-linejoin="round">
+        <ellipse cx="44" cy="86" rx="7.2" ry="5.6" fill="#6FCB4A" transform="rotate(-28 44 86)"/>
+        <ellipse cx="76" cy="86" rx="7.2" ry="5.6" fill="#6FCB4A" transform="rotate(28 76 86)"/>
+      </g>
+      <ellipse cx="36" cy="70" rx="8" ry="5.5" fill="#FF9BB8" opacity="0.92"/>
+      <ellipse cx="84" cy="70" rx="8" ry="5.5" fill="#FF9BB8" opacity="0.92"/>
+      <ellipse cx="46" cy="58" rx="8.2" ry="9" fill="#3a2a14"/>
+      <ellipse cx="74" cy="58" rx="8.2" ry="9" fill="#3a2a14"/>
+      <circle cx="49.2" cy="54.6" r="3.3" fill="#fff"/>
+      <circle cx="77.2" cy="54.6" r="3.3" fill="#fff"/>
+      <circle cx="44.6" cy="60.2" r="1.35" fill="#fff" opacity="0.85"/>
+      <circle cx="72.6" cy="60.2" r="1.35" fill="#fff" opacity="0.85"/>
+      <circle cx="56.5" cy="69" r="1.7" fill="#3D8A28" opacity="0.45"/>
+      <circle cx="63.5" cy="69" r="1.7" fill="#3D8A28" opacity="0.45"/>
+      <path d="M50 76 C56 84.5 64 84.5 70 76" fill="none" stroke="#3a2a14" stroke-width="3.1" stroke-linecap="round"/>
     </symbol>
     <symbol id="mascotWow" viewBox="0 0 120 120">
-      <ellipse cx="60" cy="108" rx="28" ry="7" fill="rgba(0,0,0,0.12)"/>
-      <circle cx="60" cy="64" r="38" fill="#FFB347"/>
-      <path d="M28 48c-8-22 10-34 22-22 4 4 6 10 7 16" fill="#FF9E2C"/>
-      <path d="M92 48c8-22-10-34-22-22-4 4-6 10-7 16" fill="#FF9E2C"/>
-      <path d="M32 46c-6-16 8-26 18-16" fill="#FFD6A5"/>
-      <path d="M88 46c6-16-8-26-18-16" fill="#FFD6A5"/>
-      <circle cx="46" cy="58" r="8" fill="#3a2a14"/>
-      <circle cx="74" cy="58" r="8" fill="#3a2a14"/>
-      <circle cx="49" cy="55" r="2.4" fill="#fff"/>
-      <circle cx="77" cy="55" r="2.4" fill="#fff"/>
-      <ellipse cx="48" cy="72" rx="7" ry="4" fill="#FF8AA8"/>
-      <ellipse cx="72" cy="72" rx="7" ry="4" fill="#FF8AA8"/>
-      <ellipse cx="60" cy="80" rx="7" ry="8" fill="#3a2a14"/>
-      <circle cx="60" cy="68" r="4" fill="#FF8A3D"/>
+      <ellipse cx="60" cy="111" rx="30" ry="5.5" fill="rgba(58,42,20,0.18)"/>
+      <path d="M86 80 C104 74 114 82 110 93 C107 101 94 102 84 92 C82 89 82 84 86 80Z" fill="url(#lalaTailGrad)" stroke="#3D8A28" stroke-width="2.2" stroke-linejoin="round"/>
+      <ellipse cx="41" cy="102.5" rx="12" ry="7.5" fill="#57B33A" stroke="#3D8A28" stroke-width="2.2"/>
+      <ellipse cx="79" cy="102.5" rx="12" ry="7.5" fill="#57B33A" stroke="#3D8A28" stroke-width="2.2"/>
+      <ellipse cx="38" cy="101.5" rx="4" ry="2.4" fill="#8ED85F" opacity="0.8"/>
+      <ellipse cx="76" cy="101.5" rx="4" ry="2.4" fill="#8ED85F" opacity="0.8"/>
+      <path d="M34 48 C30 30 38 14 48 20 C55 24 54 40 50 50 Z" fill="url(#lalaSpikeGrad)" stroke="#E8B63A" stroke-width="2.1" stroke-linejoin="round"/>
+      <path d="M48 36 C50 10 70 8 74 36 C75 44 70 48 60 48 C52 48 48 44 48 36Z" fill="url(#lalaSpikeGrad)" stroke="#E8B63A" stroke-width="2.1" stroke-linejoin="round"/>
+      <path d="M72 48 C70 30 78 16 88 22 C96 28 92 44 84 52 Z" fill="url(#lalaSpikeGrad)" stroke="#E8B63A" stroke-width="2.1" stroke-linejoin="round"/>
+      <path d="M44 28 C46 20 52 20 52 30" fill="none" stroke="#fff6c8" stroke-width="2.4" stroke-linecap="round" opacity="0.85"/>
+      <path d="M56 20 C58 12 66 12 66 22" fill="none" stroke="#fff6c8" stroke-width="2.8" stroke-linecap="round" opacity="0.9"/>
+      <path d="M80 30 C82 22 88 24 86 34" fill="none" stroke="#fff6c8" stroke-width="2.4" stroke-linecap="round" opacity="0.85"/>
+      <ellipse cx="60" cy="68" rx="37" ry="38" fill="url(#lalaBodyGrad)" stroke="#3D8A28" stroke-width="2.6"/>
+      <ellipse cx="48" cy="52" rx="16" ry="12" fill="#C4F58A" opacity="0.55"/>
+      <ellipse cx="60" cy="82" rx="22" ry="18.5" fill="url(#lalaBellyGrad)"/>
+      <g stroke="#3D8A28" stroke-width="2.1" stroke-linejoin="round">
+        <ellipse cx="26" cy="62" rx="7.4" ry="9.2" fill="#6FCB4A" transform="rotate(-18 26 62)"/>
+        <ellipse cx="94" cy="62" rx="7.4" ry="9.2" fill="#6FCB4A" transform="rotate(18 94 62)"/>
+      </g>
+      <g fill="#FFE566" stroke="#E8B63A" stroke-width="0.8">
+        <path d="M18 44 L20.2 50 L26 52 L20.2 54 L18 60 L15.8 54 L10 52 L15.8 50 Z"/>
+        <path d="M102 40 L103.8 45 L109 47 L103.8 49 L102 54 L100.2 49 L95 47 L100.2 45 Z"/>
+      </g>
+      <ellipse cx="36" cy="68" rx="8" ry="5.5" fill="#FF9BB8" opacity="0.92"/>
+      <ellipse cx="84" cy="68" rx="8" ry="5.5" fill="#FF9BB8" opacity="0.92"/>
+      <ellipse cx="46" cy="56" rx="9.2" ry="10" fill="#3a2a14"/>
+      <ellipse cx="74" cy="56" rx="9.2" ry="10" fill="#3a2a14"/>
+      <circle cx="50" cy="52" r="3.8" fill="#fff"/>
+      <circle cx="78" cy="52" r="3.8" fill="#fff"/>
+      <circle cx="44.2" cy="58.5" r="1.5" fill="#fff" opacity="0.85"/>
+      <circle cx="72.2" cy="58.5" r="1.5" fill="#fff" opacity="0.85"/>
+      <ellipse cx="60" cy="80" rx="8" ry="8.6" fill="#3a2a14"/>
+      <ellipse cx="60" cy="83.2" rx="5.2" ry="4.2" fill="#FF7A9A"/>
     </symbol>
     <symbol id="mascotThink" viewBox="0 0 120 120">
-      <ellipse cx="60" cy="108" rx="28" ry="7" fill="rgba(0,0,0,0.12)"/>
-      <circle cx="60" cy="64" r="38" fill="#FFB347"/>
-      <path d="M28 48c-8-22 10-34 22-22 4 4 6 10 7 16" fill="#FF9E2C"/>
-      <path d="M92 48c8-22-10-34-22-22-4 4-6 10-7 16" fill="#FF9E2C"/>
-      <path d="M32 46c-6-16 8-26 18-16" fill="#FFD6A5"/>
-      <path d="M88 46c6-16-8-26-18-16" fill="#FFD6A5"/>
-      <path d="M40 60c4-6 10-6 14 0" fill="none" stroke="#3a2a14" stroke-width="3.4" stroke-linecap="round"/>
-      <path d="M66 60c4-6 10-6 14 0" fill="none" stroke="#3a2a14" stroke-width="3.4" stroke-linecap="round"/>
-      <ellipse cx="48" cy="72" rx="6" ry="3.5" fill="#FF8AA8" opacity="0.8"/>
-      <ellipse cx="72" cy="72" rx="6" ry="3.5" fill="#FF8AA8" opacity="0.8"/>
-      <path d="M55 78c5 3 10 3 14-1" fill="none" stroke="#3a2a14" stroke-width="3" stroke-linecap="round"/>
-      <circle cx="60" cy="68" r="4" fill="#FF8A3D"/>
+      <ellipse cx="60" cy="111" rx="30" ry="5.5" fill="rgba(58,42,20,0.18)"/>
+      <path d="M86 80 C104 74 114 82 110 93 C107 101 94 102 84 92 C82 89 82 84 86 80Z" fill="url(#lalaTailGrad)" stroke="#3D8A28" stroke-width="2.2" stroke-linejoin="round"/>
+      <ellipse cx="41" cy="102.5" rx="12" ry="7.5" fill="#57B33A" stroke="#3D8A28" stroke-width="2.2"/>
+      <ellipse cx="79" cy="102.5" rx="12" ry="7.5" fill="#57B33A" stroke="#3D8A28" stroke-width="2.2"/>
+      <ellipse cx="38" cy="101.5" rx="4" ry="2.4" fill="#8ED85F" opacity="0.8"/>
+      <ellipse cx="76" cy="101.5" rx="4" ry="2.4" fill="#8ED85F" opacity="0.8"/>
+      <path d="M34 48 C30 30 38 14 48 20 C55 24 54 40 50 50 Z" fill="url(#lalaSpikeGrad)" stroke="#E8B63A" stroke-width="2.1" stroke-linejoin="round"/>
+      <path d="M48 36 C50 10 70 8 74 36 C75 44 70 48 60 48 C52 48 48 44 48 36Z" fill="url(#lalaSpikeGrad)" stroke="#E8B63A" stroke-width="2.1" stroke-linejoin="round"/>
+      <path d="M72 48 C70 30 78 16 88 22 C96 28 92 44 84 52 Z" fill="url(#lalaSpikeGrad)" stroke="#E8B63A" stroke-width="2.1" stroke-linejoin="round"/>
+      <path d="M44 28 C46 20 52 20 52 30" fill="none" stroke="#fff6c8" stroke-width="2.4" stroke-linecap="round" opacity="0.85"/>
+      <path d="M56 20 C58 12 66 12 66 22" fill="none" stroke="#fff6c8" stroke-width="2.8" stroke-linecap="round" opacity="0.9"/>
+      <path d="M80 30 C82 22 88 24 86 34" fill="none" stroke="#fff6c8" stroke-width="2.4" stroke-linecap="round" opacity="0.85"/>
+      <ellipse cx="60" cy="68" rx="37" ry="38" fill="url(#lalaBodyGrad)" stroke="#3D8A28" stroke-width="2.6"/>
+      <ellipse cx="48" cy="52" rx="16" ry="12" fill="#C4F58A" opacity="0.55"/>
+      <ellipse cx="60" cy="82" rx="22" ry="18.5" fill="url(#lalaBellyGrad)"/>
+      <ellipse cx="42" cy="88" rx="7.2" ry="5.6" fill="#6FCB4A" stroke="#3D8A28" stroke-width="2.1" transform="rotate(-22 42 88)"/>
+      <ellipse cx="36" cy="70" rx="7.5" ry="5.2" fill="#FF9BB8" opacity="0.92"/>
+      <ellipse cx="84" cy="70" rx="7.5" ry="5.2" fill="#FF9BB8" opacity="0.92"/>
+      <ellipse cx="46" cy="58" rx="8" ry="8.8" fill="#3a2a14"/>
+      <ellipse cx="74" cy="58" rx="8" ry="8.8" fill="#3a2a14"/>
+      <circle cx="50.4" cy="53.6" r="3.1" fill="#fff"/>
+      <circle cx="78.4" cy="53.6" r="3.1" fill="#fff"/>
+      <circle cx="45.2" cy="59.5" r="1.2" fill="#fff" opacity="0.8"/>
+      <circle cx="73.2" cy="59.5" r="1.2" fill="#fff" opacity="0.8"/>
+      <path d="M66 43 C70 40 78 40 83 44" fill="none" stroke="#3a2a14" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M54 77 C59 80 65 79 68 75" fill="none" stroke="#3a2a14" stroke-width="2.7" stroke-linecap="round"/>
+      <g stroke="#3D8A28" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M90 94 C100 86 102 74 94 68" fill="none" stroke="#3D8A28" stroke-width="11"/>
+        <path d="M90 94 C100 86 102 74 94 68" fill="none" stroke="#6FCB4A" stroke-width="7"/>
+        <ellipse cx="88" cy="66" rx="8.2" ry="7" fill="#6FCB4A"/>
+      </g>
+      <g fill="#7a6244">
+        <circle cx="97" cy="36" r="2.2"/>
+        <circle cx="104" cy="26" r="2.9"/>
+        <circle cx="111" cy="14" r="3.7"/>
+      </g>
     </symbol>
     <symbol id="mascotComfort" viewBox="0 0 120 120">
-      <ellipse cx="60" cy="108" rx="28" ry="7" fill="rgba(0,0,0,0.12)"/>
-      <circle cx="60" cy="64" r="38" fill="#FFB347"/>
-      <path d="M28 48c-8-22 10-34 22-22 4 4 6 10 7 16" fill="#FF9E2C"/>
-      <path d="M92 48c8-22-10-34-22-22-4 4-6 10-7 16" fill="#FF9E2C"/>
-      <path d="M32 46c-6-16 8-26 18-16" fill="#FFD6A5"/>
-      <path d="M88 46c6-16-8-26-18-16" fill="#FFD6A5"/>
-      <path d="M40 62c4-4 10-4 14 1" fill="none" stroke="#3a2a14" stroke-width="3.4" stroke-linecap="round"/>
-      <path d="M66 62c4-4 10-4 14 1" fill="none" stroke="#3a2a14" stroke-width="3.4" stroke-linecap="round"/>
-      <ellipse cx="48" cy="73" rx="6" ry="3.5" fill="#FF8AA8" opacity="0.8"/>
-      <ellipse cx="72" cy="73" rx="6" ry="3.5" fill="#FF8AA8" opacity="0.8"/>
-      <path d="M54 82c6-5 12-5 16 0" fill="none" stroke="#3a2a14" stroke-width="3" stroke-linecap="round"/>
-      <circle cx="60" cy="69" r="4" fill="#FF8A3D"/>
+      <ellipse cx="60" cy="111" rx="30" ry="5.5" fill="rgba(58,42,20,0.18)"/>
+      <path d="M86 80 C104 74 114 82 110 93 C107 101 94 102 84 92 C82 89 82 84 86 80Z" fill="url(#lalaTailGrad)" stroke="#3D8A28" stroke-width="2.2" stroke-linejoin="round"/>
+      <ellipse cx="41" cy="102.5" rx="12" ry="7.5" fill="#57B33A" stroke="#3D8A28" stroke-width="2.2"/>
+      <ellipse cx="79" cy="102.5" rx="12" ry="7.5" fill="#57B33A" stroke="#3D8A28" stroke-width="2.2"/>
+      <ellipse cx="38" cy="101.5" rx="4" ry="2.4" fill="#8ED85F" opacity="0.8"/>
+      <ellipse cx="76" cy="101.5" rx="4" ry="2.4" fill="#8ED85F" opacity="0.8"/>
+      <path d="M34 48 C30 30 38 14 48 20 C55 24 54 40 50 50 Z" fill="url(#lalaSpikeGrad)" stroke="#E8B63A" stroke-width="2.1" stroke-linejoin="round"/>
+      <path d="M48 36 C50 10 70 8 74 36 C75 44 70 48 60 48 C52 48 48 44 48 36Z" fill="url(#lalaSpikeGrad)" stroke="#E8B63A" stroke-width="2.1" stroke-linejoin="round"/>
+      <path d="M72 48 C70 30 78 16 88 22 C96 28 92 44 84 52 Z" fill="url(#lalaSpikeGrad)" stroke="#E8B63A" stroke-width="2.1" stroke-linejoin="round"/>
+      <path d="M44 28 C46 20 52 20 52 30" fill="none" stroke="#fff6c8" stroke-width="2.4" stroke-linecap="round" opacity="0.85"/>
+      <path d="M56 20 C58 12 66 12 66 22" fill="none" stroke="#fff6c8" stroke-width="2.8" stroke-linecap="round" opacity="0.9"/>
+      <path d="M80 30 C82 22 88 24 86 34" fill="none" stroke="#fff6c8" stroke-width="2.4" stroke-linecap="round" opacity="0.85"/>
+      <ellipse cx="60" cy="68" rx="37" ry="38" fill="url(#lalaBodyGrad)" stroke="#3D8A28" stroke-width="2.6"/>
+      <ellipse cx="48" cy="52" rx="16" ry="12" fill="#C4F58A" opacity="0.55"/>
+      <ellipse cx="60" cy="82" rx="22" ry="18.5" fill="url(#lalaBellyGrad)"/>
+      <g stroke="#3D8A28" stroke-width="2.1" stroke-linejoin="round">
+        <ellipse cx="44" cy="86" rx="7.2" ry="5.6" fill="#6FCB4A" transform="rotate(-28 44 86)"/>
+        <ellipse cx="76" cy="86" rx="7.2" ry="5.6" fill="#6FCB4A" transform="rotate(28 76 86)"/>
+      </g>
+      <ellipse cx="36" cy="70" rx="8" ry="5.5" fill="#FF9BB8" opacity="0.92"/>
+      <ellipse cx="84" cy="70" rx="8" ry="5.5" fill="#FF9BB8" opacity="0.92"/>
+      <path d="M38 60 C43 66 51 66 56 60" fill="none" stroke="#3a2a14" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M64 60 C69 66 77 66 82 60" fill="none" stroke="#3a2a14" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M51 76 C56 82 64 82 69 76" fill="none" stroke="#3a2a14" stroke-width="3" stroke-linecap="round"/>
+      <path d="M96 36 C96 32 100 30 103 32 C106 30 110 32 110 36 C110 42 103 48 103 48 C103 48 96 42 96 36Z" fill="#FF7EB3" stroke="#F0629A" stroke-width="1.4" stroke-linejoin="round"/>
     </symbol>
   </svg>
 
@@ -1207,7 +1298,7 @@
       { id:"moneyExpert", name:"小小理財家", emoji:"💰" }
     ];
     const PRAISE = ["太厲害了！","答對了，你好棒！","哇，真聰明！","讚讚讚！","完全正確！","你是數學小英雄！"];
-    const COMFORT = ["沒關係，我們一起記住它！","差一點點，下一題會更好！","加油，九九相信你！","看一次答案，下次就會了！"];
+    const COMFORT = ["沒關係，我們一起記住它！","差一點點，下一題會更好！","加油，拉拉相信你！","看一次答案，下次就會了！"];
     const STORAGE_KEY = "times99-adventure-v1";
 
     const state = {
@@ -1379,7 +1470,7 @@
       state.screen = name;
       Object.keys(screens).forEach((k) => screens[k].classList.toggle("hidden", k !== name));
       if (name === "home") {
-        setMascot("happy", "嗨！我是九九，一起來玩乘法遊戲吧！先選要練習的數字～");
+        setMascot("happy", "嗨！我是拉拉，一起來玩乘法遊戲吧！先選要練習的數字～");
         renderChips();
       }
     }
@@ -2667,7 +2758,7 @@ function validateStoryProblem(p) {
       }
 
       if (page === 0) {
-        addCard("短短胖胖的<span class='hour-word'>紅指針是時針</span>，長長瘦瘦的<span class='min-word'>藍指針是分針</span>。<br>點一點指針，九九會告訴你它是誰！");
+        addCard("短短胖胖的<span class='hour-word'>紅指針是時針</span>，長長瘦瘦的<span class='min-word'>藍指針是分針</span>。<br>點一點指針，拉拉會告訴你它是誰！");
         const box = addClockBox(false);
         const leg = document.createElement("div");
         box.wrap.appendChild(leg);
@@ -5418,7 +5509,7 @@ function validateStoryProblem(p) {
       $("resultSummary").textContent = summary;
       $("resultBest").textContent = bestNote;
       const ratio = total ? score / total : 0;
-      if (ratio === 1) setMascot("wow", "太厲害了！全部答對，九九為你鼓掌～");
+      if (ratio === 1) setMascot("wow", "太厲害了！全部答對，拉拉為你鼓掌～");
       else if (ratio >= 0.8) setMascot("happy", "好棒喔！只差一點就全對了，要不要再玩一次？");
       else setMascot("comfort", "很努力喔！我們可以再練練錯過的題目，下次一定更好！");
       $("resultMascotNote").textContent = timeout ? "時間到囉！" : "挑戰結束！";
