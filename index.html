@@ -372,6 +372,28 @@
       font-weight: 900; font-size: 0.92rem; color: #5a3d00;
       box-shadow: 0 2px 0 #e8c98a;
     }
+    .tables-pill {
+      background: #ffe3f0;
+      color: #9b2260;
+      box-shadow: 0 2px 0 #f5b4d0;
+    }
+    .chip.sm { width: 48px; height: 54px; font-size: 1.15rem; border-radius: 16px; }
+    .chip.sm .emo { font-size: 0.9rem; }
+    .selected-summary {
+      background: #fffaf0;
+      border: 3px solid #ffe08a;
+      border-radius: 20px;
+      padding: 12px 12px 14px;
+      margin: 4px 0 14px;
+      text-align: center;
+    }
+    .selected-summary .sum-hint {
+      font-weight: 700;
+      color: #7a6244;
+      margin: 8px 0 0;
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
     .story-toolbar {
       display: flex; align-items: center; justify-content: space-between;
       gap: 8px; flex-wrap: wrap; margin-bottom: 10px;
@@ -804,7 +826,12 @@
         <div class="panel">
           <button type="button" class="btn btn-ghost" id="storySetupBack">← 回首頁</button>
           <h2 style="margin-top:14px">📝 應用題：倍的問題</h2>
-          <p style="font-weight:700;color:#7a6244;line-height:1.6;margin:8px 0 12px">用連加、跳著數和乘法算式，算出「幾倍」的故事題。選好上面的數字，就會出那些被乘數喔！</p>
+          <p style="font-weight:700;color:#7a6244;line-height:1.6;margin:8px 0 12px">用連加、跳著數和乘法算式，算出「幾倍」的故事題。題目會用你選的數字當被乘數：每一組有幾個，就是幾的幾倍。</p>
+          <p class="section-title">這次要練習哪些數字？</p>
+          <div class="selected-summary" id="storySelectedBox">
+            <div class="chips" id="storyChips"></div>
+            <p class="sum-hint" id="storySelectedHint"></p>
+          </div>
           <p class="section-title">要幾題？</p>
           <div class="setting-row" id="storyCountRow">
             <button type="button" class="seg on" data-story-count="5">5 題</button>
@@ -821,32 +848,7 @@
         <div class="panel">
           <button type="button" class="btn btn-ghost" id="storyTeachBack">← 回上一頁</button>
           <h2 style="margin-top:14px">📘 認識乘法算式</h2>
-          <div class="teach-box">
-            <p>一雙襪子有 2 隻。4 雙襪子一共有幾隻？</p>
-            <div class="story-groups" aria-hidden="true">
-              <div class="group-box"><div class="group-items">🧦🧦</div><div class="group-cap">1雙</div></div>
-              <div class="group-box"><div class="group-items">🧦🧦</div><div class="group-cap">1雙</div></div>
-              <div class="group-box"><div class="group-items">🧦🧦</div><div class="group-cap">1雙</div></div>
-              <div class="group-box"><div class="group-items">🧦🧦</div><div class="group-cap">1雙</div></div>
-            </div>
-            <p>方法 1：用 2 個一數　2 → 4 → 6 → 8</p>
-            <p>方法 2：用連加來算</p>
-            <div class="eq">2 + 2 + 2 + 2 = 8</div>
-            <p>用乘法算式可以記成：</p>
-            <div class="eq">2 × 4 = 8</div>
-            <div class="eq-labels">
-              <span class="eq-lab">被乘數</span>
-              <span class="eq-lab">乘號</span>
-              <span class="eq-lab">乘數</span>
-              <span class="eq-lab">積</span>
-            </div>
-          </div>
-          <div class="teach-box" style="border-color:#c9a0ff;text-align:left">
-            <p>被乘數 2 表示一雙有 2 隻，</p>
-            <p>乘數 4 表示 4 雙，</p>
-            <p>積 8 表示共有 8 隻。</p>
-            <p style="margin-top:8px;color:#7a6244">連加算式中，2 有 4 個，也可以說是 2 的 4 倍。</p>
-          </div>
+          <div id="storyTeachInner"></div>
           <button type="button" class="btn btn-pink btn-big" id="storyTeachStart">我學會了，開始練習！✨</button>
         </div>
       </section>
@@ -1900,7 +1902,10 @@ function makeStoryProblem(selected, rand, forced) {
   const rng = rand || Math.random;
   const nums = (selected || []).filter((n) => n >= 1 && n <= 9);
   if (!nums.length) return null;
-  const a = (forced && forced.a) || storyPick(nums, rng);
+  let a = forced && forced.a;
+  if (!(typeof a === "number" && a >= 1 && a <= 9 && (forced.relax || nums.indexOf(a) >= 0))) {
+    a = storyPick(nums, rng);
+  }
   const b = (forced && forced.b) || (2 + Math.floor(rng() * 8)); // 2–9
   const type = (forced && forced.type) || storyPick(STORY_TYPES, rng);
   const pool = eligibleTemplates(a);
@@ -2050,6 +2055,7 @@ function generateStoryQuiz(selected, count, rand, forcedList) {
   while (questions.length < total && guard++ < 800) {
     const type = typeCycle[questions.length];
     const a = storyPick(nums, rng);
+    if (nums.indexOf(a) < 0) continue;
     const b = 2 + Math.floor(rng() * 8);
     const pool = eligibleTemplates(a);
     if (!pool.length) continue;
@@ -2058,7 +2064,7 @@ function generateStoryQuiz(selected, count, rand, forcedList) {
     if (used.has(key) && guard < 400) continue;
     used.add(key);
     const p = makeStoryProblem(nums, rng, { a, b, type, templateId: tpl.id });
-    if (p) questions.push(p);
+    if (p && nums.indexOf(p.a) >= 0) questions.push(p);
   }
   return questions;
 }
@@ -2218,6 +2224,89 @@ function validateStoryProblem(p) {
       return opts.filter((v) => { if (seen.has(v)) return false; seen.add(v); return true; });
     }
 
+    function tablesLabel(nums) {
+      const list = (nums && nums.length ? nums.slice() : selectedList()).sort((a, b) => a - b);
+      if (!list.length) return "";
+      if (list.length === 9) return "1 到 9 的乘法";
+      if (list.length === 1) return list[0] + " 的乘法";
+      if (list.length === 2) return list[0] + " 和 " + list[1] + " 的乘法";
+      return list.join("、") + " 的乘法";
+    }
+
+    function storySetupMascot() {
+      const nums = selectedList();
+      if (!nums.length) return "先選至少一個數字，我們才能出應用題喔！";
+      return "我們來練習「" + tablesLabel(nums) + "」！每一組有幾個，就是你選的數字。";
+    }
+
+    function renderStorySetupPicker() {
+      const box = $("storyChips");
+      if (!box) return;
+      box.innerHTML = "";
+      for (let n = 1; n <= 9; n++) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "chip sm n" + n + (state.selected.has(n) ? "" : " off");
+        btn.setAttribute("aria-pressed", state.selected.has(n) ? "true" : "false");
+        btn.setAttribute("aria-label", n + " 的乘法" + (state.selected.has(n) ? "已選" : "未選"));
+        btn.innerHTML = "<span class='emo'>" + ANIMALS[n] + "</span><span>" + n + "</span>";
+        btn.addEventListener("click", () => {
+          sfxClick();
+          if (state.selected.has(n)) state.selected.delete(n);
+          else state.selected.add(n);
+          renderChips();
+          renderStorySetupPicker();
+          setMascot(state.selected.size ? "happy" : "think", storySetupMascot());
+        });
+        box.appendChild(btn);
+      }
+      const hint = $("storySelectedHint");
+      if (hint) {
+        hint.textContent = state.selected.size
+          ? "這次會考「" + tablesLabel() + "」。故事裡每一組的個數，都會是你選的數字。"
+          : "還沒選數字喔，點上面的數字開始選吧！";
+      }
+    }
+
+    function pickStoryTutorial() {
+      const nums = selectedList();
+      const a = nums.find((n) => STORY_TEMPLATES.some((t) => t.kind === "fixed" && t.size === n)) || nums[0] || 2;
+      const b = a >= 8 ? 3 : 4;
+      const pool = eligibleTemplates(a);
+      const tplSrc = pool.find((t) => t.kind === "fixed") || pool.find((t) => t.id === "candy") || pool[0];
+      return { a, b, tplSrc };
+    }
+
+    function renderStoryTutorial() {
+      const box = $("storyTeachInner");
+      if (!box) return;
+      const picked = pickStoryTutorial();
+      const a = picked.a, b = picked.b, tplSrc = picked.tplSrc;
+      if (!tplSrc) { box.innerHTML = "<p>請先選要練習的數字喔！</p>"; return; }
+      const tpl = buildStoryItem(tplSrc, a);
+      const product = a * b;
+      const ask = STORY_TEMPLATES.find((t) => t.id === tpl.id).ask(b);
+      const addEq = new Array(b).fill(a).join(" + ") + " = " + product;
+      const skipEq = Array.from({ length: b }, (_, i) => a * (i + 1)).join(" → ");
+      let html = "<div class='teach-box'>";
+      html += "<p>" + tpl.intro + ask + "</p>";
+      html += renderGroupPictures(tpl, a, b);
+      html += "<p>方法 1：用 " + a + " 個一數　" + skipEq + "</p>";
+      html += "<p>方法 2：用連加來算</p>";
+      html += "<div class='eq'>" + addEq + "</div>";
+      html += "<p>用乘法算式可以記成：</p>";
+      html += "<div class='eq'>" + a + " × " + b + " = " + product + "</div>";
+      html += "<div class='eq-labels'><span class='eq-lab'>被乘數</span><span class='eq-lab'>乘號</span><span class='eq-lab'>乘數</span><span class='eq-lab'>積</span></div>";
+      html += "</div>";
+      html += "<div class='teach-box' style='border-color:#c9a0ff;text-align:left'>";
+      html += "<p>被乘數 " + a + " 表示每一組有 " + a + " " + tpl.unit + "，</p>";
+      html += "<p>乘數 " + b + " 表示有 " + b + " " + tpl.groupWord + "，</p>";
+      html += "<p>積 " + product + " 表示共有 " + product + " " + tpl.unit + "。</p>";
+      html += "<p style='margin-top:8px;color:#7a6244'>連加算式中，" + a + " 有 " + b + " 個，也可以說是 " + a + " 的 " + b + " 倍。</p>";
+      html += "</div>";
+      box.innerHTML = html;
+    }
+
     function startStoryQuiz(customQuestions, opts) {
       const selected = selectedList();
       if (!customQuestions && !selected.length) {
@@ -2260,6 +2349,7 @@ function validateStoryProblem(p) {
         limit: 0,
         remain: 0,
         retryMiss: !!(customQuestions && customQuestions.length),
+        tables: selected.slice(),
         key: "story|" + selected.join(",") + "|" + total
       };
       showScreen("story");
@@ -2292,6 +2382,8 @@ function validateStoryProblem(p) {
       q.tapMark = null;
 
       let html = "<div class='story-toolbar'>";
+      const tables = (q.tables && q.tables.length) ? q.tables : selectedList();
+      if (tables.length) html += "<span class='type-pill tables-pill'>" + tablesLabel(tables) + "</span>";
       html += "<span class='type-pill'>" + (STORY_TYPE_LABEL[p.type] || "應用題") + "</span>";
       html += "<div class='row-actions' style='margin:0'>";
       html += "<button type='button' class='btn btn-ghost' id='storySpeakBtn'>🔊 唸題目</button>";
@@ -5136,6 +5228,13 @@ function validateStoryProblem(p) {
       renderMoneyQuiz();
     }
 
+    function applyNumsParam(params) {
+      const raw = params.get("nums");
+      if (!raw) return;
+      const nums = raw.split(/[,+\s]+/).map(Number).filter((n) => n >= 1 && n <= 9);
+      if (nums.length) state.selected = new Set(nums);
+    }
+
     function applyDemoRoute() {
       const params = new URLSearchParams(location.search);
       const demo = params.get("demo") || (location.hash || "").replace(/^#/, "");
@@ -5228,21 +5327,38 @@ function validateStoryProblem(p) {
         return;
       }
       if (demo === "story" || demo === "story-setup") {
+        applyNumsParam(params);
+        renderStorySetupPicker();
         showScreen("storySetup");
-        setMascot("happy", "這是應用題：我們來練習「倍」的問題和乘法算式！");
+        setMascot("happy", storySetupMascot() || "這是應用題：我們來練習「倍」的問題和乘法算式！");
         return;
       }
       if (demo === "story-tutorial") {
+        applyNumsParam(params);
+        renderStoryTutorial();
         showScreen("storyTutorial");
-        setMascot("think", "先看這個襪子的例子，就會懂被乘數、乘數和積囉！");
+        setMascot("think", "先看這個例子，就會懂被乘數、乘數和積囉！");
+        return;
+      }
+      if (demo === "story-quiz") {
+        applyNumsParam(params);
+        const nums = selectedList();
+        if (!nums.length) {
+          setMascot("think", "先選至少一個數字，我們才能開始練習喔！");
+          showScreen("home");
+          return;
+        }
+        const a = nums[0];
+        const tplId = eligibleTemplates(a).some((t) => t.id === "candy") ? "candy" : eligibleTemplates(a)[0].id;
+        startStoryQuiz(null, { demo: { a: a, b: 3, type: "bei", templateId: tplId } });
         return;
       }
       const demoMap = {
-        "story-skip": { a: 2, b: 3, type: "skip", templateId: "rabbit" },
-        "story-add": { a: 2, b: 4, type: "add", templateId: "socks" },
-        "story-bei": { a: 5, b: 3, type: "bei", templateId: "paper" },
-        "story-mul": { a: 2, b: 4, type: "mul", templateId: "socks" },
-        "story-names": { a: 2, b: 6, type: "names", templateId: "couples" }
+        "story-skip": { a: 2, b: 3, type: "skip", templateId: "rabbit", relax: true },
+        "story-add": { a: 2, b: 4, type: "add", templateId: "socks", relax: true },
+        "story-bei": { a: 5, b: 3, type: "bei", templateId: "paper", relax: true },
+        "story-mul": { a: 2, b: 4, type: "mul", templateId: "socks", relax: true },
+        "story-names": { a: 2, b: 6, type: "names", templateId: "couples", relax: true }
       };
       if (demoMap[demo]) {
         if (!state.selected.size) for (let i = 1; i <= 9; i++) state.selected.add(i);
@@ -5460,7 +5576,7 @@ function validateStoryProblem(p) {
       const rec = {
         ts: Date.now(),
         score, total, seconds: elapsed,
-        numbers: (q.kind === "clock" || q.kind === "ruler" || q.kind === "money") ? [] : selectedList(),
+        numbers: (q.kind === "clock" || q.kind === "ruler" || q.kind === "money") ? [] : ((q.tables && q.tables.length) ? q.tables : selectedList()),
         coins: q.coinsEarned,
         timeout: !!timeout,
         kind: q.kind || "quiz",
@@ -5505,6 +5621,10 @@ function validateStoryProblem(p) {
       $("resultScore").textContent = score + " / " + total;
       $("resultStars").textContent = stars;
       let summary = "得到 " + q.coinsEarned + " 顆星星幣，最高連擊 " + q.maxStreak + "。";
+      if (q.kind === "story") {
+        const tabs = (q.tables && q.tables.length) ? q.tables : selectedList();
+        if (tabs.length) summary = "這次練習「" + tablesLabel(tabs) + "」。" + summary;
+      }
       if (timeout) summary = "時間到了！" + summary;
       $("resultSummary").textContent = summary;
       $("resultBest").textContent = bestNote;
@@ -5678,8 +5798,9 @@ function validateStoryProblem(p) {
     $("goStorySetup").addEventListener("click", () => {
       if (!requireSelection()) return;
       sfxClick();
+      renderStorySetupPicker();
       showScreen("storySetup");
-      setMascot("happy", "用故事來練「倍」的問題吧！可以先看教學，再開始練習。");
+      setMascot("happy", storySetupMascot());
     });
     $("storySetupBack").addEventListener("click", () => { sfxClick(); showScreen("home"); });
     $("storyCountRow").addEventListener("click", (e) => {
@@ -5690,9 +5811,12 @@ function validateStoryProblem(p) {
       sfxClick();
     });
     $("storyTeachBtn").addEventListener("click", () => {
+      if (!requireSelection()) return;
       sfxClick();
+      renderStoryTutorial();
       showScreen("storyTutorial");
-      setMascot("think", "先看這個襪子的例子，就會懂被乘數、乘數和積囉！");
+      const t = pickStoryTutorial();
+      setMascot("think", "先看這個「" + tablesLabel([t.a]) + "」的例子，就會懂被乘數、乘數和積囉！");
     });
     $("storyTeachBack").addEventListener("click", () => { sfxClick(); showScreen("storySetup"); });
     $("storyTeachStart").addEventListener("click", () => { sfxClick(); startStoryQuiz(); });
