@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#5EC8F8" />
-  <meta name="description" content="九九乘法大冒險：選數字、翻卡複習、挑戰考試，「倍的問題」應用題，還有時鐘教學，適合小朋友的數學練習遊戲。" />
+  <meta name="description" content="九九乘法大冒險：選數字、翻卡複習、挑戰考試，「倍的問題」應用題，還有時鐘教學和量長度，適合小朋友的數學練習遊戲。" />
   <title>九九乘法大冒險</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -196,8 +196,9 @@
     .btn-purple { background: linear-gradient(#c9a0ff, #8a5cff); }
     .btn-big { width: 100%; padding: 16px 20px; font-size: 1.25rem; border-radius: 22px; min-height: 60px; }
 
-    .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .mode-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
     .mode-card {
+      flex: 0 1 calc(50% - 6px);
       border: 0; border-radius: 24px; padding: 18px 12px; color: #fff; text-align: center;
       box-shadow: 0 7px 0 rgba(0,0,0,0.16); font-weight: 900;
     }
@@ -357,10 +358,9 @@
     .toast-unlock .art { font-size: 3rem; }
 
 
-    .mode-grid { grid-template-columns: 1fr 1fr; }
     .mode-story { background: linear-gradient(#c9a0ff, #8a5cff); }
     @media (min-width: 700px) {
-      .mode-grid { grid-template-columns: 1fr 1fr 1fr 1fr; }
+      .mode-card { flex: 0 1 calc(33.333% - 8px); }
     }
 
     .type-pill {
@@ -447,8 +447,7 @@
     @media (max-width: 520px) {
       .chip { width: 56px; height: 66px; font-size: 1.3rem; }
       .mascot-row .buddy { width: 74px; height: 74px; }
-      .mode-grid { grid-template-columns: 1fr 1fr; }
-      .mode-card { padding: 14px 8px; }
+      .mode-card { flex: 0 1 calc(50% - 6px); padding: 14px 8px; }
       .mode-card .emoji { font-size: 2rem; margin-bottom: 4px; }
       .mode-card h3 { font-size: 1.05rem; }
       .mode-card p { font-size: 0.78rem; }
@@ -551,6 +550,39 @@
     .clock-prompt { font-size: 1.08rem; font-weight: 900; line-height: 1.5; margin: 4px 0 4px; }
     #clockBox { padding: 10px 10px 8px; min-height: 0; }
     #clockKeypadWrap { margin-top: 8px; }
+
+    /* —— 量長度 —— */
+    .mode-ruler { background: linear-gradient(#ffcc5c, #ef9f12); color: #fff; }
+    .ruler-stage { width: 100%; margin: 6px auto 2px; }
+    .ruler-svg {
+      width: 100%; height: auto; display: block;
+      touch-action: none; user-select: none; -webkit-user-select: none;
+      filter: drop-shadow(0 8px 0 rgba(58, 42, 20, 0.10));
+    }
+    .ruler-svg.dragable { cursor: grab; }
+    .ruler-svg.dragging { cursor: grabbing; }
+    .ruler-readout { text-align: center; font-weight: 900; margin-top: 8px; }
+    .ruler-readout .vals {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 4px;
+    }
+    .ruler-pill {
+      background: #fff4d6; border-radius: 999px; padding: 4px 12px;
+      font-weight: 800; box-shadow: 0 2px 0 #e8c98a; font-size: 0.95rem;
+    }
+    .ruler-eq { font-size: 1.3rem; color: #e85d04; margin-top: 4px; }
+    .ruler-prompt { font-size: 1.08rem; font-weight: 900; line-height: 1.5; margin: 4px 0 4px; }
+    .ruler-explain { text-align: left; font-weight: 800; line-height: 1.65; margin-top: 8px; }
+    .wrong-tag { color: #c44b3a; text-decoration: line-through; }
+    .right-tag { color: #1d8a4a; }
+    .lesson-dots.ruler-dots span.on { background: #ef9f12; box-shadow: 0 0 0 3px rgba(239,159,18,0.28); }
+    #rulerBox { padding: 8px 8px 6px; min-height: 0; margin-bottom: 8px; }
+    #rulerKeypadWrap { margin-top: 6px; }
+    #rulerKeypadWrap .keypad { gap: 8px; }
+    #rulerKeypadWrap .key { min-height: 50px; font-size: 1.45rem; }
+    #screenRulerQuiz .quiz-stats { margin-bottom: 6px; }
+    #screenRulerQuiz .progress-wrap { margin: 0 0 8px; }
+    .ruler-formula { margin: 10px 0 4px; }
+    .ruler-formula .eq-lab { min-width: 64px; }
   </style>
 </head>
 <body>
@@ -573,7 +605,7 @@
       </svg>
       <div class="titles">
         <h1>九九乘法大冒險</h1>
-        <p>和九九一起玩乘法！</p>
+        <p>和九九一起玩數學！</p>
       </div>
       <div class="hud">
         <div class="coin-pill" id="coinPill" title="星星幣">⭐ 0</div>
@@ -619,6 +651,11 @@
             <span class="emoji">🕰️</span>
             <h3>時鐘教學</h3>
             <p>學看時鐘，分清時針分針</p>
+          </button>
+          <button type="button" class="mode-card mode-ruler" id="goRulerSetup">
+            <span class="emoji">📏</span>
+            <h3>量長度</h3>
+            <p>用尺量一量，比較兩條線</p>
           </button>
         </div>
       </section>
@@ -859,6 +896,68 @@
           </div>
         </div>
       </section>
+      <section id="screenRulerSetup" class="hidden">
+        <div class="panel">
+          <button type="button" class="btn btn-ghost" id="rulerSetupBack">← 回首頁</button>
+          <h2 style="margin-top:14px">📏 量長度</h2>
+          <p style="font-weight:700;color:#7a6244;line-height:1.6;margin:8px 0 12px">用尺量一量，看看線有幾公分。記住：線不一定從 0 開始，要用「終點減起點」喔！</p>
+          <div class="row-actions" style="margin-top:8px">
+            <button type="button" class="btn btn-yellow" id="rulerTeachBtn">📖 先看教學</button>
+          </div>
+          <p class="section-title" style="margin-top:16px">測驗難度</p>
+          <div class="setting-row" id="rulerLevelRow">
+            <button type="button" class="seg on" data-ruler-level="from0">從0開始量</button>
+            <button type="button" class="seg" data-ruler-level="not0">不從0開始量</button>
+            <button type="button" class="seg" data-ruler-level="compare">兩條線比一比</button>
+          </div>
+          <p class="section-title">要幾題？</p>
+          <div class="setting-row" id="rulerCountRow">
+            <button type="button" class="seg on" data-ruler-count="5">5 題</button>
+            <button type="button" class="seg" data-ruler-count="10">10 題</button>
+          </div>
+          <button type="button" class="btn btn-orange btn-big" id="startRulerBtn" style="margin-top:12px">開始測驗！📏</button>
+        </div>
+      </section>
+
+      <section id="screenRulerLesson" class="hidden">
+        <div class="panel">
+          <div class="story-toolbar">
+            <button type="button" class="btn btn-ghost" id="rulerLessonBack">← 回上一頁</button>
+            <button type="button" class="btn btn-purple" id="rulerLessonSpeak">🔊 唸給我聽</button>
+          </div>
+          <h2 id="rulerLessonTitle" style="margin-top:10px">認識尺</h2>
+          <div id="rulerLessonBody"></div>
+          <div class="lesson-dots ruler-dots" id="rulerLessonDots" aria-hidden="true"></div>
+          <div class="lesson-nav">
+            <button type="button" class="btn btn-ghost" id="rulerLessonPrev">← 上一頁</button>
+            <button type="button" class="btn btn-green" id="rulerLessonNext">下一頁 →</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="screenRulerQuiz" class="hidden">
+        <div class="panel">
+          <div class="progress-wrap">
+            <div class="progress-meta">
+              <span id="rulerProgressLabel">第 1 題</span>
+              <span id="rulerLevelLabel"></span>
+            </div>
+            <div class="bar"><span id="rulerBar"></span></div>
+          </div>
+          <div class="quiz-stats">
+            <div class="stat" id="rulerScoreStat">⭐ 0</div>
+            <div class="stat" id="rulerStreakStat">🔥 連擊 0</div>
+            <div class="stat" id="rulerCoinStat">✨ +0</div>
+          </div>
+          <div class="question-box" id="rulerBox">
+            <div id="rulerInner"></div>
+            <div class="feedback" id="rulerFeedback"></div>
+          </div>
+          <div id="rulerKeypadWrap">
+            <div class="keypad" id="rulerKeypad"></div>
+          </div>
+        </div>
+      </section>
     </main>
   </div>
 
@@ -927,6 +1026,7 @@
   </svg>
 
   <script src="clock-math.js"></script>
+  <script src="ruler-math.js"></script>
   <script>
   (() => {
     const CN = ["零","一","二","三","四","五","六","七","八","九"];
@@ -942,7 +1042,8 @@
       { id:"stickers9", name:"九九大王", emoji:"👑" },
       { id:"quiz30", name:"耐力挑戰者", emoji:"💪" },
       { id:"beiExpert", name:"倍數小專家", emoji:"🧮" },
-      { id:"clockMaster", name:"看時鐘小達人", emoji:"⏰" }
+      { id:"clockMaster", name:"看時鐘小達人", emoji:"⏰" },
+      { id:"rulerExpert", name:"尺量小專家", emoji:"📏" }
     ];
     const PRAISE = ["太厲害了！","答對了，你好棒！","哇，真聰明！","讚讚讚！","完全正確！","你是乘法小英雄！"];
     const COMFORT = ["沒關係，我們一起記住它！","差一點點，下一題會更好！","加油，九九相信你！","看一次答案，下次就會了！"];
@@ -964,6 +1065,9 @@
       clockLevel: "hour-half",
       clockLessonPage: 0,
       clockShowMinuteLabels: true,
+      rulerCount: 5,
+      rulerLevel: "from0",
+      rulerLessonPage: 0,
       muted: false,
       screen: "home",
       albumFrom: "home",
@@ -998,6 +1102,9 @@
       clockSetup: $("screenClockSetup"),
       clockLesson: $("screenClockLesson"),
       clockQuiz: $("screenClockQuiz"),
+      rulerSetup: $("screenRulerSetup"),
+      rulerLesson: $("screenRulerLesson"),
+      rulerQuiz: $("screenRulerQuiz"),
       results: $("screenResults"),
       album: $("screenAlbum")
     };
@@ -1100,6 +1207,7 @@
 
     function showScreen(name) {
       if (name !== "clockLesson" && typeof clearClockAnims === "function") clearClockAnims();
+      if (name !== "rulerLesson" && name !== "rulerQuiz" && typeof clearRulerAnims === "function") clearRulerAnims();
       state.screen = name;
       Object.keys(screens).forEach((k) => screens[k].classList.toggle("hidden", k !== name));
       if (name === "home") {
@@ -3063,10 +3171,958 @@ function validateStoryProblem(p) {
       renderClockLesson();
     }
 
+    const RM = window.RulerMath;
+    const RULER_LEVEL_LABEL = RM.LEVEL_LABEL;
+    const RULER_LESSON_SPEECH = [
+      "尺上每一大格就是 1 公分。量東西的時候，要把左邊對準 0，再看右邊指到幾。",
+      "從 0 開始量的時候，終點指到幾，就是幾公分。這枝鉛筆從 0 量到 8，所以是 8 公分。",
+      "如果線不是從 0 開始，不能只看終點喔！從 3 量到 10，不是 10 公分，要用 10 減 3，等於 7 公分。也可以一格一格數。",
+      "先量出 A 和 B 各有幾公分，再用長的減短的，就知道差幾公分。按下面的按鈕，可以把 B 滑過來比一比。",
+      "拉一拉兩邊的圓點，線就會變長變短。起點、終點和長度都會跟著變喔！"
+    ];
+    const RULER_A_COLOR = "#ff5d7a";
+    const RULER_B_COLOR = "#3d8eff";
+    const SVG_NS = "http://www.w3.org/2000/svg";
+
+    let rulerUid = 0;
+    let rulerTimers = [];
+    let rulerRafs = [];
+    let rulerWidgets = [];
+
+    function clearRulerAnims() {
+      rulerTimers.forEach((t) => clearTimeout(t));
+      rulerTimers = [];
+      rulerRafs.forEach((id) => cancelAnimationFrame(id));
+      rulerRafs = [];
+      rulerWidgets.forEach((w) => { if (w && w.stop) w.stop(); });
+      rulerWidgets = [];
+    }
+
+    function rx(cm) { return RM.xOf(cm); }
+
+    function elNS(name, attrs, text) {
+      const n = document.createElementNS(SVG_NS, name);
+      Object.keys(attrs || {}).forEach((k) => n.setAttribute(k, attrs[k]));
+      if (text != null) n.textContent = text;
+      return n;
+    }
+
+    function drawRulerBody(g, rulerY, rulerH, uid) {
+      const gid = "rulerWood" + uid;
+      const defs = elNS("defs");
+      const grad = elNS("linearGradient", { id: gid, x1: "0", y1: "0", x2: "0", y2: "1" });
+      grad.appendChild(elNS("stop", { offset: "0%", "stop-color": "#ffe9a0" }));
+      grad.appendChild(elNS("stop", { offset: "42%", "stop-color": "#f6d36b" }));
+      grad.appendChild(elNS("stop", { offset: "100%", "stop-color": "#e2ae3c" }));
+      defs.appendChild(grad);
+      g.appendChild(defs);
+      g.appendChild(elNS("rect", {
+        x: "12", y: String(rulerY), width: "396", height: String(rulerH), rx: "6",
+        fill: "url(#" + gid + ")", stroke: "#c48a1a", "stroke-width": "1.7"
+      }));
+      g.appendChild(elNS("rect", {
+        x: "14", y: String(rulerY + 1), width: "392", height: "7", rx: "3",
+        fill: "#fff6c8", opacity: "0.5"
+      }));
+      g.appendChild(elNS("circle", {
+        cx: "22", cy: String(rulerY + rulerH / 2), r: "5.6",
+        fill: "#fff4d0", stroke: "#c48a1a", "stroke-width": "1.4"
+      }));
+      g.appendChild(elNS("circle", {
+        cx: "22", cy: String(rulerY + rulerH / 2), r: "2.3", fill: "#d8b56a"
+      }));
+      const tickG = elNS("g", { class: "ruler-ticks" });
+      for (let mm = 0; mm <= RM.RULER_MAX * 10; mm++) {
+        const cm = mm / 10;
+        const x = rx(cm);
+        const isCm = mm % 10 === 0;
+        const isHalf = mm % 5 === 0;
+        const len = isCm ? 20 : isHalf ? 13 : 7;
+        const sw = isCm ? 2.15 : isHalf ? 1.35 : 0.7;
+        const color = isCm ? "#3a2a14" : isHalf ? "#6a4e2a" : "#c4a05a";
+        const attrs = {
+          x1: String(x), y1: String(rulerY), x2: String(x), y2: String(rulerY + len),
+          stroke: color, "stroke-width": String(sw), "stroke-linecap": "round"
+        };
+        if (isCm) { attrs["data-tick-cm"] = String(cm); attrs["data-tick"] = "cm"; }
+        else attrs["data-tick"] = isHalf ? "half" : "mm";
+        tickG.appendChild(elNS("line", attrs));
+      }
+      g.appendChild(tickG);
+      const labelY = rulerY + rulerH - 8;
+      for (let cm = 0; cm <= RM.RULER_MAX; cm++) {
+        g.appendChild(elNS("text", {
+          "data-label-cm": String(cm),
+          x: String(rx(cm)), y: String(labelY),
+          "text-anchor": "middle",
+          "font-size": cm === 0 || cm === 15 ? "13" : "12",
+          "font-weight": "800",
+          "font-family": "Fredoka, 'Noto Sans TC', sans-serif",
+          fill: "#3a2a14"
+        }, String(cm)));
+      }
+      g.appendChild(elNS("text", {
+        x: String(rx(15) - 2), y: String(rulerY - 6),
+        "text-anchor": "end", "font-size": "11", "font-weight": "800",
+        "font-family": "Fredoka, 'Noto Sans TC', sans-serif", fill: "#7a6244"
+      }, "單位：公分"));
+    }
+
+    function highlightCells(g, start, end, rulerY, rulerH, color) {
+      const hi = elNS("g", { class: "cm-hi-group" });
+      for (let cm = start; cm < end; cm++) {
+        hi.appendChild(elNS("rect", {
+          class: "cm-hi", "data-hi-cm": String(cm),
+          x: String(rx(cm)), y: String(rulerY), width: String(RM.GEOM.unit), height: String(rulerH),
+          fill: color || "#ffd84d", opacity: "0.38"
+        }));
+      }
+      g.insertBefore(hi, g.querySelector(".ruler-ticks") || null);
+      return hi;
+    }
+
+    function drawGuides(g, seg, yBottom, rulerY, color) {
+      ["start", "end"].forEach((which) => {
+        const cm = seg[which];
+        const x = rx(cm);
+        g.appendChild(elNS("line", {
+          class: "ruler-guide", "data-guide-cm": String(cm), "data-guide-which": which,
+          x1: String(x), y1: String(yBottom), x2: String(x), y2: String(rulerY),
+          stroke: color, "stroke-width": "1.35", "stroke-dasharray": "3 3",
+          "stroke-linecap": "round", opacity: "0.9"
+        }));
+        g.appendChild(elNS("circle", {
+          "data-end-cm": String(cm), cx: String(x), cy: String(rulerY), r: "2.3", fill: color
+        }));
+      });
+    }
+
+    function drawSkin(g, x1, x2, y, h, color, skin) {
+      const half = h / 2;
+      if (skin === "pencil") {
+        const eraser = Math.min(8, (x2 - x1) * 0.18);
+        const tip = Math.min(14, (x2 - x1) * 0.28);
+        g.appendChild(elNS("rect", { x: String(x1), y: String(y - half), width: String(eraser), height: String(h), rx: "2", fill: "#ff8aa8" }));
+        g.appendChild(elNS("rect", { x: String(x1 + eraser), y: String(y - half), width: "4", height: String(h), fill: "#cfd8dc" }));
+        const bodyX = x1 + eraser + 4;
+        const bodyW = Math.max(2, x2 - tip - bodyX);
+        g.appendChild(elNS("rect", { x: String(bodyX), y: String(y - half), width: String(bodyW), height: String(h), fill: color }));
+        const p = elNS("polygon", {
+          points: [x2 - tip, y - half, x2, y, x2 - tip, y + half].join(" "),
+          fill: "#f3d2a0"
+        });
+        g.appendChild(p);
+        g.appendChild(elNS("polygon", {
+          points: [x2 - 5, y - 2.2, x2, y, x2 - 5, y + 2.2].join(" "),
+          fill: "#3a2a14"
+        }));
+      } else if (skin === "crayon") {
+        const tip = Math.min(12, (x2 - x1) * 0.24);
+        g.appendChild(elNS("rect", { x: String(x1), y: String(y - half), width: String(Math.max(4, x2 - tip - x1)), height: String(h), rx: "3", fill: color }));
+        g.appendChild(elNS("rect", { x: String(x1 + 4), y: String(y - half + 2), width: String(Math.max(2, x2 - tip - x1 - 8)), height: String(h - 4), rx: "2", fill: "#fff", opacity: "0.22" }));
+        g.appendChild(elNS("polygon", {
+          points: [x2 - tip, y - half, x2, y, x2 - tip, y + half].join(" "),
+          fill: color
+        }));
+        g.appendChild(elNS("polygon", {
+          points: [x2 - 4, y - 2, x2, y, x2 - 4, y + 2].join(" "),
+          fill: "#3a2a14", opacity: "0.7"
+        }));
+      } else if (skin === "worm") {
+        g.appendChild(elNS("rect", { x: String(x1), y: String(y - half), width: String(x2 - x1), height: String(h), rx: String(half), fill: color }));
+        const segs = Math.max(2, Math.round((x2 - x1) / 18));
+        for (let i = 1; i < segs; i++) {
+          const sx = x1 + i * ((x2 - x1) / segs);
+          g.appendChild(elNS("line", { x1: String(sx), y1: String(y - half + 2), x2: String(sx), y2: String(y + half - 2), stroke: "#fff", "stroke-width": "1.2", opacity: "0.35" }));
+        }
+        const eyeX = x2 - 8;
+        g.appendChild(elNS("circle", { cx: String(eyeX), cy: String(y - 3), r: "2.1", fill: "#fff" }));
+        g.appendChild(elNS("circle", { cx: String(eyeX + 0.4), cy: String(y - 3), r: "1", fill: "#3a2a14" }));
+        g.appendChild(elNS("path", { d: "M " + (x2 - 12) + " " + (y + 3) + " q 4 3 8 0", fill: "none", stroke: "#3a2a14", "stroke-width": "1.1", "stroke-linecap": "round" }));
+      } else if (skin === "ribbon") {
+        g.appendChild(elNS("rect", { x: String(x1), y: String(y - half + 1), width: String(x2 - x1), height: String(h - 2), rx: "3", fill: color }));
+        const bx = x1 + 7;
+        g.appendChild(elNS("ellipse", { cx: String(bx - 5), cy: String(y), rx: "5", ry: "5.5", fill: color, stroke: "#fff", "stroke-width": "0.8", opacity: "0.95" }));
+        g.appendChild(elNS("ellipse", { cx: String(bx + 5), cy: String(y), rx: "5", ry: "5.5", fill: color, stroke: "#fff", "stroke-width": "0.8", opacity: "0.95" }));
+        g.appendChild(elNS("circle", { cx: String(bx), cy: String(y), r: "3", fill: "#fff6c8" }));
+      } else {
+        g.appendChild(elNS("rect", { x: String(x1), y: String(y - half), width: String(x2 - x1), height: String(h), rx: "5", fill: color }));
+        g.appendChild(elNS("rect", { x: String(x1 + 3), y: String(y - half + 2), width: String(Math.max(0, x2 - x1 - 6)), height: "4", rx: "2", fill: "#fff", opacity: "0.28" }));
+      }
+      // Exact end caps so the measured ends are unmistakable and sit on the ticks
+      g.appendChild(elNS("line", { x1: String(x1), y1: String(y - half - 1), x2: String(x1), y2: String(y + half + 1), stroke: color, "stroke-width": "2.4", "stroke-linecap": "round", "data-seg-end": "start", "data-end-cm": String((x1 - RM.GEOM.padL) / RM.GEOM.unit) }));
+      g.appendChild(elNS("line", { x1: String(x2), y1: String(y - half - 1), x2: String(x2), y2: String(y + half + 1), stroke: color, "stroke-width": "2.4", "stroke-linecap": "round", "data-seg-end": "end", "data-end-cm": String((x2 - RM.GEOM.padL) / RM.GEOM.unit) }));
+    }
+
+    function drawLineGroup(parent, seg, opts) {
+      opts = opts || {};
+      const g = elNS("g", { class: "ruler-line", "data-line": opts.label || "A" });
+      const y = opts.y;
+      const h = opts.h || 16;
+      const color = opts.color;
+      const x1 = rx(seg.start), x2 = rx(seg.end);
+      drawGuides(g, seg, y + h / 2, opts.rulerY, color);
+      const body = elNS("g", { class: "line-body" });
+      drawSkin(body, x1, x2, y, h, color, opts.skin || "bar");
+      g.appendChild(body);
+      if (opts.label) {
+        const mid = (x1 + x2) / 2;
+        const ly = y - h / 2 - 13;
+        g.appendChild(elNS("circle", { cx: String(mid), cy: String(ly), r: "10", fill: color, stroke: "#fff", "stroke-width": "2" }));
+        g.appendChild(elNS("text", {
+          x: String(mid), y: String(ly + 4.2), "text-anchor": "middle",
+          "font-size": "12", "font-weight": "900", fill: "#fff",
+          "font-family": "Fredoka, 'Noto Sans TC', sans-serif"
+        }, opts.label));
+      }
+      if (opts.handles) {
+        ["start", "end"].forEach((which) => {
+          const x = which === "start" ? x1 : x2;
+          const hg = elNS("g", { class: "ruler-handle", "data-handle": which });
+          hg.appendChild(elNS("circle", { cx: String(x), cy: String(y), r: "16", fill: "transparent" }));
+          hg.appendChild(elNS("circle", { cx: String(x), cy: String(y), r: "8", fill: "#fff", stroke: color, "stroke-width": "3" }));
+          hg.appendChild(elNS("circle", { cx: String(x), cy: String(y), r: "3", fill: color }));
+          g.appendChild(hg);
+        });
+      }
+      parent.appendChild(g);
+      return g;
+    }
+
+    function mountRuler(el, opts) {
+      opts = opts || {};
+      const uid = ++rulerUid;
+      el.innerHTML = "";
+      const lines = opts.lines || (opts.seg ? [{ seg: opts.seg, label: opts.label || "", color: opts.color || RULER_A_COLOR, skin: opts.skin || "pencil" }] : []);
+      const two = lines.length > 1;
+      const play = !!opts.interactive;
+      const showHopsSpace = !!opts.hopSpace;
+      const compact = !!opts.compact;
+      const rulerH = compact ? 46 : 50;
+      let topPad = compact ? 16 : 28;
+      if (two && !compact) topPad = 34;
+      if (two && compact) topPad = 22;
+      if (play) topPad = Math.max(topPad, 36);
+      const gap = two ? (compact ? 34 : 42) : 0;
+      const lineH = 18;
+      const firstY = topPad + (compact ? 8 : 14);
+      const secondY = firstY + gap;
+      const hopY = (two ? secondY : firstY) + (compact ? 20 : 26);
+      const rulerY = compact
+        ? (two ? secondY : firstY) + 20
+        : (showHopsSpace ? hopY + 18 : (two ? secondY : firstY) + 28);
+      const height = rulerY + rulerH + 10;
+      const svg = elNS("svg", {
+        class: "ruler-svg" + (play ? " dragable" : ""),
+        viewBox: "0 0 " + RM.GEOM.viewW + " " + height,
+        role: "img",
+        "aria-label": "直尺"
+      });
+      const rulerG = elNS("g", { class: "ruler-body" });
+      drawRulerBody(rulerG, rulerY, rulerH, uid);
+      svg.appendChild(rulerG);
+
+      const lineGs = [];
+      lines.forEach((ln, i) => {
+        const y = i === 0 ? firstY : secondY;
+        const g = drawLineGroup(svg, ln.seg, {
+          y, h: lineH, color: ln.color, skin: ln.skin, label: ln.label,
+          rulerY, handles: play && i === 0
+        });
+        lineGs.push(g);
+      });
+
+      if (opts.highlight) {
+        opts.highlight.forEach((h) => {
+          highlightCells(rulerG, h.start, h.end, rulerY, rulerH, h.color);
+        });
+      }
+
+      el.appendChild(svg);
+
+      const api = {
+        svg, rulerY, rulerH, hopY, firstY, secondY, lineGs, lines,
+        stop() { dragging = null; },
+        refresh(newLines, hi) {
+          lines.splice(0, lines.length, ...newLines);
+          // rebuild objects only
+          lineGs.forEach((g) => g.remove());
+          lineGs.length = 0;
+          const hiOld = rulerG.querySelector(".cm-hi-group");
+          if (hiOld) hiOld.remove();
+          lines.forEach((ln, i) => {
+            const y = i === 0 ? firstY : secondY;
+            const g = drawLineGroup(svg, ln.seg, {
+              y, h: lineH, color: ln.color, skin: ln.skin, label: ln.label,
+              rulerY, handles: play && i === 0
+            });
+            lineGs.push(g);
+          });
+          (hi || []).forEach((h) => highlightCells(rulerG, h.start, h.end, rulerY, rulerH, h.color));
+        }
+      };
+
+      let dragging = null;
+      if (play && lines[0]) {
+        const onMove = (ev) => {
+          if (!dragging) return;
+          ev.preventDefault();
+          const pt = svg.createSVGPoint();
+          pt.x = ev.clientX; pt.y = ev.clientY;
+          const ctm = svg.getScreenCTM();
+          if (!ctm) return;
+          const loc = pt.matrixTransform(ctm.inverse());
+          let cm = Math.round((loc.x - RM.GEOM.padL) / RM.GEOM.unit);
+          cm = Math.max(0, Math.min(RM.RULER_MAX, cm));
+          const seg = lines[0].seg;
+          if (dragging === "start") {
+            cm = Math.min(cm, seg.end - 1);
+            cm = Math.max(0, cm);
+            if (cm === seg.start) return;
+            seg.start = cm;
+            seg.length = seg.end - seg.start;
+          } else {
+            cm = Math.max(cm, seg.start + 1);
+            cm = Math.min(RM.RULER_MAX, cm);
+            if (cm === seg.end) return;
+            seg.end = cm;
+            seg.length = seg.end - seg.start;
+          }
+          api.refresh(lines, []);
+          if (opts.onChange) opts.onChange(seg);
+        };
+        const onUp = (ev) => {
+          if (!dragging) return;
+          dragging = null;
+          svg.classList.remove("dragging");
+          try { svg.releasePointerCapture(ev.pointerId); } catch (e) {}
+        };
+        svg.addEventListener("pointerdown", (ev) => {
+          const h = ev.target.closest("[data-handle]");
+          if (!h) return;
+          ev.preventDefault();
+          dragging = h.getAttribute("data-handle");
+          svg.classList.add("dragging");
+          try { svg.setPointerCapture(ev.pointerId); } catch (e) {}
+        });
+        svg.addEventListener("pointermove", onMove);
+        svg.addEventListener("pointerup", onUp);
+        svg.addEventListener("pointercancel", onUp);
+      }
+
+      rulerWidgets.push(api);
+      return api;
+    }
+
+    function playHop(svg, start, end, hopY, color) {
+      if (prefersReduceMotion()) {
+        for (let i = 0; i < end - start; i++) {
+          const x = rx(start + i) + RM.GEOM.unit / 2;
+          svg.appendChild(elNS("text", {
+            class: "hop-num", "data-hop": String(i + 1),
+            x: String(x), y: String(hopY),
+            "text-anchor": "middle", "font-size": "13", "font-weight": "900",
+            fill: color || "#e85d04", "font-family": "Fredoka, 'Noto Sans TC', sans-serif"
+          }, String(i + 1)));
+        }
+        return;
+      }
+      for (let i = 0; i < end - start; i++) {
+        const t = setTimeout(() => {
+          const x = rx(start + i) + RM.GEOM.unit / 2;
+          const tx = elNS("text", {
+            class: "hop-num", "data-hop": String(i + 1),
+            x: String(x), y: String(hopY),
+            "text-anchor": "middle", "font-size": "14", "font-weight": "900",
+            fill: color || "#e85d04", "font-family": "Fredoka, 'Noto Sans TC', sans-serif"
+          }, String(i + 1));
+          tx.style.opacity = "0";
+          svg.appendChild(tx);
+          requestAnimationFrame(() => { tx.style.transition = "opacity 0.18s ease, transform 0.18s ease"; tx.style.opacity = "1"; });
+        }, 280 + i * 380);
+        rulerTimers.push(t);
+      }
+    }
+
+    function playAlign(widget, a, b, done) {
+      const gB = widget.svg.querySelector('[data-line="B"]');
+      if (!gB) { if (done) done(); return; }
+      const dx = rx(a.start) - rx(b.start);
+      const dy = 22;
+      const ms = prefersReduceMotion() ? 0 : 900;
+      const t0 = performance.now();
+      function step(now) {
+        const t = ms === 0 ? 1 : Math.min(1, (now - t0) / ms);
+        const e = 1 - Math.pow(1 - t, 3);
+        gB.setAttribute("transform", "translate(" + (dx * e) + "," + (dy * e) + ")");
+        if (t < 1) {
+          rulerRafs.push(requestAnimationFrame(step));
+        } else if (done) done();
+      }
+      rulerRafs.push(requestAnimationFrame(step));
+    }
+
+    function skinFor(seg, fallback, salt) {
+      const n = (seg.start * 7 + seg.end * 13 + (salt || 0));
+      return RM.SKINS[Math.abs(n) % RM.SKINS.length] || fallback || "bar";
+    }
+
+    function linesFromQuestion(cur) {
+      const out = [{
+        seg: { start: cur.a.start, end: cur.a.end, length: cur.a.length },
+        label: cur.b ? "A" : "",
+        color: RULER_A_COLOR,
+        skin: skinFor(cur.a, "pencil", 1)
+      }];
+      if (cur.b) {
+        out.push({
+          seg: { start: cur.b.start, end: cur.b.end, length: cur.b.length },
+          label: "B",
+          color: RULER_B_COLOR,
+          skin: skinFor(cur.b, "crayon", 2)
+        });
+      }
+      return out;
+    }
+
+    let lessonRuler = null;
+    let playSeg = RM.makeSegment(3, 10);
+
+    function rulerReadoutHtml(seg) {
+      return '<div class="ruler-readout"><div class="vals">' +
+        '<span class="ruler-pill">起點 ' + seg.start + '</span>' +
+        '<span class="ruler-pill">終點 ' + seg.end + '</span>' +
+        '<span class="ruler-pill">長度 ' + seg.length + ' 公分</span>' +
+        '</div><div class="ruler-eq">' + seg.end + ' − ' + seg.start + ' = ' + seg.length + ' 公分</div></div>';
+    }
+
+    function renderRulerLesson() {
+      clearRulerAnims();
+      lessonRuler = null;
+      const page = state.rulerLessonPage;
+      const titles = ["認識尺", "從 0 開始量", "不從 0 開始", "比較兩條線", "自己量量看"];
+      $("rulerLessonTitle").textContent = (page + 1) + ". " + titles[page];
+      $("rulerLessonDots").innerHTML = titles.map((_, i) => "<span class='" + (i === page ? "on" : "") + "'></span>").join("");
+      $("rulerLessonNext").textContent = page === 4 ? "去測驗！📏" : "下一頁 →";
+      const body = $("rulerLessonBody");
+      body.innerHTML = "";
+      const speech = RULER_LESSON_SPEECH[page];
+
+      function addCard(html) {
+        const d = document.createElement("div");
+        d.className = "lesson-card";
+        d.innerHTML = html;
+        body.appendChild(d);
+        return d;
+      }
+      function addStage() {
+        const st = document.createElement("div");
+        st.className = "ruler-stage";
+        body.appendChild(st);
+        return st;
+      }
+
+      if (page === 0) {
+        const st = addStage();
+        lessonRuler = mountRuler(st, {
+          lines: [{ seg: RM.makeSegment(0, 6), label: "", color: "#ff8a3d", skin: "crayon" }],
+          highlight: [{ start: 0, end: 1, color: "#5ee0c2" }],
+          hopSpace: true
+        });
+        addCard("尺上<span style='color:#e85d04'>每一大格是 1 公分</span>。中間那條稍微長一點的線是 0.5 公分，最小的格子是毫米，我們先學公分就好。<br>量東西時，先把左邊對準 <strong>0</strong>。");
+        const replay = document.createElement("button");
+        replay.type = "button";
+        replay.className = "btn btn-yellow";
+        replay.textContent = "▶ 看 1 公分跳一跳";
+        replay.addEventListener("click", () => {
+          sfxClick();
+          lessonRuler.svg.querySelectorAll(".hop-num").forEach((n) => n.remove());
+          const hi = lessonRuler.svg.querySelector(".cm-hi-group");
+          if (hi) hi.remove();
+          highlightCells(lessonRuler.svg.querySelector(".ruler-body"), 0, 6, lessonRuler.rulerY, lessonRuler.rulerH, "#5ee0c2");
+          playHop(lessonRuler.svg, 0, 6, lessonRuler.hopY, "#e85d04");
+        });
+        body.appendChild(replay);
+        setMascot("happy", speech);
+        rulerTimers.push(setTimeout(() => playHop(lessonRuler.svg, 0, 6, lessonRuler.hopY), 400));
+      } else if (page === 1) {
+        const st = addStage();
+        const seg = RM.makeSegment(0, 8);
+        lessonRuler = mountRuler(st, {
+          lines: [{ seg, label: "", color: "#ff8a3d", skin: "pencil" }],
+          highlight: [{ start: 0, end: 8, color: "#ffd84d" }]
+        });
+        addCard("這枝鉛筆從 <strong>0</strong> 開始，終點指到 <strong>8</strong>。<br>從 0 開始量的時候，<span style='color:#e85d04'>終點的數字就是長度</span>：<strong>8 公分</strong>。");
+        setMascot("think", speech);
+      } else if (page === 2) {
+        const st = addStage();
+        const seg = RM.makeSegment(3, 10);
+        lessonRuler = mountRuler(st, {
+          lines: [{ seg, label: "", color: RULER_A_COLOR, skin: "ribbon" }],
+          highlight: [{ start: 3, end: 10, color: "#ffb3c2" }],
+          hopSpace: true
+        });
+        addCard("這條絲帶從 <strong>3</strong> 放到 <strong>10</strong>。<br><span class='wrong-tag'>不是 10 公分！</span> 如果只看終點就會算錯。<br>正確算法：<strong>10 − 3 = 7 公分</strong>。也可以一格一格數：1、2、3、4、5、6、7。");
+        const replay = document.createElement("button");
+        replay.type = "button";
+        replay.className = "btn btn-yellow";
+        replay.textContent = "▶ 再數一次格子";
+        replay.addEventListener("click", () => {
+          sfxClick();
+          lessonRuler.svg.querySelectorAll(".hop-num").forEach((n) => n.remove());
+          playHop(lessonRuler.svg, 3, 10, lessonRuler.hopY);
+        });
+        body.appendChild(replay);
+        setMascot("think", speech);
+        rulerTimers.push(setTimeout(() => playHop(lessonRuler.svg, 3, 10, lessonRuler.hopY), 500));
+      } else if (page === 3) {
+        const st = addStage();
+        const a = RM.makeSegment(2, 11);
+        const b = RM.makeSegment(5, 9);
+        lessonRuler = mountRuler(st, {
+          lines: [
+            { seg: a, label: "A", color: RULER_A_COLOR, skin: "worm" },
+            { seg: b, label: "B", color: RULER_B_COLOR, skin: "crayon" }
+          ]
+        });
+        const card = addCard("A：起點 2，終點 11，11 − 2 = <strong>9 公分</strong>。<br>B：起點 5，終點 9，9 − 5 = <strong>4 公分</strong>。<br>A 比 B 長：<strong>9 − 4 = 5 公分</strong>。");
+        const replay = document.createElement("button");
+        replay.type = "button";
+        replay.className = "btn btn-blue";
+        replay.textContent = "▶ 把 B 滑過來比一比";
+        replay.addEventListener("click", () => {
+          sfxClick();
+          const gB = lessonRuler.svg.querySelector('[data-line="B"]');
+          if (gB) gB.removeAttribute("transform");
+          const hi = lessonRuler.svg.querySelector(".cm-hi-group");
+          if (hi) hi.remove();
+          playAlign(lessonRuler, a, b, () => {
+            highlightCells(lessonRuler.svg.querySelector(".ruler-body"), a.start + b.length, a.end, lessonRuler.rulerY, lessonRuler.rulerH, "#ffd84d");
+            setMascot("wow", "對齊以後，多出來的那一段就是 5 公分！");
+          });
+        });
+        body.appendChild(replay);
+        setMascot("think", speech);
+      } else {
+        const st = addStage();
+        playSeg = RM.makeSegment(3, 10);
+        const readout = document.createElement("div");
+        readout.id = "rulerPlayReadout";
+        readout.innerHTML = rulerReadoutHtml(playSeg);
+        lessonRuler = mountRuler(st, {
+          lines: [{ seg: playSeg, label: "", color: "#ff8a3d", skin: "pencil" }],
+          interactive: true,
+          onChange(seg) {
+            playSeg = seg;
+            const box = $("rulerPlayReadout");
+            if (box) box.innerHTML = rulerReadoutHtml(seg);
+          }
+        });
+        body.appendChild(readout);
+        addCard("按住線兩端的圓點，左右拖一拖，它會一格一格對準公分。長度 = 終點 − 起點。");
+        setMascot("happy", speech);
+      }
+    }
+
+    const RULER_TYPE_LABEL = {
+      length: "量一量",
+      formula: "寫算式",
+      which: "哪一條比較長",
+      "diff-long": "長多少",
+      "diff-short": "短多少",
+      total: "接起來"
+    };
+
+    function generateRulerQuiz(level, count, rand) {
+      return RM.generateQuiz(level, count, rand || Math.random);
+    }
+
+    function startRulerQuiz(customQuestions) {
+      clearRulerAnims();
+      const questions = customQuestions && customQuestions.length
+        ? customQuestions.map((q) => Object.assign({}, q, { a: Object.assign({}, q.a), b: q.b ? Object.assign({}, q.b) : null }))
+        : generateRulerQuiz(state.rulerLevel, state.rulerCount);
+      if (!questions.length) {
+        setMascot("think", "題目還沒準備好，再按一次開始吧！");
+        return;
+      }
+      const rulerLevel = (questions[0] && questions[0].level) || state.rulerLevel;
+      state.quiz = {
+        kind: "ruler",
+        questions,
+        index: 0,
+        input: "",
+        fields: ["", "", ""],
+        fieldIndex: 0,
+        locked: false,
+        correct: 0,
+        streak: 0,
+        maxStreak: 0,
+        coinsEarned: 0,
+        mistakes: [],
+        startedAt: Date.now(),
+        limit: 0,
+        remain: 0,
+        retryMiss: !!(customQuestions && customQuestions.length),
+        key: "ruler|" + rulerLevel + "|" + questions.length,
+        level: rulerLevel,
+        levelLabel: RULER_LEVEL_LABEL[rulerLevel] || "量長度",
+        awardedIndex: -1
+      };
+      showScreen("rulerQuiz");
+      setMascot("wow", "加油！先看起點和終點，再算長度～");
+      buildRulerKeypad();
+      renderRulerQuiz();
+    }
+
+    function updateRulerStats() {
+      const q = state.quiz;
+      if (!q) return;
+      const pct = (q.index / q.questions.length) * 100;
+      $("rulerBar").style.width = pct + "%";
+      $("rulerProgressLabel").textContent = "第 " + (q.index + 1) + " / " + q.questions.length + " 題";
+      $("rulerLevelLabel").textContent = q.levelLabel || "";
+      $("rulerScoreStat").textContent = "⭐ " + q.correct;
+      $("rulerStreakStat").textContent = "🔥 連擊 " + q.streak;
+      $("rulerCoinStat").textContent = "✨ +" + q.coinsEarned;
+    }
+
+    let quizRuler = null;
+
+    function renderRulerQuiz() {
+      const q = state.quiz;
+      if (!q || q.kind !== "ruler") return;
+      const cur = q.questions[q.index];
+      q.locked = false;
+      q.input = "";
+      q.fields = ["", "", ""];
+      q.fieldIndex = 0;
+      $("rulerFeedback").textContent = "";
+      $("rulerFeedback").className = "feedback";
+      $("rulerBox").classList.remove("good", "bad");
+      updateRulerStats();
+      const inner = $("rulerInner");
+      inner.innerHTML = "";
+      const toolbar = document.createElement("div");
+      toolbar.className = "story-toolbar";
+      toolbar.innerHTML = '<span class="type-pill">' + (RULER_TYPE_LABEL[cur.type] || "量長度") +
+        '</span><div class="row-actions" style="margin:0"><button type="button" class="btn btn-ghost" id="rulerHintBtn">💡 提示</button>' +
+        '<button type="button" class="btn btn-purple" id="rulerQuizSpeak">🔊</button></div>';
+      inner.appendChild(toolbar);
+      const prompt = document.createElement("div");
+      prompt.className = "ruler-prompt";
+      prompt.textContent = cur.prompt;
+      inner.appendChild(prompt);
+
+      const st = document.createElement("div");
+      st.className = "ruler-stage";
+      const holder = document.createElement("div");
+      st.appendChild(holder);
+      inner.appendChild(st);
+      quizRuler = mountRuler(holder, { lines: linesFromQuestion(cur), compact: true });
+
+      const needPad = cur.type !== "which";
+      if (cur.type === "which") {
+        const opts = document.createElement("div");
+        opts.className = "tap-opts";
+        [["A", "A"], ["B", "B"], ["equal", "一樣長"]].forEach((pair) => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "tap-opt";
+          b.dataset.val = pair[0];
+          b.textContent = pair[1];
+          b.addEventListener("click", () => submitRulerWhich(pair[0], b, opts));
+          opts.appendChild(b);
+        });
+        inner.appendChild(opts);
+        $("rulerKeypadWrap").classList.add("hidden");
+      } else if (cur.type === "formula") {
+        const labels = cur.level === "compare" ? ["長的", "短的", "相差"] : ["終點", "起點", "長度"];
+        const wrap = document.createElement("div");
+        wrap.className = "eq-wrap ruler-formula";
+        wrap.innerHTML = '<div class="mul-eq">' +
+          '<button type="button" class="blank on" data-field="0" id="rulerF0">?</button><span>−</span>' +
+          '<button type="button" class="blank" data-field="1" id="rulerF1">?</button><span>=</span>' +
+          '<button type="button" class="blank" data-field="2" id="rulerF2">?</button><span style="font-size:1.1rem">公分</span></div>' +
+          '<div class="eq-labels"><span class="eq-lab">' + labels[0] + '</span><span class="eq-lab">' + labels[1] + '</span><span class="eq-lab">' + labels[2] + "</span></div>";
+        inner.appendChild(wrap);
+        wrap.addEventListener("click", (e) => {
+          const f = e.target.closest(".blank");
+          if (!f || q.locked) return;
+          q.fieldIndex = +f.dataset.field;
+          sfxClick();
+          syncRulerFields();
+        });
+        $("rulerKeypadWrap").classList.remove("hidden");
+      } else {
+        const entry = document.createElement("div");
+        entry.className = "clock-time-entry";
+        entry.innerHTML = '<button type="button" class="time-field on empty" id="rulerLenField">?</button><span>公分</span>';
+        inner.appendChild(entry);
+        $("rulerKeypadWrap").classList.remove("hidden");
+      }
+
+      const hintBtn = $("rulerHintBtn");
+      if (hintBtn) hintBtn.addEventListener("click", () => showRulerHint(cur));
+      const speakBtn = $("rulerQuizSpeak");
+      if (speakBtn) speakBtn.addEventListener("click", () => speak(cur.speech || cur.prompt));
+    }
+
+    function showRulerHint(cur) {
+      sfxClick();
+      if (cur.b) setMascot("think", "先分別量出 A 和 B：看起點和終點，用終點減起點。再來比較或加起來。");
+      else if (cur.a.start === 0) setMascot("think", "這條線從 0 開始，終點指到幾，就是幾公分。");
+      else setMascot("think", "不是從 0 開始喔！先找出起點和終點，再用終點減起點。不要只看終點的數字。");
+      const panel = document.createElement("div");
+      panel.className = "hint-panel";
+      if (cur.b) panel.innerHTML = "提示：A 的起點是 " + cur.a.start + "、終點是 " + cur.a.end + "。B 的起點是 " + cur.b.start + "、終點是 " + cur.b.end + "。";
+      else panel.innerHTML = "提示：起點是 " + cur.a.start + "，終點是 " + cur.a.end + "。長度 = 終點 − 起點。";
+      const inner = $("rulerInner");
+      if (inner && !inner.querySelector(".hint-panel")) inner.appendChild(panel);
+    }
+
+    function syncRulerFields() {
+      const q = state.quiz;
+      if (!q) return;
+      if (q.questions[q.index].type === "formula") {
+        for (let i = 0; i < 3; i++) {
+          const el = $("rulerF" + i);
+          if (!el) continue;
+          el.textContent = q.fields[i] || "?";
+          el.classList.toggle("on", q.fieldIndex === i);
+        }
+      } else {
+        const el = $("rulerLenField");
+        if (!el) return;
+        el.textContent = q.input || "?";
+        el.classList.toggle("empty", !q.input);
+      }
+    }
+
+    function buildRulerKeypad() {
+      const box = $("rulerKeypad");
+      if (!box || box.childElementCount) return;
+      box.innerHTML = "";
+      const keys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "⌫", "0", "送出"];
+      keys.forEach((k) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "key" + (k === "送出" ? " ok" : k === "⌫" ? " del" : "");
+        b.textContent = k;
+        b.addEventListener("click", () => handleRulerKey(k));
+        box.appendChild(b);
+      });
+    }
+
+    function handleRulerKey(k) {
+      const q = state.quiz;
+      if (!q || q.kind !== "ruler" || q.locked) return;
+      const cur = q.questions[q.index];
+      if (cur.type === "which") return;
+      if (cur.type === "formula") {
+        const i = q.fieldIndex;
+        if (k === "⌫" || k === "Backspace") {
+          if (q.fields[i]) q.fields[i] = q.fields[i].slice(0, -1);
+          else if (i > 0) q.fieldIndex = i - 1;
+          sfxClick();
+        } else if (k === "送出" || k === "Enter") {
+          if (q.fields.some((f) => !f)) return;
+          submitRulerFormula();
+          return;
+        } else if (/^\d$/.test(k)) {
+          if (q.fields[i].length >= 2) return;
+          q.fields[i] += k;
+          if (q.fields[i].length === 2 || (q.fields[i].length === 1 && Number(q.fields[i]) !== 1)) {
+            if (i < 2) q.fieldIndex = i + 1;
+          }
+          sfxClick();
+        } else return;
+        syncRulerFields();
+        return;
+      }
+      if (k === "⌫" || k === "Backspace") {
+        q.input = q.input.slice(0, -1);
+        sfxClick();
+      } else if (k === "送出" || k === "Enter") {
+        if (!q.input) return;
+        submitRulerLength();
+        return;
+      } else if (/^\d$/.test(k)) {
+        if (q.input.length >= 2) return;
+        q.input += k;
+        sfxClick();
+        const n = Number(q.input);
+        if (q.input.length === 2 || (q.input.length === 1 && n >= 2 && n <= 9)) {
+          syncRulerFields();
+          submitRulerLength();
+          return;
+        }
+      } else return;
+      syncRulerFields();
+    }
+
+    function rulerExplainHtml(cur) {
+      let html = "";
+      if (cur.b) {
+        html += "A：起點 " + cur.a.start + "，終點 " + cur.a.end + "，" + cur.a.end + " − " + cur.a.start + " = <strong>" + cur.a.length + " 公分</strong>。<br>";
+        html += "B：起點 " + cur.b.start + "，終點 " + cur.b.end + "，" + cur.b.end + " − " + cur.b.start + " = <strong>" + cur.b.length + " 公分</strong>。<br>";
+        if (cur.cmp && !cur.cmp.equal) html += "所以 " + cur.cmp.longer + " 比 " + cur.cmp.shorter + " 長 <strong>" + cur.cmp.diff + " 公分</strong>。";
+        else if (cur.cmp && cur.cmp.equal) html += "兩條一樣長，都是 <strong>" + cur.a.length + " 公分</strong>。";
+        if (cur.type === "total") html += "<br>接起來：" + cur.a.length + " + " + cur.b.length + " = <strong>" + cur.answer + " 公分</strong>。";
+      } else {
+        html += "起點是 " + cur.a.start + "，終點是 " + cur.a.end + "。<br>";
+        if (cur.a.start !== 0) html += "不要只看終點 " + cur.a.end + " 喔！<br>";
+        html += cur.a.end + " − " + cur.a.start + " = <strong>" + cur.a.length + " 公分</strong>。";
+      }
+      return html;
+    }
+
+    function showRulerCorrection(cur) {
+      if (!quizRuler) return;
+      const holder = quizRuler.svg.parentNode;
+      if (!holder) return;
+      const hi = [];
+      if (cur.b) {
+        hi.push({ start: cur.a.start, end: cur.a.end, color: "#ffb3c2" });
+        hi.push({ start: cur.b.start, end: cur.b.end, color: "#9ecbff" });
+      } else {
+        hi.push({ start: cur.a.start, end: cur.a.end, color: "#ffd84d" });
+      }
+      quizRuler = mountRuler(holder, { lines: linesFromQuestion(cur), highlight: hi, hopSpace: true, compact: true });
+      const hopSeg = cur.whichLine === "B" ? cur.b : cur.a;
+      if (hopSeg) playHop(quizRuler.svg, hopSeg.start, hopSeg.end, quizRuler.hopY, hopSeg === cur.b ? RULER_B_COLOR : "#e85d04");
+    }
+
+    function rulerAward(ok, givenLabel, explain) {
+      const q = state.quiz;
+      if (!q || q.kind !== "ruler") return;
+      if (q.awardedIndex === q.index) return;
+      const cur = q.questions[q.index];
+      q.awardedIndex = q.index;
+      q.locked = true;
+      const box = $("rulerBox");
+      const fb = $("rulerFeedback");
+      const ansLabel = cur.type === "which" ? (cur.answer === "equal" ? "一樣長" : cur.answer) : (cur.answer + " 公分");
+      if (ok) {
+        q.correct += 1;
+        q.streak += 1;
+        q.maxStreak = Math.max(q.maxStreak, q.streak);
+        let gain = 1;
+        if (q.streak >= 10) gain = 4;
+        else if (q.streak >= 5) gain = 3;
+        else if (q.streak >= 3) gain = 2;
+        q.coinsEarned += gain;
+        profile.coins += gain;
+        box.classList.add("good");
+        fb.className = "feedback good";
+        fb.textContent = sayRandom(PRAISE) + "  +" + gain + "⭐";
+        setMascot("wow", sayRandom(PRAISE));
+        sfxCorrect();
+        burstConfetti();
+        if (q.streak === 3 || q.streak === 5 || q.streak === 10 || (q.streak > 10 && q.streak % 5 === 0)) {
+          showCombo("連擊 ×" + q.streak + "！");
+          sfxCombo();
+        }
+        updateCoinHud();
+        updateRulerStats();
+        setTimeout(nextRulerQuestion, 900);
+      } else {
+        q.streak = 0;
+        q.mistakes.push(Object.assign({}, cur, { given: givenLabel, ansLabel: ansLabel }));
+        box.classList.add("bad");
+        fb.className = "feedback bad";
+        const msg = explain || rulerExplainHtml(cur);
+        fb.innerHTML = "差一點！正確是 <strong>" + ansLabel + "</strong>。<div class='ruler-explain'>" + msg + "</div>";
+        setMascot("comfort", sayRandom(COMFORT) + (cur.a && cur.a.start !== 0 && !cur.b ? "不要只看終點喔，要用終點減起點。" : "我們一起看起點和終點再算一次。"));
+        sfxWrong();
+        showRulerCorrection(cur);
+        updateRulerStats();
+        setTimeout(nextRulerQuestion, 3200);
+      }
+    }
+
+    function submitRulerLength() {
+      const q = state.quiz;
+      if (!q || q.locked) return;
+      if (!q.input) return;
+      const cur = q.questions[q.index];
+      const given = Number(q.input);
+      const ok = RM.answersMatch(cur, given);
+      rulerAward(ok, given + " 公分");
+    }
+    function submitRulerFormula() {
+      const q = state.quiz;
+      if (!q || q.locked) return;
+      const cur = q.questions[q.index];
+      const given = q.fields.map((f) => Number(f));
+      const ok = RM.answersMatch(cur, given);
+      rulerAward(ok, given[0] + " − " + given[1] + " = " + given[2]);
+    }
+    function submitRulerWhich(val, btn, optsBox) {
+      const q = state.quiz;
+      if (!q || q.locked) return;
+      const cur = q.questions[q.index];
+      const ok = RM.answersMatch(cur, val);
+      q.locked = true;
+      if (btn) btn.classList.add(ok ? "ok" : "bad");
+      if (optsBox && !ok) {
+        [...optsBox.querySelectorAll(".tap-opt")].forEach((b) => {
+          if (b.dataset.val === String(cur.answer)) b.classList.add("ok");
+        });
+      }
+      q.locked = false;
+      const label = val === "equal" ? "一樣長" : val;
+      rulerAward(ok, label);
+    }
+
+    function nextRulerQuestion() {
+      const q = state.quiz;
+      if (!q || q.kind !== "ruler") return;
+      if (q.index >= q.questions.length - 1) {
+        $("rulerBar").style.width = "100%";
+        finishQuiz(false);
+        return;
+      }
+      q.index += 1;
+      renderRulerQuiz();
+    }
+
+    function openRulerLesson(page) {
+      state.rulerLessonPage = page == null ? 0 : page;
+      showScreen("rulerLesson");
+      renderRulerLesson();
+    }
+
     function applyDemoRoute() {
       const params = new URLSearchParams(location.search);
       const demo = params.get("demo") || (location.hash || "").replace(/^#/, "");
       if (!demo) return;
+      if (demo === "ruler" || demo === "ruler-setup") {
+        showScreen("rulerSetup");
+        setMascot("happy", "這是量長度：先學會看尺，再來比一比兩條線！");
+        return;
+      }
+      if (demo === "ruler-lesson" || demo === "ruler-lesson-1") { openRulerLesson(0); return; }
+      if (demo === "ruler-lesson-2") { openRulerLesson(1); return; }
+      if (demo === "ruler-lesson-3") { openRulerLesson(2); return; }
+      if (demo === "ruler-lesson-4") { openRulerLesson(3); return; }
+      if (demo === "ruler-play" || demo === "ruler-lesson-5") { openRulerLesson(4); return; }
+      if (demo === "ruler-quiz" || demo === "ruler-quiz-from0") {
+        startRulerQuiz([RM.demoQuestion("from0")]);
+        return;
+      }
+      if (demo === "ruler-quiz-not0") {
+        startRulerQuiz([RM.demoQuestion("not0")]);
+        return;
+      }
+      if (demo === "ruler-quiz-compare" || demo === "ruler-quiz-diff") {
+        startRulerQuiz([RM.demoQuestion("compare")]);
+        return;
+      }
+      if (demo === "ruler-quiz-which") {
+        startRulerQuiz([RM.demoQuestion("which")]);
+        return;
+      }
       if (demo === "clock" || demo === "clock-setup") {
         showScreen("clockSetup");
         setMascot("happy", "這是時鐘教學：先分清時針和分針，再來看現在是幾點！");
@@ -3324,12 +4380,14 @@ function validateStoryProblem(p) {
       if (q.kind === "story" && total > 0 && score >= Math.ceil(total * 0.8)) profile.badges.beiExpert = true;
       const hadClockMaster = !!profile.badges.clockMaster;
       if (q.kind === "clock" && total > 0 && score >= Math.ceil(total * 0.8)) profile.badges.clockMaster = true;
+      const hadRulerExpert = !!profile.badges.rulerExpert;
+      if (q.kind === "ruler" && total > 0 && score >= Math.ceil(total * 0.8)) profile.badges.rulerExpert = true;
       profile.bestStreak = Math.max(profile.bestStreak || 0, q.maxStreak);
 
       const rec = {
         ts: Date.now(),
         score, total, seconds: elapsed,
-        numbers: q.kind === "clock" ? [] : selectedList(),
+        numbers: (q.kind === "clock" || q.kind === "ruler") ? [] : selectedList(),
         coins: q.coinsEarned,
         timeout: !!timeout,
         kind: q.kind || "quiz",
@@ -3356,6 +4414,10 @@ function validateStoryProblem(p) {
       } else if (q.kind === "clock" && profile.badges.clockMaster && !hadClockMaster) {
         sfxUnlock();
         showUnlock("解鎖徽章！⏰ 看時鐘小達人");
+        burstConfetti(80);
+      } else if (q.kind === "ruler" && profile.badges.rulerExpert && !hadRulerExpert) {
+        sfxUnlock();
+        showUnlock("解鎖徽章！📏 尺量小專家");
         burstConfetti(80);
       } else if (score === total) {
         burstConfetti(90);
@@ -3387,6 +4449,9 @@ function validateStoryProblem(p) {
           if (q.kind === "clock") {
             return "<li><span>" + (m.prompt || "時鐘題") + "</span><span>正確：" + (m.ansLabel || "") + " · 你答了 " + (m.given || "空白") + "</span></li>";
           }
+          if (q.kind === "ruler") {
+            return "<li><span>" + (m.prompt || "量長度") + "</span><span>正確：" + (m.ansLabel || "") + " · 你答了 " + (m.given || "空白") + "</span></li>";
+          }
           return "<li><span>" + m.a + " × " + m.b + " = " + m.ans + "</span><span>你填了 " + (m.given || "空白") + " · " + koujue(m.a, m.b) + "</span></li>";
         }).join("");
       } else {
@@ -3407,8 +4472,8 @@ function validateStoryProblem(p) {
       ul.innerHTML = profile.history.map((h) => {
         const d = new Date(h.ts);
         const t = d.toLocaleString("zh-TW", { timeZone: "Asia/Taipei", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" });
-        const kind = h.kind === "story" ? "應用題 · " : h.kind === "clock" ? "時鐘教學 · " : "";
-        const nums = h.kind === "clock" ? (h.levelLabel || "看時鐘") : (h.numbers || []).join(",");
+        const kind = h.kind === "story" ? "應用題 · " : h.kind === "clock" ? "時鐘教學 · " : h.kind === "ruler" ? "量長度 · " : "";
+        const nums = (h.kind === "clock" || h.kind === "ruler") ? (h.levelLabel || (h.kind === "ruler" ? "量長度" : "看時鐘")) : (h.numbers || []).join(",");
         return "<li><span>" + t + " · " + kind + nums + "</span><span>" + h.score + "/" + h.total + " · " + h.seconds + "秒 · +" + h.coins + "⭐</span></li>";
       }).join("");
     }
@@ -3600,6 +4665,7 @@ function validateStoryProblem(p) {
       sfxClick();
       if (state.quiz && state.quiz.kind === "story") startStoryQuiz();
       else if (state.quiz && state.quiz.kind === "clock") startClockQuiz();
+      else if (state.quiz && state.quiz.kind === "ruler") startRulerQuiz();
       else startQuiz();
     });
     $("retryMissBtn").addEventListener("click", () => {
@@ -3614,6 +4680,11 @@ function validateStoryProblem(p) {
         startClockQuiz(state.quiz.mistakes);
         return;
       }
+      if (state.quiz && state.quiz.kind === "ruler") {
+        if (!state.quiz.mistakes.length) return;
+        startRulerQuiz(state.quiz.mistakes);
+        return;
+      }
       const misses = state.quiz ? state.quiz.mistakes.map((m) => ({ a: m.a, b: m.b })) : [];
       if (!misses.length) return;
       startQuiz(misses);
@@ -3621,6 +4692,12 @@ function validateStoryProblem(p) {
     $("resultHomeBtn").addEventListener("click", () => { sfxClick(); showScreen("home"); });
 
     document.addEventListener("keydown", (e) => {
+      if (state.screen === "rulerQuiz") {
+        if (e.key === "Enter") { e.preventDefault(); handleRulerKey("Enter"); }
+        else if (e.key === "Backspace") { e.preventDefault(); handleRulerKey("Backspace"); }
+        else if (/^\d$/.test(e.key)) handleRulerKey(e.key);
+        return;
+      }
       if (state.screen === "clockQuiz") {
         if (e.key === "Enter") { e.preventDefault(); handleClockKey("Enter"); }
         else if (e.key === "Backspace") { e.preventDefault(); handleClockKey("Backspace"); }
@@ -3682,10 +4759,48 @@ function validateStoryProblem(p) {
       renderClockLesson();
     });
 
+    $("goRulerSetup").addEventListener("click", () => {
+      sfxClick();
+      showScreen("rulerSetup");
+      setMascot("happy", "我們來學用量尺吧！記住，線不一定從 0 開始喔。");
+    });
+    $("rulerSetupBack").addEventListener("click", () => { sfxClick(); showScreen("home"); });
+    $("rulerTeachBtn").addEventListener("click", () => { sfxClick(); openRulerLesson(0); });
+    $("startRulerBtn").addEventListener("click", () => { sfxClick(); startRulerQuiz(); });
+    $("rulerLevelRow").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-ruler-level]");
+      if (!b) return;
+      state.rulerLevel = b.dataset.rulerLevel;
+      $("rulerLevelRow").querySelectorAll(".seg").forEach((x) => x.classList.toggle("on", x === b));
+      sfxClick();
+    });
+    $("rulerCountRow").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-ruler-count]");
+      if (!b) return;
+      state.rulerCount = +b.dataset.rulerCount;
+      $("rulerCountRow").querySelectorAll(".seg").forEach((x) => x.classList.toggle("on", x === b));
+      sfxClick();
+    });
+    $("rulerLessonBack").addEventListener("click", () => { sfxClick(); showScreen("rulerSetup"); setMascot("happy", "看完教學就可以開始測驗囉！"); });
+    $("rulerLessonSpeak").addEventListener("click", () => speak(RULER_LESSON_SPEECH[state.rulerLessonPage] || ""));
+    $("rulerLessonPrev").addEventListener("click", () => {
+      sfxClick();
+      if (state.rulerLessonPage <= 0) { showScreen("rulerSetup"); return; }
+      state.rulerLessonPage -= 1;
+      renderRulerLesson();
+    });
+    $("rulerLessonNext").addEventListener("click", () => {
+      sfxClick();
+      if (state.rulerLessonPage >= 4) { showScreen("rulerSetup"); setMascot("wow", "準備好就選難度，開始測驗吧！"); return; }
+      state.rulerLessonPage += 1;
+      renderRulerLesson();
+    });
+
     loadProfile();
     buildKeypad();
     buildStoryKeypad();
     buildClockKeypad();
+    buildRulerKeypad();
     updateCoinHud();
     renderChips();
     showScreen("home");
