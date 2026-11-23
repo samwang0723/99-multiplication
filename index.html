@@ -125,7 +125,7 @@
     .icon-btn:active { transform: translateY(3px); box-shadow: none; }
 
     .mascot-row {
-      display: flex; align-items: flex-end; gap: 8px; margin: 4px 0 16px;
+      display: flex; align-items: center; gap: 12px; margin: 4px 0 16px;
     }
     .mascot-row .buddy { width: 92px; height: 92px; flex: none; animation: bounce 2.4s ease-in-out infinite; }
     .bubble {
@@ -135,8 +135,8 @@
       flex: 1;
     }
     .bubble::before {
-      content: ""; position: absolute; left: -10px; bottom: 22px;
-      border: 10px solid transparent; border-right-color: #fff; border-left: 0;
+      content: ""; position: absolute; left: -11px; top: 50%; transform: translateY(-50%);
+      border-style: solid; border-width: 10px 12px 10px 0; border-color: transparent #fff transparent transparent;
     }
 
     .panel {
