@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#5EC8F8" />
-  <meta name="description" content="九九乘法大冒險：選數字、翻卡複習、挑戰考試，「倍的問題」應用題，還有時鐘教學和量長度，適合小朋友的數學練習遊戲。" />
+  <meta name="description" content="九九乘法大冒險：選數字、翻卡複習、挑戰考試，「倍的問題」應用題，還有時鐘教學、量長度和錢錢應用題，適合小朋友的數學練習遊戲。" />
   <title>九九乘法大冒險</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -583,7 +583,96 @@
     #screenRulerQuiz .progress-wrap { margin: 0 0 8px; }
     .ruler-formula { margin: 10px 0 4px; }
     .ruler-formula .eq-lab { min-width: 64px; }
-  </style>
+
+    /* —— 錢錢應用題 —— */
+    .mode-money { background: linear-gradient(#8be89a, #2fba6a); color: #fff; }
+    .lesson-dots.money-dots span.on { background: #2fba6a; box-shadow: 0 0 0 3px rgba(47,186,106,0.28); }
+    .money-coins, .money-tray {
+      display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+      align-items: flex-end; margin: 10px 0 6px;
+    }
+    .money-coin-btn {
+      border: 0; background: transparent; padding: 3px; border-radius: 16px;
+      line-height: 0;
+    }
+    .money-coin-btn:active { transform: scale(0.92); }
+    .money-coin-btn.on { background: #e8fff2; box-shadow: 0 0 0 4px rgba(47,186,106,0.45); }
+    .coin-svg { display: block; }
+    .money-note { filter: drop-shadow(0 3px 0 rgba(58,42,20,0.12)); }
+    .coin-cap {
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
+      font-weight: 800; font-size: 0.82rem; color: #5a3d00;
+    }
+    .money-story {
+      font-size: 1.12rem; font-weight: 800; line-height: 1.65;
+      text-align: left; background: #fffaf0; border-radius: 18px;
+      padding: 12px 14px; border: 3px solid #b8ebc0;
+    }
+    .money-prompt { font-size: 1.08rem; font-weight: 900; line-height: 1.5; margin: 8px 0 4px; }
+    .money-explain { text-align: left; font-weight: 800; line-height: 1.65; margin-top: 8px; }
+    .money-pic {
+      display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+      align-items: center; margin: 8px 0 4px; font-weight: 900;
+    }
+    .money-pic .item-chip {
+      background: #fff; border-radius: 16px; padding: 8px 12px;
+      box-shadow: 0 3px 0 #ead9b8; text-align: center; min-width: 72px;
+    }
+    .money-pic .item-chip .emo { font-size: 2rem; display: block; }
+    .line-diagram { width: 100%; max-width: 420px; height: auto; display: block; margin: 8px auto; }
+    .vertical-math {
+      display: inline-block; font-weight: 900; margin: 10px auto; padding: 12px 18px;
+      background: #fff; border-radius: 16px; box-shadow: 0 4px 0 #ead9b8;
+    }
+    .vertical-wrap { text-align: center; }
+    .vertical-math table { border-collapse: collapse; font-variant-numeric: tabular-nums; margin: 0 auto; }
+    .vertical-math td {
+      width: 1.45em; text-align: center; height: 1.55em; font-size: 1.55rem; line-height: 1;
+    }
+    .vertical-math .carry td { font-size: 0.78rem; color: #e85d04; height: 1.15em; }
+    .vertical-math .borrow td { font-size: 0.7rem; color: #1e6ee6; height: 1.05em; }
+    .vertical-math .op-cell { text-align: right; font-size: 1.35rem; }
+    .vertical-math .rule td { border-top: 3px solid #3a2a14; padding-top: 4px; }
+    .shop-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 8px 0;
+    }
+    .shop-item {
+      border: 0; border-radius: 14px; padding: 6px 2px; background: #fff;
+      box-shadow: 0 3px 0 #d7c4a0; font-weight: 900; color: var(--ink);
+      font-size: 0.78rem; line-height: 1.25;
+    }
+    .shop-item:active { transform: translateY(3px); box-shadow: none; }
+    .shop-item.on { background: #e8fff2; box-shadow: 0 0 0 3px rgba(47,186,106,0.45), 0 3px 0 #d7c4a0; }
+    .shop-item .emo { font-size: 1.4rem; display: block; }
+    .shop-item .price { color: #e85d04; }
+    .shop-total { font-size: 1.15rem; font-weight: 900; text-align: center; margin: 6px 0; }
+    .shop-total.ok { color: #1d8a4a; }
+    .shop-total.over { color: #c44b3a; }
+    .paid-tray {
+      min-height: 56px; background: #fffaf0; border: 3px dashed #b8ebc0;
+      border-radius: 18px; padding: 8px; display: flex; flex-wrap: wrap;
+      gap: 6px; justify-content: center; align-items: center;
+    }
+    .paid-tray .placeholder { color: #7a6244; font-weight: 800; }
+    .bank-row { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; align-items: flex-end; margin: 8px 0; }
+    .trade-row {
+      display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 8px 0;
+      font-weight: 800;
+    }
+    .trade-chip {
+      background: #fff; border-radius: 16px; padding: 8px 10px;
+      box-shadow: 0 3px 0 #ead9b8; font-size: 0.92rem; text-align: center;
+    }
+    .op-pick { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 10px 0; }
+    .op-pick .btn { min-width: 92px; font-size: 1.2rem; }
+    #moneyBox { padding: 8px 8px 6px; min-height: 0; margin-bottom: 8px; }
+    #moneyKeypadWrap { margin-top: 6px; }
+    #moneyKeypadWrap .keypad { gap: 8px; }
+    #moneyKeypadWrap .key { min-height: 50px; font-size: 1.45rem; }
+    #screenMoneyQuiz .quiz-stats { margin-bottom: 6px; }
+    #screenMoneyQuiz .progress-wrap { margin: 0 0 8px; }
+    .ans-row.money-ans { margin-top: 8px; font-size: 1.25rem; }
+    </style>
 </head>
 <body>
   <div class="sky-deco" aria-hidden="true">
@@ -656,6 +745,11 @@
             <span class="emoji">📏</span>
             <h3>量長度</h3>
             <p>用尺量一量，比較兩條線</p>
+          </button>
+          <button type="button" class="mode-card mode-money" id="goMoneySetup">
+            <span class="emoji">💰</span>
+            <h3>錢錢應用題</h3>
+            <p>付錢找錢，加減應用題</p>
           </button>
         </div>
       </section>
@@ -958,6 +1052,69 @@
           </div>
         </div>
       </section>
+
+      <section id="screenMoneySetup" class="hidden">
+        <div class="panel">
+          <button type="button" class="btn btn-ghost" id="moneySetupBack">← 回首頁</button>
+          <h2 style="margin-top:14px">💰 錢錢應用題</h2>
+          <p style="font-weight:700;color:#7a6244;line-height:1.6;margin:8px 0 12px">認識錢幣、練習付錢和找錢，再用加減和乘法解故事題。線段圖和直式都會幫你想清楚喔！</p>
+          <div class="row-actions" style="margin-top:8px">
+            <button type="button" class="btn btn-green" id="moneyTeachBtn">📖 先看教學</button>
+          </div>
+          <p class="section-title" style="margin-top:16px">測驗難度</p>
+          <div class="setting-row" id="moneyLevelRow">
+            <button type="button" class="seg on" data-money-level="coins">① 錢幣與付錢</button>
+            <button type="button" class="seg" data-money-level="word">② 加減應用題</button>
+            <button type="button" class="seg" data-money-level="challenge">③ 挑戰題</button>
+          </div>
+          <p class="section-title">要幾題？</p>
+          <div class="setting-row" id="moneyCountRow">
+            <button type="button" class="seg on" data-money-count="5">5 題</button>
+            <button type="button" class="seg" data-money-count="10">10 題</button>
+          </div>
+          <button type="button" class="btn btn-green btn-big" id="startMoneyBtn" style="margin-top:12px">開始測驗！💰</button>
+        </div>
+      </section>
+
+      <section id="screenMoneyLesson" class="hidden">
+        <div class="panel">
+          <div class="story-toolbar">
+            <button type="button" class="btn btn-ghost" id="moneyLessonBack">← 回上一頁</button>
+            <button type="button" class="btn btn-purple" id="moneyLessonSpeak">🔊 唸給我聽</button>
+          </div>
+          <h2 id="moneyLessonTitle" style="margin-top:10px">認識錢幣</h2>
+          <div id="moneyLessonBody"></div>
+          <div class="lesson-dots money-dots" id="moneyLessonDots" aria-hidden="true"></div>
+          <div class="lesson-nav">
+            <button type="button" class="btn btn-ghost" id="moneyLessonPrev">← 上一頁</button>
+            <button type="button" class="btn btn-green" id="moneyLessonNext">下一頁 →</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="screenMoneyQuiz" class="hidden">
+        <div class="panel">
+          <div class="progress-wrap">
+            <div class="progress-meta">
+              <span id="moneyProgressLabel">第 1 題</span>
+              <span id="moneyLevelLabel"></span>
+            </div>
+            <div class="bar"><span id="moneyBar"></span></div>
+          </div>
+          <div class="quiz-stats">
+            <div class="stat" id="moneyScoreStat">⭐ 0</div>
+            <div class="stat" id="moneyStreakStat">🔥 連擊 0</div>
+            <div class="stat" id="moneyCoinStat">✨ +0</div>
+          </div>
+          <div class="question-box" id="moneyBox">
+            <div id="moneyInner"></div>
+            <div class="feedback" id="moneyFeedback"></div>
+          </div>
+          <div id="moneyKeypadWrap">
+            <div class="keypad" id="moneyKeypad"></div>
+          </div>
+        </div>
+      </section>
     </main>
   </div>
 
@@ -1027,6 +1184,7 @@
 
   <script src="clock-math.js"></script>
   <script src="ruler-math.js"></script>
+  <script src="money-math.js"></script>
   <script>
   (() => {
     const CN = ["零","一","二","三","四","五","六","七","八","九"];
@@ -1043,7 +1201,8 @@
       { id:"quiz30", name:"耐力挑戰者", emoji:"💪" },
       { id:"beiExpert", name:"倍數小專家", emoji:"🧮" },
       { id:"clockMaster", name:"看時鐘小達人", emoji:"⏰" },
-      { id:"rulerExpert", name:"尺量小專家", emoji:"📏" }
+      { id:"rulerExpert", name:"尺量小專家", emoji:"📏" },
+      { id:"moneyExpert", name:"小小理財家", emoji:"💰" }
     ];
     const PRAISE = ["太厲害了！","答對了，你好棒！","哇，真聰明！","讚讚讚！","完全正確！","你是乘法小英雄！"];
     const COMFORT = ["沒關係，我們一起記住它！","差一點點，下一題會更好！","加油，九九相信你！","看一次答案，下次就會了！"];
@@ -1068,6 +1227,9 @@
       rulerCount: 5,
       rulerLevel: "from0",
       rulerLessonPage: 0,
+      moneyCount: 5,
+      moneyLevel: "coins",
+      moneyLessonPage: 0,
       muted: false,
       screen: "home",
       albumFrom: "home",
@@ -1105,6 +1267,9 @@
       rulerSetup: $("screenRulerSetup"),
       rulerLesson: $("screenRulerLesson"),
       rulerQuiz: $("screenRulerQuiz"),
+      moneySetup: $("screenMoneySetup"),
+      moneyLesson: $("screenMoneyLesson"),
+      moneyQuiz: $("screenMoneyQuiz"),
       results: $("screenResults"),
       album: $("screenAlbum")
     };
@@ -1208,6 +1373,7 @@
     function showScreen(name) {
       if (name !== "clockLesson" && typeof clearClockAnims === "function") clearClockAnims();
       if (name !== "rulerLesson" && name !== "rulerQuiz" && typeof clearRulerAnims === "function") clearRulerAnims();
+      if (name !== "moneyLesson" && name !== "moneyQuiz" && typeof clearMoneyAnims === "function") clearMoneyAnims();
       state.screen = name;
       Object.keys(screens).forEach((k) => screens[k].classList.toggle("hidden", k !== name));
       if (name === "home") {
@@ -4093,6 +4259,789 @@ function validateStoryProblem(p) {
       renderRulerLesson();
     }
 
+
+    const MM = window.MoneyMath;
+    const MONEY_LESSON_SPEECH = [
+      "臺灣的錢有 1 元、5 元、10 元、50 元銅板，還有 100 元鈔票。5 個 1 元可以換成 1 個 5 元，2 個 5 元可以換成 1 個 10 元，5 個 10 元可以換成 1 個 50 元，2 個 50 元可以換成 1 張 100 元。",
+      "花錢以後要算剩下幾元，要用減法。小花有 100 元，買了 65 元的蛋糕，100 減 65 等於 35 元。直式從個位開始減，不夠減就向旁邊借 1。",
+      "如果連續給出去兩次，可以一步一步減，也可以先把給出去的加起來，再用全部減掉。媽媽有 50 元，給哥哥 20 元、妹妹 10 元，剩下 20 元。",
+      "一樣的東西買好幾個，可以用連加，也可以用乘法。一袋包子 20 元，買 3 袋，就是 20 加 20 加 20，也就是 20 乘 3 等於 60 元。",
+      "線段圖可以幫我們找不知道的那一段。全部減掉已經知道的，就是還不知道的。妹妹烤 8 片，兩人共烤 30 片，媽媽烤了 22 片。",
+      "看到「比……多」多用加法，看到「比……少」或「便宜」多用減法。但要先看清楚是「誰」比「誰」，不要看錯邊喔！",
+      "歡迎來到小小商店！先選要買的東西，再點錢幣剛好付給老闆，或練習拿 50 元、100 元來找錢。"
+    ];
+    const MONEY_LESSON_TITLES = ["認識錢幣", "花錢剩下用減法", "連續給錢", "買好幾個用乘法", "線段圖找部分", "比多比少", "小小商店"];
+
+    let moneyTimers = [];
+    function clearMoneyAnims() {
+      moneyTimers.forEach((t) => clearTimeout(t));
+      moneyTimers = [];
+    }
+
+    function coinHtml(denom, size) {
+      return MM.coinSvg(denom, size ? { size: size } : {});
+    }
+
+    function renderCoinsRow(counts, opts) {
+      opts = opts || {};
+      const list = MM.coinsList(counts);
+      if (!list.length) return '<div class="money-coins"><span class="placeholder">還沒有錢幣</span></div>';
+      return '<div class="money-coins">' + list.map((d, i) => {
+        const btn = opts.tappable
+          ? '<button type="button" class="money-coin-btn" data-coin="' + d + '" data-idx="' + i + '" aria-label="' + (MM.COIN_META[d].caption) + '">' + coinHtml(d, opts.size) + "</button>"
+          : '<span class="coin-cap">' + coinHtml(d, opts.size) + (opts.captions ? "<span>" + d + "元</span>" : "") + "</span>";
+        return btn;
+      }).join("") + "</div>";
+    }
+
+    function renderLineDiagram(line, reveal) {
+      if (!line) return "";
+      const parts = line.parts || [];
+      const total = line.total || parts.reduce((s, p) => s + (p.value != null ? p.value : (p.answer || 0)), 0);
+      const W = 400, H = 148;
+      const padL = 18, padR = 18, y = 58, barH = 26, usable = W - padL - padR;
+      const colors = ["#7ec8ff", "#ffb3c2", "#9ee07a", "#ffe08a"];
+      let x = padL;
+      let segs = "";
+      let labels = "";
+      parts.forEach((p, i) => {
+        const val = p.value != null ? p.value : (p.answer || 0);
+        const w = Math.max(36, (val / Math.max(1, total)) * usable);
+        const known = p.value != null || !!reveal;
+        const shown = String(p.value != null ? p.value : p.answer);
+        const cx = x + w / 2;
+        segs += '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + barH + '" fill="' + colors[i % colors.length] + '" stroke="#3a2a14" stroke-width="2"/>';
+        labels += '<text x="' + cx + '" y="' + (y + barH + 16) + '" text-anchor="middle" font-size="12" font-weight="800" fill="#3a2a14">' + p.label + "</text>";
+        if (known) {
+          labels += '<text x="' + cx + '" y="' + (y + barH + 36) + '" text-anchor="middle" font-size="15" font-weight="900" fill="#e85d04">' + shown + "</text>";
+        } else {
+          labels += '<rect x="' + (cx - 18) + '" y="' + (y + barH + 20) + '" width="36" height="22" rx="6" fill="#fff4d6" stroke="#ff8a3d" stroke-width="2"/>';
+        }
+        x += w;
+      });
+      const totalText = (line.totalLabel || "共") + "（" + total + "）" + (line.unit || "");
+      const end = padL + usable;
+      const svg = '<svg class="line-diagram" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="線段圖">' +
+        '<path d="M' + padL + ' 44 V28 H' + end + ' V44" fill="none" stroke="#3a2a14" stroke-width="2.4" stroke-linecap="round"/>' +
+        '<text x="' + (W / 2) + '" y="22" text-anchor="middle" font-size="16" font-weight="900" fill="#1d8a4a">' + totalText + "</text>" +
+        segs + labels + "</svg>";
+      return svg;
+    }
+
+    function renderVerticalHtml(v, opts) {
+      opts = opts || {};
+      if (!v) return "";
+      const width = v.width;
+      function row(cells, cls) {
+        return '<tr class="' + (cls || "") + '">' + cells.map((c) => {
+          if (c && typeof c === "object") return "<td class='" + (c.cls || "") + "'>" + (c.t == null ? "" : c.t) + "</td>";
+          return "<td>" + (c == null || c === "" ? "" : c) + "</td>";
+        }).join("") + "</tr>";
+      }
+      // extra leading cell for operator
+      function pad(digits) {
+        return [""].concat(digits.map((d) => (d == null ? "" : d)));
+      }
+      let html = '<div class="vertical-wrap"><div class="vertical-math"><table>';
+      if (v.op === "+" && v.carries && v.carries.some((c) => c) && opts.showWork) {
+        const cells = [""].concat(v.carries.map((c) => (c ? c : "")));
+        html += row(cells, "carry");
+      }
+      if (v.op === "-" && v.borrowMarks && v.borrowMarks.some((m) => m && m.borrowed) && opts.showWork) {
+        const cells = [""].concat(v.borrowMarks.map((m) => (m && m.borrowed ? m.shown : "")));
+        html += row(cells, "borrow");
+      }
+      html += row(pad(v.aDigits));
+      const bcells = pad(v.bDigits);
+      bcells[0] = { t: v.op === "+" ? "＋" : "−", cls: "op-cell" };
+      html += row(bcells);
+      let res;
+      if (opts.blankResult && !opts.showWork) {
+        res = [""].concat(v.resultDigits.map(() => "☐"));
+      } else {
+        res = pad(v.resultDigits);
+      }
+      html += row(res, "rule");
+      html += "</table></div></div>";
+      return html;
+    }
+
+    function renderItemChips(pic) {
+      if (!pic) return "";
+      if (pic.items) {
+        return '<div class="money-pic">' + pic.items.map((it) =>
+          '<div class="item-chip"><span class="emo">' + (it.emoji || "") + "</span>" + it.name +
+          (it.price != null ? '<div class="price">' + it.price + " 元</div>" : "") + "</div>"
+        ).join("") + "</div>";
+      }
+      if (pic.emoji || pic.item) {
+        return '<div class="money-pic"><div class="item-chip"><span class="emo">' + (pic.emoji || "🛒") + "</span>" +
+          (pic.item || "") + (pic.price != null ? '<div class="price">' + pic.price + " 元</div>" : "") +
+          (pic.qty ? "<div>× " + pic.qty + "</div>" : "") + "</div></div>";
+      }
+      return "";
+    }
+
+    function openMoneyLesson(page) {
+      state.moneyLessonPage = page == null ? 0 : page;
+      showScreen("moneyLesson");
+      renderMoneyLesson();
+    }
+
+    function renderMoneyLesson() {
+      clearMoneyAnims();
+      const page = state.moneyLessonPage;
+      const titles = MONEY_LESSON_TITLES;
+      $("moneyLessonTitle").textContent = (page + 1) + ". " + titles[page];
+      $("moneyLessonDots").innerHTML = titles.map((_, i) => "<span class='" + (i === page ? "on" : "") + "'></span>").join("");
+      $("moneyLessonNext").textContent = page === titles.length - 1 ? "去測驗！💰" : "下一頁 →";
+      const body = $("moneyLessonBody");
+      body.innerHTML = "";
+      const speech = MONEY_LESSON_SPEECH[page];
+      function addCard(html) {
+        const d = document.createElement("div");
+        d.className = "lesson-card";
+        d.innerHTML = html;
+        body.appendChild(d);
+        return d;
+      }
+      if (page === 0) {
+        const row = document.createElement("div");
+        row.className = "money-coins";
+        row.style.alignItems = "flex-end";
+        MM.DENOMS.slice().reverse().forEach((d) => {
+          const wrap = document.createElement("button");
+          wrap.type = "button";
+          wrap.className = "money-coin-btn";
+          wrap.innerHTML = '<span class="coin-cap">' + coinHtml(d, d === 100 ? 92 : (d === 50 ? 68 : d === 10 ? 58 : d === 5 ? 52 : 44)) +
+            "<span>" + MM.COIN_META[d].caption + "</span></span>";
+          wrap.addEventListener("click", () => { sfxClick(); speak("這是" + MM.COIN_META[d].caption); setMascot("wow", "這是" + MM.COIN_META[d].caption + "！"); });
+          row.appendChild(wrap);
+        });
+        body.appendChild(row);
+        addCard("點一點錢幣，我會告訴你它是多少錢。<br>記住兌換：" +
+          "<div class='trade-row'>" +
+          "<div class='trade-chip'>5 個 1 元 ＝ 1 個 5 元</div>" +
+          "<div class='trade-chip'>2 個 5 元 ＝ 1 個 10 元</div>" +
+          "<div class='trade-chip'>5 個 10 元 ＝ 1 個 50 元</div>" +
+          "<div class='trade-chip'>2 個 50 元 ＝ 1 張 100 元</div></div>");
+        setMascot("happy", speech);
+      } else if (page === 1) {
+        addCard("小花有 <strong>100 元</strong>，買了 <strong>65 元</strong>的蛋糕 🍰。<br>剩下幾元要用減法：<strong>100 − 65 = 35 元</strong>。");
+        body.insertAdjacentHTML("beforeend", renderVerticalHtml(MM.verticalOp(100, 65, "-"), { showWork: true }));
+        addCard("直式要從<span style='color:#e85d04'>個位</span>開始減。個位 0 不夠減 5，就向十位借 1，個位變成 10，再 10 − 5 = 5。");
+        setMascot("think", speech);
+      } else if (page === 2) {
+        addCard("媽媽有 <strong>50 元</strong>，給了哥哥 <strong>20 元</strong>，妹妹 <strong>10 元</strong>。<br>可以一步一步算：<strong>50 − 20 = 30</strong>，再 <strong>30 − 10 = 20</strong>。<br>也可以先加再減：<strong>20 + 10 = 30</strong>，<strong>50 − 30 = 20</strong>。剩下 <strong>20 元</strong>。");
+        const demo = MM.demoQuestion("twostep");
+        body.insertAdjacentHTML("beforeend", renderLineDiagram(demo.line, true));
+        setMascot("think", speech);
+      } else if (page === 3) {
+        addCard("一袋包子 🥟 <strong>20 元</strong>，買 <strong>3 袋</strong>要多少錢？<br>連加：<strong>20 + 20 + 20 = 60</strong><br>乘法：<strong>20 × 3 = 60 元</strong><br>這就是「20 的 3 倍」，跟九九乘法是好朋友！");
+        setMascot("happy", speech);
+      } else if (page === 4) {
+        const q = MM.demoQuestion("line");
+        addCard("妹妹烤好 8 片餅乾 🍪，媽媽也烤了一些，兩個人共烤了 30 片。<br>線段圖上面是「共多少」，下面分成已經知道的和還不知道的。");
+        body.insertAdjacentHTML("beforeend", renderLineDiagram(q.line, true));
+        body.insertAdjacentHTML("beforeend", renderVerticalHtml(MM.verticalOp(30, 8, "-"), { showWork: true }));
+        addCard("全部減掉已經知道的：<strong>30 − 8 = 22</strong>，媽媽烤了 22 片。");
+        setMascot("think", speech);
+      } else if (page === 5) {
+        addCard("記住關鍵字，但要先看清楚是「誰」比「誰」：" +
+          "<div class='trade-row'>" +
+          "<div class='trade-chip'>比……<span class='right-tag'>多</span> → 加法</div>" +
+          "<div class='trade-chip'>比……<span class='wrong-tag' style='text-decoration:none;color:#1d8a4a'>少</span> → 減法</div>" +
+          "<div class='trade-chip'>便宜 / 少花 → 減法</div></div>" +
+          "例如：小妍花了 48 元，阿偉比她少花 19 元，阿偉花了 <strong>48 − 19 = 29 元</strong>。<br>" +
+          "芭樂汁比西瓜汁多賣 19 杯，西瓜汁 82 杯，芭樂汁是 <strong>82 + 19 = 101 杯</strong>。<br>" +
+          "優酪乳原來 63 元，便宜 24 元，現在賣 <strong>63 − 24 = 39 元</strong>。<br>" +
+          "<span style='color:#c44b3a'>小心：</span>不要一看到「多」就隨便加，先問「是哪一個比較多？」。");
+        setMascot("think", speech);
+      } else {
+        mountMoneyShop(body);
+        setMascot("wow", speech);
+      }
+    }
+
+    function mountMoneyShop(body) {
+      const shop = { item: MM.SHOP_ITEMS[0], mode: "exact", tender: 100, paid: MM.emptyCounts(), paidOrder: [] };
+      const wrap = document.createElement("div");
+      body.appendChild(wrap);
+      function totalPaid() { return MM.coinTotal(shop.paid); }
+      function render() {
+        const it = shop.item;
+        let html = '<div class="lesson-card">先選要買的東西，再點錢幣付給老闆。</div>';
+        html += '<div class="setting-row" style="justify-content:center">';
+        html += '<button type="button" class="seg' + (shop.mode === "exact" ? " on" : "") + '" data-shop-mode="exact">剛好付</button>';
+        html += '<button type="button" class="seg' + (shop.mode === "change" ? " on" : "") + '" data-shop-mode="change">找錢</button>';
+        if (shop.mode === "change") {
+          html += '<button type="button" class="seg' + (shop.tender === 50 ? " on" : "") + '" data-tender="50">拿 50 元</button>';
+          html += '<button type="button" class="seg' + (shop.tender === 100 ? " on" : "") + '" data-tender="100">拿 100 元</button>';
+        }
+        html += "</div>";
+        html += '<div class="shop-grid">';
+        MM.SHOP_ITEMS.forEach((s) => {
+          html += '<button type="button" class="shop-item' + (shop.item.id === s.id ? " on" : "") + '" data-shop-id="' + s.id + '">' +
+            '<span class="emo">' + s.emoji + "</span>" + s.name + '<div class="price">' + s.price + " 元</div></button>";
+        });
+        html += "</div>";
+        if (shop.mode === "exact") {
+          html += '<div class="shop-total" id="shopTotalLine">要付 <span style="color:#e85d04">' + it.price + " 元</span>，已付 <span id='shopPaidVal'>" + totalPaid() + " 元</span></div>";
+          html += '<div class="paid-tray" id="shopTray"></div>';
+          html += '<div class="bank-row" id="shopBank"></div>';
+          html += '<div class="row-actions"><button type="button" class="btn btn-ghost" id="shopUndo">復原</button>' +
+            '<button type="button" class="btn btn-ghost" id="shopClear">清空</button>' +
+            '<button type="button" class="btn btn-green" id="shopPay">付給老闆</button></div>';
+        } else {
+          const ch = shop.tender - it.price;
+          html += '<div class="shop-total">你拿了 ' + shop.tender + " 元，東西 " + it.price + " 元。<br>老闆該找你幾元？</div>";
+          html += '<div class="clock-time-entry"><button type="button" class="time-field on empty" id="shopChangeField">?</button><span>元</span></div>';
+          html += '<div class="row-actions"><button type="button" class="btn btn-green" id="shopCheckChange">看看對不對</button></div>';
+        }
+        html += '<div class="feedback" id="shopFeedback"></div>';
+        wrap.innerHTML = html;
+        const tray = wrap.querySelector("#shopTray");
+        if (tray) {
+          const list = shop.paidOrder;
+          tray.innerHTML = list.length ? list.map((d) => coinHtml(d, d === 100 ? 72 : 44)).join("") : '<span class="placeholder">點下面的錢幣來付</span>';
+        }
+        const bank = wrap.querySelector("#shopBank");
+        if (bank) {
+          MM.DENOMS.slice().reverse().forEach((d) => {
+            const b = document.createElement("button");
+            b.type = "button";
+            b.className = "money-coin-btn";
+            b.innerHTML = '<span class="coin-cap">' + coinHtml(d, d === 100 ? 80 : 50) + "<span>" + d + "元</span></span>";
+            b.addEventListener("click", () => {
+              sfxClick();
+              shop.paid[d] += 1;
+              shop.paidOrder.push(d);
+              render();
+            });
+            bank.appendChild(b);
+          });
+        }
+        wrap.querySelectorAll("[data-shop-id]").forEach((b) => b.addEventListener("click", () => {
+          sfxClick();
+          shop.item = MM.SHOP_ITEMS.find((s) => s.id === b.dataset.shopId) || shop.item;
+          shop.paid = MM.emptyCounts();
+          shop.paidOrder = [];
+          render();
+        }));
+        wrap.querySelectorAll("[data-shop-mode]").forEach((b) => b.addEventListener("click", () => {
+          sfxClick();
+          shop.mode = b.dataset.shopMode;
+          shop.paid = MM.emptyCounts();
+          shop.paidOrder = [];
+          render();
+        }));
+        wrap.querySelectorAll("[data-tender]").forEach((b) => b.addEventListener("click", () => {
+          sfxClick();
+          shop.tender = +b.dataset.tender;
+          render();
+        }));
+        const undo = wrap.querySelector("#shopUndo");
+        if (undo) undo.addEventListener("click", () => {
+          sfxClick();
+          const last = shop.paidOrder.pop();
+          if (last) shop.paid[last] = Math.max(0, shop.paid[last] - 1);
+          render();
+        });
+        const clr = wrap.querySelector("#shopClear");
+        if (clr) clr.addEventListener("click", () => { sfxClick(); shop.paid = MM.emptyCounts(); shop.paidOrder = []; render(); });
+        const pay = wrap.querySelector("#shopPay");
+        if (pay) pay.addEventListener("click", () => {
+          const t = totalPaid();
+          const fb = wrap.querySelector("#shopFeedback");
+          if (t === it.price) {
+            fb.className = "feedback good";
+            fb.textContent = "剛好 " + t + " 元，謝謝光臨！";
+            setMascot("wow", "剛好付給老闆，太棒了！");
+            sfxCorrect();
+            burstConfetti();
+          } else if (t < it.price) {
+            fb.className = "feedback bad";
+            fb.textContent = "還差 " + (it.price - t) + " 元喔！";
+            setMascot("think", "再付一點點就夠了。");
+            sfxWrong();
+          } else {
+            fb.className = "feedback bad";
+            fb.textContent = "太多了！多付了 " + (t - it.price) + " 元。這題要請剛好付。";
+            setMascot("think", "剛好付就是不多也不少。");
+            sfxWrong();
+          }
+        });
+        const totalLine = wrap.querySelector("#shopTotalLine");
+        if (totalLine) {
+          const t = totalPaid();
+          totalLine.className = "shop-total" + (t === it.price ? " ok" : t > it.price ? " over" : "");
+        }
+        const chk = wrap.querySelector("#shopCheckChange");
+        if (chk) {
+          let input = "";
+          const field = wrap.querySelector("#shopChangeField");
+          // mini keys via existing pattern: reuse clicking digits from a tiny pad
+          const pad = document.createElement("div");
+          pad.className = "keypad";
+          pad.style.marginTop = "8px";
+          ["1","2","3","4","5","6","7","8","9","⌫","0","送出"].forEach((k) => {
+            const b = document.createElement("button");
+            b.type = "button";
+            b.className = "key" + (k === "送出" ? " ok" : k === "⌫" ? " del" : "");
+            b.textContent = k;
+            b.addEventListener("click", () => {
+              if (k === "⌫") { input = input.slice(0, -1); sfxClick(); }
+              else if (k === "送出") { chk.click(); return; }
+              else if (/^\d$/.test(k) && input.length < 3) { input += k; sfxClick(); }
+              if (field) { field.textContent = input || "?"; field.classList.toggle("empty", !input); }
+            });
+            pad.appendChild(b);
+          });
+          chk.parentNode.parentNode.insertBefore(pad, chk.parentNode);
+          chk.addEventListener("click", () => {
+            const ans = shop.tender - it.price;
+            const given = Number(input);
+            const fb = wrap.querySelector("#shopFeedback");
+            if (!input) return;
+            if (given === ans) {
+              fb.className = "feedback good";
+              fb.innerHTML = "對！ " + shop.tender + " − " + it.price + " = <strong>" + ans + " 元</strong>";
+              setMascot("wow", "找錢算對了！");
+              sfxCorrect();
+              burstConfetti();
+            } else {
+              fb.className = "feedback bad";
+              fb.innerHTML = "差一點。要用減法：" + shop.tender + " − " + it.price + " = <strong>" + ans + " 元</strong>";
+              setMascot("comfort", "找錢就是拿出的錢減掉東西的價錢。");
+              sfxWrong();
+            }
+          });
+        }
+      }
+      render();
+    }
+
+    function startMoneyQuiz(customQuestions) {
+      clearMoneyAnims();
+      const questions = customQuestions && customQuestions.length
+        ? customQuestions.map((q) => Object.assign({}, q))
+        : MM.generateQuiz(state.moneyLevel, state.moneyCount);
+      if (!questions.length) {
+        setMascot("think", "題目還沒準備好，再按一次開始吧！");
+        return;
+      }
+      const moneyLevel = (questions[0] && questions[0].level) || state.moneyLevel;
+      state.quiz = {
+        kind: "money",
+        questions,
+        index: 0,
+        input: "",
+        locked: false,
+        correct: 0,
+        streak: 0,
+        maxStreak: 0,
+        coinsEarned: 0,
+        mistakes: [],
+        startedAt: Date.now(),
+        limit: 0,
+        remain: 0,
+        retryMiss: !!(customQuestions && customQuestions.length),
+        key: "money|" + moneyLevel + "|" + questions.length,
+        level: moneyLevel,
+        levelLabel: MM.LEVEL_LABEL[moneyLevel] || "錢錢應用題",
+        awardedIndex: -1,
+        phase: "start",
+        paid: MM.emptyCounts(),
+        paidOrder: []
+      };
+      showScreen("moneyQuiz");
+      setMascot("wow", "加油！先看故事，再慢慢算～");
+      buildMoneyKeypad();
+      renderMoneyQuiz();
+    }
+
+    function updateMoneyStats() {
+      const q = state.quiz;
+      if (!q) return;
+      const pct = (q.index / q.questions.length) * 100;
+      $("moneyBar").style.width = pct + "%";
+      $("moneyProgressLabel").textContent = "第 " + (q.index + 1) + " / " + q.questions.length + " 題";
+      $("moneyLevelLabel").textContent = q.levelLabel || "";
+      $("moneyScoreStat").textContent = "⭐ " + q.correct;
+      $("moneyStreakStat").textContent = "🔥 連擊 " + q.streak;
+      $("moneyCoinStat").textContent = "✨ +" + q.coinsEarned;
+    }
+
+    function renderMoneyQuiz() {
+      const q = state.quiz;
+      if (!q || q.kind !== "money") return;
+      const cur = q.questions[q.index];
+      q.locked = false;
+      q.input = "";
+      q.paid = MM.emptyCounts();
+      q.paidOrder = [];
+      q.phase = cur.needsOp ? "op" : "answer";
+      $("moneyFeedback").textContent = "";
+      $("moneyFeedback").className = "feedback";
+      $("moneyBox").classList.remove("good", "bad");
+      updateMoneyStats();
+      const inner = $("moneyInner");
+      inner.innerHTML = "";
+      const toolbar = document.createElement("div");
+      toolbar.className = "story-toolbar";
+      toolbar.innerHTML = '<span class="type-pill">' + (cur.typeLabel || "錢錢題") +
+        '</span><div class="row-actions" style="margin:0"><button type="button" class="btn btn-ghost" id="moneyHintBtn">💡 提示</button>' +
+        '<button type="button" class="btn btn-purple" id="moneyQuizSpeak">🔊</button></div>';
+      inner.appendChild(toolbar);
+      if (cur.story) {
+        const st = document.createElement("div");
+        st.className = "money-story";
+        st.textContent = cur.story;
+        inner.appendChild(st);
+      }
+      if (cur.picture) inner.insertAdjacentHTML("beforeend", renderItemChips(cur.picture));
+      if (cur.coinsShown) inner.insertAdjacentHTML("beforeend", renderCoinsRow(cur.coinsShown, { captions: true, size: 48 }));
+      if (cur.line && (cur.type === "unknown-part" || cur.type === "two-step-give" || cur.type === "remaining")) {
+        const hold = document.createElement("div");
+        hold.id = "moneyLineHold";
+        hold.innerHTML = renderLineDiagram(cur.line, false);
+        inner.appendChild(hold);
+      }
+      if (cur.type === "vertical-add" || cur.type === "vertical-sub") {
+        const hold = document.createElement("div");
+        hold.id = "moneyVertHold";
+        hold.innerHTML = renderVerticalHtml(cur.vertical, { blankResult: true });
+        inner.appendChild(hold);
+      }
+      const prompt = document.createElement("div");
+      prompt.className = "money-prompt";
+      prompt.textContent = cur.prompt;
+      inner.appendChild(prompt);
+
+      if (cur.needsOp && q.phase === "op") {
+        const lab = document.createElement("div");
+        lab.className = "money-prompt";
+        lab.style.marginTop = "4px";
+        lab.textContent = "先選一選，這題要用加、減還是乘？";
+        inner.appendChild(lab);
+        const ops = document.createElement("div");
+        ops.className = "op-pick";
+        ops.id = "moneyOpPick";
+        [["＋", "加 ＋"], ["−", "減 −"], ["×", "乘 ×"]].forEach((pair) => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "btn btn-ghost";
+          b.textContent = pair[1];
+          b.addEventListener("click", () => pickMoneyOp(pair[0], b, ops));
+          ops.appendChild(b);
+        });
+        inner.appendChild(ops);
+        $("moneyKeypadWrap").classList.add("hidden");
+      }
+
+      if (cur.type === "pay-exact") {
+        const total = document.createElement("div");
+        total.className = "shop-total";
+        total.id = "payTotalLine";
+        total.textContent = "已選 0 元，要付 " + cur.payTarget + " 元";
+        inner.appendChild(total);
+        const tray = document.createElement("div");
+        tray.className = "paid-tray";
+        tray.id = "payTray";
+        tray.innerHTML = '<span class="placeholder">點下面的錢幣來付</span>';
+        inner.appendChild(tray);
+        const bank = document.createElement("div");
+        bank.className = "bank-row";
+        bank.id = "payBank";
+        inner.appendChild(bank);
+        renderPayBank(cur);
+        const actions = document.createElement("div");
+        actions.className = "row-actions";
+        actions.innerHTML = '<button type="button" class="btn btn-ghost" id="payUndo">復原</button>' +
+          '<button type="button" class="btn btn-ghost" id="payClear">清空</button>' +
+          '<button type="button" class="btn btn-green" id="paySubmit">付給老闆</button>';
+        inner.appendChild(actions);
+        $("payUndo").addEventListener("click", () => {
+          if (q.locked) return;
+          sfxClick();
+          const last = q.paidOrder.pop();
+          if (last) q.paid[last] = Math.max(0, q.paid[last] - 1);
+          syncPayTray(cur);
+        });
+        $("payClear").addEventListener("click", () => {
+          if (q.locked) return;
+          sfxClick();
+          q.paid = MM.emptyCounts();
+          q.paidOrder = [];
+          syncPayTray(cur);
+        });
+        $("paySubmit").addEventListener("click", () => submitMoneyPay());
+        $("moneyKeypadWrap").classList.add("hidden");
+      } else if (cur.choices && cur.choices.length && (q.phase === "answer" || !cur.needsOp)) {
+        const opts = document.createElement("div");
+        opts.className = "choice-opts";
+        cur.choices.forEach((name) => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "choice-opt";
+          b.textContent = name;
+          b.addEventListener("click", () => submitMoneyChoice(name, b, opts));
+          opts.appendChild(b);
+        });
+        inner.appendChild(opts);
+        $("moneyKeypadWrap").classList.add("hidden");
+      } else if (q.phase === "answer") {
+        const entry = document.createElement("div");
+        entry.className = "clock-time-entry ans-row money-ans";
+        const unit = cur.answerUnit ? cur.answerUnit : "";
+        entry.innerHTML = '<span>答：</span><button type="button" class="time-field on empty" id="moneyAnsField">?</button><span>' + (unit ? unit : "") + "</span>";
+        inner.appendChild(entry);
+        $("moneyKeypadWrap").classList.remove("hidden");
+      }
+
+      const hintBtn = $("moneyHintBtn");
+      if (hintBtn) hintBtn.addEventListener("click", () => showMoneyHint(cur));
+      const speakBtn = $("moneyQuizSpeak");
+      if (speakBtn) speakBtn.addEventListener("click", () => speak(cur.speech || (cur.story + cur.prompt)));
+    }
+
+    function renderPayBank(cur) {
+      const bank = $("payBank");
+      if (!bank) return;
+      bank.innerHTML = "";
+      const q = state.quiz;
+      MM.DENOMS.slice().reverse().forEach((d) => {
+        const have = (cur.wallet[d] || 0);
+        const used = (q.paid[d] || 0);
+        const left = have - used;
+        for (let i = 0; i < have; i++) {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "money-coin-btn" + (i < used ? " on" : "");
+          b.disabled = i < used; // already used slots shown as on; simpler: show remaining only
+          b.innerHTML = coinHtml(d, d === 100 ? 80 : 50);
+          b.setAttribute("aria-label", d + "元");
+          if (i >= used) {
+            b.addEventListener("click", () => {
+              if (q.locked) return;
+              if ((q.paid[d] || 0) >= have) return;
+              sfxClick();
+              q.paid[d] = (q.paid[d] || 0) + 1;
+              q.paidOrder.push(d);
+              syncPayTray(cur);
+            });
+          } else {
+            b.style.opacity = "0.35";
+            b.disabled = true;
+          }
+          bank.appendChild(b);
+        }
+      });
+    }
+
+    function syncPayTray(cur) {
+      const q = state.quiz;
+      const tray = $("payTray");
+      const line = $("payTotalLine");
+      const t = MM.coinTotal(q.paid);
+      if (tray) {
+        tray.innerHTML = q.paidOrder.length ? q.paidOrder.map((d) => coinHtml(d, d === 100 ? 72 : 44)).join("") : '<span class="placeholder">點下面的錢幣來付</span>';
+      }
+      if (line) {
+        line.textContent = "已選 " + t + " 元，要付 " + cur.payTarget + " 元";
+        line.className = "shop-total" + (t === cur.payTarget ? " ok" : t > cur.payTarget ? " over" : "");
+      }
+      renderPayBank(cur);
+    }
+
+    function pickMoneyOp(op, btn, ops) {
+      const q = state.quiz;
+      if (!q || q.locked || q.phase !== "op") return;
+      const cur = q.questions[q.index];
+      sfxClick();
+      if (op === cur.operation) {
+        btn.classList.remove("btn-ghost");
+        btn.classList.add("btn-green", "ok");
+        setMascot("happy", "對！這題要用" + (op === "＋" ? "加法" : op === "×" ? "乘法" : "減法") + "。現在算出答案吧！");
+        q.phase = "answer";
+        // reveal answer entry
+        const inner = $("moneyInner");
+        const entry = document.createElement("div");
+        entry.className = "clock-time-entry ans-row money-ans";
+        const unit = cur.answerUnit ? cur.answerUnit : "";
+        entry.innerHTML = '<span>答：</span><button type="button" class="time-field on empty" id="moneyAnsField">?</button><span>' + (unit ? unit : "") + "</span>";
+        inner.appendChild(entry);
+        $("moneyKeypadWrap").classList.remove("hidden");
+        if (ops) [...ops.querySelectorAll("button")].forEach((b) => { if (b !== btn) b.disabled = true; });
+      } else {
+        btn.classList.add("bad");
+        setMascot("think", "再想一想。這題不是用" + (op === "＋" ? "加法" : op === "×" ? "乘法" : "減法") + "喔！" + (cur.hint || ""));
+        moneyTimers.push(setTimeout(() => btn.classList.remove("bad"), 700));
+      }
+    }
+
+    function showMoneyHint(cur) {
+      sfxClick();
+      setMascot("think", cur.hint || "先看題目要我們求什麼，再決定用加、減還是乘。");
+      const inner = $("moneyInner");
+      if (inner && !inner.querySelector(".hint-panel")) {
+        const panel = document.createElement("div");
+        panel.className = "hint-panel";
+        let html = cur.hint || "慢慢想，你可以的！";
+        if (cur.line) html += renderLineDiagram(cur.line, false);
+        if (cur.formula) html += "<div style='margin-top:6px'>算式長這樣：☐ " + cur.formula.op + " ☐ = ☐</div>";
+        panel.innerHTML = html;
+        inner.appendChild(panel);
+      }
+      if (cur.line && $("moneyLineHold")) {
+        // already visible
+      }
+    }
+
+    function syncMoneyField() {
+      const el = $("moneyAnsField");
+      if (!el) return;
+      const q = state.quiz;
+      el.textContent = (q && q.input) || "?";
+      el.classList.toggle("empty", !(q && q.input));
+    }
+
+    function buildMoneyKeypad() {
+      const box = $("moneyKeypad");
+      if (!box || box.childElementCount) return;
+      box.innerHTML = "";
+      const keys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "⌫", "0", "送出"];
+      keys.forEach((k) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "key" + (k === "送出" ? " ok" : k === "⌫" ? " del" : "");
+        b.textContent = k;
+        b.addEventListener("click", () => handleMoneyKey(k));
+        box.appendChild(b);
+      });
+    }
+
+    function handleMoneyKey(k) {
+      const q = state.quiz;
+      if (!q || q.kind !== "money" || q.locked) return;
+      if (q.phase !== "answer") return;
+      const cur = q.questions[q.index];
+      if (cur.type === "pay-exact" || (cur.choices && cur.choices.length)) return;
+      if (k === "⌫" || k === "Backspace") {
+        q.input = q.input.slice(0, -1);
+        sfxClick();
+      } else if (k === "送出" || k === "Enter") {
+        if (!q.input) return;
+        submitMoneyAnswer();
+        return;
+      } else if (/^\d$/.test(k)) {
+        if (q.input.length >= 3) return;
+        q.input += k;
+        sfxClick();
+      } else return;
+      syncMoneyField();
+    }
+
+    function moneyExplainHtml(cur) {
+      let html = cur.explain || "";
+      if (cur.vertical) html += renderVerticalHtml(cur.vertical, { showWork: true });
+      if (cur.line) html += renderLineDiagram(cur.line, true);
+      return html;
+    }
+
+    function moneyAward(ok, givenLabel) {
+      const q = state.quiz;
+      if (!q || q.kind !== "money") return;
+      if (q.awardedIndex === q.index) return;
+      const cur = q.questions[q.index];
+      q.awardedIndex = q.index;
+      q.locked = true;
+      const box = $("moneyBox");
+      const fb = $("moneyFeedback");
+      const ansLabel = cur.answerLabel || (typeof cur.answer === "number" ? (cur.answer + (cur.answerUnit ? " " + cur.answerUnit : "")) : String(cur.answer));
+      if (ok) {
+        q.correct += 1;
+        q.streak += 1;
+        q.maxStreak = Math.max(q.maxStreak, q.streak);
+        let gain = 1;
+        if (q.streak >= 10) gain = 4;
+        else if (q.streak >= 5) gain = 3;
+        else if (q.streak >= 3) gain = 2;
+        q.coinsEarned += gain;
+        profile.coins += gain;
+        box.classList.add("good");
+        fb.className = "feedback good";
+        fb.textContent = sayRandom(PRAISE) + "  +" + gain + "⭐";
+        setMascot("wow", sayRandom(PRAISE));
+        sfxCorrect();
+        burstConfetti();
+        if (q.streak === 3 || q.streak === 5 || q.streak === 10 || (q.streak > 10 && q.streak % 5 === 0)) {
+          showCombo("連擊 ×" + q.streak + "！");
+          sfxCombo();
+        }
+        updateCoinHud();
+        updateMoneyStats();
+        setTimeout(nextMoneyQuestion, 900);
+      } else {
+        q.streak = 0;
+        q.mistakes.push(Object.assign({}, cur, { given: givenLabel, ansLabel: ansLabel }));
+        box.classList.add("bad");
+        fb.className = "feedback bad";
+        fb.innerHTML = "差一點！正確是 <strong>" + ansLabel + "</strong>。<div class='money-explain'>" + moneyExplainHtml(cur) + "</div>";
+        setMascot("comfort", sayRandom(COMFORT));
+        sfxWrong();
+        if (cur.line && $("moneyLineHold")) $("moneyLineHold").innerHTML = renderLineDiagram(cur.line, true);
+        if (cur.vertical && $("moneyVertHold")) $("moneyVertHold").innerHTML = renderVerticalHtml(cur.vertical, { showWork: true });
+        updateMoneyStats();
+        setTimeout(nextMoneyQuestion, 3800);
+      }
+    }
+
+    function submitMoneyAnswer() {
+      const q = state.quiz;
+      if (!q || q.locked) return;
+      if (!q.input) return;
+      const cur = q.questions[q.index];
+      const given = Number(q.input);
+      const ok = MM.answersMatch(cur, given);
+      moneyAward(ok, given + (cur.answerUnit ? " " + cur.answerUnit : ""));
+    }
+    function submitMoneyPay() {
+      const q = state.quiz;
+      if (!q || q.locked) return;
+      const cur = q.questions[q.index];
+      const t = MM.coinTotal(q.paid);
+      const ok = MM.answersMatch(cur, q.paid);
+      moneyAward(ok, t + " 元");
+    }
+    function submitMoneyChoice(val, btn, optsBox) {
+      const q = state.quiz;
+      if (!q || q.locked) return;
+      const cur = q.questions[q.index];
+      const ok = MM.answersMatch(cur, val);
+      q.locked = true;
+      if (btn) btn.classList.add(ok ? "ok" : "bad");
+      if (optsBox && !ok) {
+        [...optsBox.querySelectorAll(".choice-opt")].forEach((b) => {
+          if (b.textContent === String(cur.answer)) b.classList.add("ok");
+        });
+      }
+      q.locked = false;
+      moneyAward(ok, val);
+    }
+
+    function nextMoneyQuestion() {
+      const q = state.quiz;
+      if (!q || q.kind !== "money") return;
+      if (q.index >= q.questions.length - 1) {
+        $("moneyBar").style.width = "100%";
+        finishQuiz(false);
+        return;
+      }
+      q.index += 1;
+      renderMoneyQuiz();
+    }
+
     function applyDemoRoute() {
       const params = new URLSearchParams(location.search);
       const demo = params.get("demo") || (location.hash || "").replace(/^#/, "");
@@ -4121,6 +5070,34 @@ function validateStoryProblem(p) {
       }
       if (demo === "ruler-quiz-which") {
         startRulerQuiz([RM.demoQuestion("which")]);
+        return;
+      }
+      if (demo === "money" || demo === "money-setup") {
+        showScreen("moneySetup");
+        setMascot("happy", "這是錢錢應用題：先認識錢幣，再練習付錢和故事題！");
+        return;
+      }
+      if (demo === "money-lesson" || demo === "money-lesson-1") { openMoneyLesson(0); return; }
+      if (demo === "money-lesson-2") { openMoneyLesson(1); return; }
+      if (demo === "money-lesson-3") { openMoneyLesson(2); return; }
+      if (demo === "money-lesson-4") { openMoneyLesson(3); return; }
+      if (demo === "money-lesson-5") { openMoneyLesson(4); return; }
+      if (demo === "money-lesson-6") { openMoneyLesson(5); return; }
+      if (demo === "money-shop" || demo === "money-lesson-7") { openMoneyLesson(6); return; }
+      if (demo === "money-quiz-line") {
+        startMoneyQuiz([MM.demoQuestion("line")]);
+        return;
+      }
+      if (demo === "money-quiz-twostep") {
+        startMoneyQuiz([MM.demoQuestion("twostep")]);
+        return;
+      }
+      if (demo === "money-quiz-pay") {
+        startMoneyQuiz([MM.demoQuestion("pay-exact")]);
+        return;
+      }
+      if (demo === "money-quiz-remaining") {
+        startMoneyQuiz([MM.demoQuestion("remaining")]);
         return;
       }
       if (demo === "clock" || demo === "clock-setup") {
@@ -4382,12 +5359,14 @@ function validateStoryProblem(p) {
       if (q.kind === "clock" && total > 0 && score >= Math.ceil(total * 0.8)) profile.badges.clockMaster = true;
       const hadRulerExpert = !!profile.badges.rulerExpert;
       if (q.kind === "ruler" && total > 0 && score >= Math.ceil(total * 0.8)) profile.badges.rulerExpert = true;
+      const hadMoneyExpert = !!profile.badges.moneyExpert;
+      if (q.kind === "money" && total > 0 && score >= Math.ceil(total * 0.8)) profile.badges.moneyExpert = true;
       profile.bestStreak = Math.max(profile.bestStreak || 0, q.maxStreak);
 
       const rec = {
         ts: Date.now(),
         score, total, seconds: elapsed,
-        numbers: (q.kind === "clock" || q.kind === "ruler") ? [] : selectedList(),
+        numbers: (q.kind === "clock" || q.kind === "ruler" || q.kind === "money") ? [] : selectedList(),
         coins: q.coinsEarned,
         timeout: !!timeout,
         kind: q.kind || "quiz",
@@ -4418,6 +5397,10 @@ function validateStoryProblem(p) {
       } else if (q.kind === "ruler" && profile.badges.rulerExpert && !hadRulerExpert) {
         sfxUnlock();
         showUnlock("解鎖徽章！📏 尺量小專家");
+        burstConfetti(80);
+      } else if (q.kind === "money" && profile.badges.moneyExpert && !hadMoneyExpert) {
+        sfxUnlock();
+        showUnlock("解鎖徽章！💰 小小理財家");
         burstConfetti(80);
       } else if (score === total) {
         burstConfetti(90);
@@ -4452,6 +5435,9 @@ function validateStoryProblem(p) {
           if (q.kind === "ruler") {
             return "<li><span>" + (m.prompt || "量長度") + "</span><span>正確：" + (m.ansLabel || "") + " · 你答了 " + (m.given || "空白") + "</span></li>";
           }
+          if (q.kind === "money") {
+            return "<li><span>" + (m.story || m.prompt || "錢錢題") + "</span><span>正確：" + (m.ansLabel || "") + " · 你答了 " + (m.given || "空白") + "</span></li>";
+          }
           return "<li><span>" + m.a + " × " + m.b + " = " + m.ans + "</span><span>你填了 " + (m.given || "空白") + " · " + koujue(m.a, m.b) + "</span></li>";
         }).join("");
       } else {
@@ -4472,8 +5458,8 @@ function validateStoryProblem(p) {
       ul.innerHTML = profile.history.map((h) => {
         const d = new Date(h.ts);
         const t = d.toLocaleString("zh-TW", { timeZone: "Asia/Taipei", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" });
-        const kind = h.kind === "story" ? "應用題 · " : h.kind === "clock" ? "時鐘教學 · " : h.kind === "ruler" ? "量長度 · " : "";
-        const nums = (h.kind === "clock" || h.kind === "ruler") ? (h.levelLabel || (h.kind === "ruler" ? "量長度" : "看時鐘")) : (h.numbers || []).join(",");
+        const kind = h.kind === "story" ? "應用題 · " : h.kind === "clock" ? "時鐘教學 · " : h.kind === "ruler" ? "量長度 · " : h.kind === "money" ? "錢錢應用題 · " : "";
+        const nums = (h.kind === "clock" || h.kind === "ruler" || h.kind === "money") ? (h.levelLabel || (h.kind === "money" ? "錢錢應用題" : h.kind === "ruler" ? "量長度" : "看時鐘")) : (h.numbers || []).join(",");
         return "<li><span>" + t + " · " + kind + nums + "</span><span>" + h.score + "/" + h.total + " · " + h.seconds + "秒 · +" + h.coins + "⭐</span></li>";
       }).join("");
     }
@@ -4666,6 +5652,7 @@ function validateStoryProblem(p) {
       if (state.quiz && state.quiz.kind === "story") startStoryQuiz();
       else if (state.quiz && state.quiz.kind === "clock") startClockQuiz();
       else if (state.quiz && state.quiz.kind === "ruler") startRulerQuiz();
+      else if (state.quiz && state.quiz.kind === "money") startMoneyQuiz();
       else startQuiz();
     });
     $("retryMissBtn").addEventListener("click", () => {
@@ -4685,6 +5672,11 @@ function validateStoryProblem(p) {
         startRulerQuiz(state.quiz.mistakes);
         return;
       }
+      if (state.quiz && state.quiz.kind === "money") {
+        if (!state.quiz.mistakes.length) return;
+        startMoneyQuiz(state.quiz.mistakes);
+        return;
+      }
       const misses = state.quiz ? state.quiz.mistakes.map((m) => ({ a: m.a, b: m.b })) : [];
       if (!misses.length) return;
       startQuiz(misses);
@@ -4692,6 +5684,12 @@ function validateStoryProblem(p) {
     $("resultHomeBtn").addEventListener("click", () => { sfxClick(); showScreen("home"); });
 
     document.addEventListener("keydown", (e) => {
+      if (state.screen === "moneyQuiz") {
+        if (e.key === "Enter") { e.preventDefault(); handleMoneyKey("Enter"); }
+        else if (e.key === "Backspace") { e.preventDefault(); handleMoneyKey("Backspace"); }
+        else if (/^\d$/.test(e.key)) handleMoneyKey(e.key);
+        return;
+      }
       if (state.screen === "rulerQuiz") {
         if (e.key === "Enter") { e.preventDefault(); handleRulerKey("Enter"); }
         else if (e.key === "Backspace") { e.preventDefault(); handleRulerKey("Backspace"); }
@@ -4796,11 +5794,50 @@ function validateStoryProblem(p) {
       renderRulerLesson();
     });
 
+
+    $("goMoneySetup").addEventListener("click", () => {
+      sfxClick();
+      showScreen("moneySetup");
+      setMascot("happy", "我們來練付錢和加減應用題吧！先看教學，再選難度測驗。");
+    });
+    $("moneySetupBack").addEventListener("click", () => { sfxClick(); showScreen("home"); });
+    $("moneyLevelRow").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-money-level]");
+      if (!b) return;
+      state.moneyLevel = b.dataset.moneyLevel;
+      $("moneyLevelRow").querySelectorAll(".seg").forEach((x) => x.classList.toggle("on", x === b));
+      sfxClick();
+    });
+    $("moneyCountRow").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-money-count]");
+      if (!b) return;
+      state.moneyCount = +b.dataset.moneyCount;
+      $("moneyCountRow").querySelectorAll(".seg").forEach((x) => x.classList.toggle("on", x === b));
+      sfxClick();
+    });
+    $("moneyTeachBtn").addEventListener("click", () => { sfxClick(); openMoneyLesson(0); });
+    $("startMoneyBtn").addEventListener("click", () => { sfxClick(); startMoneyQuiz(); });
+    $("moneyLessonBack").addEventListener("click", () => { sfxClick(); showScreen("moneySetup"); setMascot("happy", "看完教學就可以開始測驗囉！"); });
+    $("moneyLessonSpeak").addEventListener("click", () => speak(MONEY_LESSON_SPEECH[state.moneyLessonPage] || ""));
+    $("moneyLessonPrev").addEventListener("click", () => {
+      sfxClick();
+      if (state.moneyLessonPage <= 0) { showScreen("moneySetup"); return; }
+      state.moneyLessonPage -= 1;
+      renderMoneyLesson();
+    });
+    $("moneyLessonNext").addEventListener("click", () => {
+      sfxClick();
+      if (state.moneyLessonPage >= MONEY_LESSON_TITLES.length - 1) { showScreen("moneySetup"); setMascot("wow", "準備好就選難度，開始測驗吧！"); return; }
+      state.moneyLessonPage += 1;
+      renderMoneyLesson();
+    });
+
     loadProfile();
     buildKeypad();
     buildStoryKeypad();
     buildClockKeypad();
     buildRulerKeypad();
+    buildMoneyKeypad();
     updateCoinHud();
     renderChips();
     showScreen("home");
